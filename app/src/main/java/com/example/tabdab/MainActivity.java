@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.PermissionRequest;
@@ -22,6 +23,8 @@ import java.util.Scanner;
 public class MainActivity extends AppCompatActivity {
     // https://github.com/yuriy-budiyev/code-scanner
 
+    public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
+
     // Define scanner and textview for use throughout the activity
     CodeScanner codeScanner;
     TextView resultData;
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         CodeScannerView scannView = findViewById(R.id.scannerView);
         codeScanner = new CodeScanner(this,scannView);
         resultData = findViewById(R.id.resultsOfQr);
+        final Intent intent = new Intent(this, BillView.class);
 
         // Decode the QR code
         codeScanner.setDecodeCallback(new DecodeCallback() {
@@ -46,6 +50,11 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         // Set text view to data in decoded qr code
                         resultData.setText(result.getText());
+
+                        // Launch the bill view activity when a QR code is decoded
+                        String message = resultData.getText().toString();
+                        intent.putExtra(EXTRA_MESSAGE, message);
+                        startActivity(intent);
                     }
                 });
             }
