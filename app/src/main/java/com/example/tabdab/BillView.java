@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.view.View;
 
 public class BillView extends AppCompatActivity {
 
@@ -22,6 +24,11 @@ public class BillView extends AppCompatActivity {
         TextView grandTotalView = findViewById(R.id.grand_total_view);
         itemizedView.setText(decodeString(qrResult));
         grandTotalView.setText(getGrandTotal(qrResult));
+    }
+
+    public void pay (View view) {
+        Toast payMessage = Toast.makeText(this, R.string.pay_message, Toast.LENGTH_SHORT);
+        payMessage.show();
     }
 
     /**

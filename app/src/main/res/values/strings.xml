@@ -2,4 +2,6 @@
     <string name="app_name">TabDab</string>
     <string name="bill_view">Bill View</string>
     <string name="bill_view_header">Bill View</string>
+    <string name="pay_button_text">Pay</string>
+    <string name="pay_message">Payments currently not supported.</string>
 </resources>
