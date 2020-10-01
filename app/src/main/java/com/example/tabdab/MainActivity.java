@@ -23,11 +23,9 @@ import java.util.Scanner;
 public class MainActivity extends AppCompatActivity {
     // https://github.com/yuriy-budiyev/code-scanner
 
-    public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
-
-    // Define scanner and textview for use throughout the activity
+    // Define scanner and and scanner result string for use throughout the activity
     CodeScanner codeScanner;
-    TextView resultData;
+    public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +33,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Define and create camera and scanner
-        CodeScannerView scannView = findViewById(R.id.scannerView);
-        codeScanner = new CodeScanner(this,scannView);
-        resultData = findViewById(R.id.resultsOfQr);
+        CodeScannerView scannerView = findViewById(R.id.scannerView);
+        codeScanner = new CodeScanner(this,scannerView);
         final Intent intent = new Intent(this, BillView.class);
 
         // Decode the QR code
@@ -48,11 +45,8 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        // Set text view to data in decoded qr code
-                        resultData.setText(result.getText());
-
                         // Launch the bill view activity when a QR code is decoded
-                        String message = resultData.getText().toString();
+                        String message = result.getText().toString();
                         intent.putExtra(EXTRA_MESSAGE, message);
                         startActivity(intent);
                     }
@@ -60,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Start camera
-        scannView.setOnClickListener(new View.OnClickListener() {
+        // Start camera (qr code scanner)
+        scannerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 codeScanner.startPreview();
@@ -69,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Start camera when a user comes back to the app
+    // Start camera when the user comes back to the app
     @Override
     protected void onResume() {
         super.onResume();
