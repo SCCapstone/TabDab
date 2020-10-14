@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "3504588057",
+    "firebase_url": "https://tabdab-a9e3a.firebaseio.com",
+    "project_id": "tabdab-a9e3a",
+    "storage_bucket": "tabdab-a9e3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3504588057:android:e645a22851fa5726b87188",
+        "android_client_info": {
+          "package_name": "com.example.tabdab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3504588057-2m09uh23nt45jaeqcgd93gog15vn6p0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqG4bqsgA-FNdNh8QX5hHHtoWjoJGXYTQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3504588057-2m09uh23nt45jaeqcgd93gog15vn6p0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
