@@ -29,5 +29,5 @@ First clone the repo in your desired directory:
 * Cameron Knox cbk1@email.sc.edu
 * Max Hensler mhensler@email.sc.edu
 * Fei Zhu
-* Riley Conant
+* Riley Conant rconant@email.sc.edu
 * Matt Kemp
