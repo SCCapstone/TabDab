@@ -3,8 +3,10 @@
 A QrReading app for paying your bill on your phone.
 
 ## External Requirements
+Running this app may require a camera on your device. The app might may crash if ran on a device without a camera meaning running on a simulator may not work. There are no other requierments at this time.
 
 ## Setup
+All you need to do is clone the repository and install the app to a physical device in Android Studio.
 
 ## Running
 
@@ -16,13 +18,14 @@ First clone the repo in your desired directory:
  * Build the app using the green hammer at the top of the screen
    and it will localy build the app on your device.
 
-# Deployment
-
 # Testing
+Will be handled in 492.
 
 ## Testing Technology
+Will be handled in 492.
 
 ## Running Tests
+Will be handled in 492.
 
 # Authors
 
