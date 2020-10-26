@@ -31,6 +31,6 @@ Will be handled in 492.
 
 * Cameron Knox cbk1@email.sc.edu
 * Max Hensler mhensler@email.sc.edu
-* Fei Zhu
+* Fei Zhu fzhu@email.sc.edu
 * Riley Conant rconant@email.sc.edu
-* Matt Kemp
+* Matt Kemp kempms@email.sc.edu
