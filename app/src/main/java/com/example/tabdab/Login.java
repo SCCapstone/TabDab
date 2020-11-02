@@ -22,7 +22,7 @@ public class Login extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         //Setting up variables for all parts on login screen
         LoginEmail = findViewById(R.id.LogEmail);
         LoginPassword = findViewById(R.id.LogPass);
