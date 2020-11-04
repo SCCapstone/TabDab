@@ -29,14 +29,16 @@ public class Login extends AppCompatActivity{
         ButLogin = findViewById(R.id.loginButton);
         ButRegister = findViewById(R.id.registerButton);
         fireAuth = FirebaseAuth.getInstance();
+
         //Send to registration page if user clicks register button
         ButRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CreateAccount.class);
-                startActivity(intent);
+                Intent register = new Intent(getApplicationContext(), CreateAccount.class);
+                startActivity(register);
             }
         });
+
         //When user attempts to login
         ButLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +62,7 @@ public class Login extends AppCompatActivity{
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //If user exists they can login, if not they must register or fix typing
                         if(task.isSuccessful()) {
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), ScanOrShow.class));
                         }
                         else {
                             LoginPassword.setError("Sign in credentials do not match existing user. Please try again or register if you do not already have an account.");
