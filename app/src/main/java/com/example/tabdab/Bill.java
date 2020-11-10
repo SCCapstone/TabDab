@@ -15,21 +15,17 @@ public class Bill {
     }
 
     // Getters
-    public double getGrandTotal () {
-        // TODO Loop through and update grand total
-        return grandTotal;
-    }
-    public BillItem[] getItemizedBill () {
-        return itemizedBill;
-    }
-
-    // Setters
-    public void addItem (BillItem item, int i) {
-        itemizedBill[i] = item;
+    public static String getGrandTotal (String str) {
+        double total = 0.0;
+        String[] items = str.split(",");
+        for (int i = 0; i < items.length; i++) {
+            // TODO Clean up the decoding process
+            total += Double.parseDouble(items[i].substring(items[i].indexOf('$')+1));
+        }
+        return String.valueOf(total);
     }
 
     public static String decode(String str) {
-        str = str.substring(str.indexOf(','));  // Get rid of grand total
         return str.replaceAll(",", "\n");
     }
 

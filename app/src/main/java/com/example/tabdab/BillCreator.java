@@ -37,7 +37,7 @@ public class BillCreator extends AppCompatActivity {
         menuItem3Btn = findViewById(R.id.menu_item3);
         qrImage = findViewById(R.id.qrPlaceHolder);
         itemizedBill = findViewById(R.id.itemized_bill);
-        qrValue = "$11";
+        qrValue = "";
 
         // Generate the QR code string when menu items are selected
         menuItem1Btn.setOnClickListener(new View.OnClickListener() {

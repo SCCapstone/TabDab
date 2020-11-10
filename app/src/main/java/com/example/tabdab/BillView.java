@@ -25,21 +25,12 @@ public class BillView extends AppCompatActivity {
         TextView itemizedView = findViewById(R.id.itemized_view);
         TextView grandTotalView = findViewById(R.id.grand_total_view);
         itemizedView.setText(Bill.decode(qrResult));
-        grandTotalView.setText(getGrandTotal(qrResult));
+        grandTotalView.setText(Bill.getGrandTotal(qrResult));
     }
 
     public void pay (View view) {
         Toast payMessage = Toast.makeText(this, R.string.pay_message, Toast.LENGTH_SHORT);
         payMessage.show();
-    }
-
-    /**
-     *
-     * @param str String read from the QR code
-     * @return the grand total obtained from the QR code
-     */
-    public String getGrandTotal (String str) {
-        return str.split(",")[GRAND_TOTAL_INDEX];
     }
 
     // TODO Check that the string read from the QR code is of the TabDab format.
