@@ -6,7 +6,11 @@ public class BillItem {
     String name;
 
     // Constructor
-    public BillItem(double price, String name) {
+    public BillItem () {
+        this.price = 0.0;
+        this.name = "";
+    }
+    public BillItem (double price, String name) {
         this.price = price;
         this.name = name;
     }

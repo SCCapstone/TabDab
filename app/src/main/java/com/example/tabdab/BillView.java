@@ -22,16 +22,18 @@ public class BillView extends AppCompatActivity {
         // Get and display data from qr scanner activity
         Intent intent = getIntent();
         String qrResult = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        Bill bill = new Bill(qrResult);
+
+        // Set UI components
         TextView itemizedView = findViewById(R.id.itemized_view);
         TextView grandTotalView = findViewById(R.id.grand_total_view);
-        itemizedView.setText(Bill.decode(qrResult));
-        grandTotalView.setText(Bill.getGrandTotal(qrResult));
+        itemizedView.setText(bill.toString());
+        grandTotalView.setText(bill.getGrandTotalString());
     }
 
     public void pay (View view) {
-        Toast payMessage = Toast.makeText(this, R.string.pay_message, Toast.LENGTH_SHORT);
+        Toast payMessage = Toast.makeText(this, R.string.pay_message,
+                                            Toast.LENGTH_SHORT);
         payMessage.show();
     }
-
-    // TODO Check that the string read from the QR code is of the TabDab format.
 }
