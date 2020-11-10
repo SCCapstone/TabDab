@@ -8,6 +8,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 
+import static com.example.tabdab.Bill.decode;
+
 public class BillView extends AppCompatActivity {
 
     public static final int GRAND_TOTAL_INDEX = 0;
@@ -22,23 +24,13 @@ public class BillView extends AppCompatActivity {
         String qrResult = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         TextView itemizedView = findViewById(R.id.itemized_view);
         TextView grandTotalView = findViewById(R.id.grand_total_view);
-        itemizedView.setText(decodeString(qrResult));
+        itemizedView.setText(Bill.decode(qrResult));
         grandTotalView.setText(getGrandTotal(qrResult));
     }
 
     public void pay (View view) {
         Toast payMessage = Toast.makeText(this, R.string.pay_message, Toast.LENGTH_SHORT);
         payMessage.show();
-    }
-
-    /**
-     *
-     * @param str String read from the QR code
-     * @return the string formatted for the bill view screen. (Grand total and itemized bill)
-     */
-    public String decodeString (String str) {
-        str = str.substring(str.indexOf(','));  // Get rid of grand total
-        return str.replaceAll(",", "\n");
     }
 
     /**

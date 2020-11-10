@@ -85,9 +85,4 @@ public class BillCreator extends AppCompatActivity {
         else return qrValue += ", " + btn.getText().toString();
     }
 
-    /*@Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bill_creator);
-    }*/
 }
