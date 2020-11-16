@@ -23,6 +23,7 @@ public class Login extends AppCompatActivity{
     TextView LoginEmail, LoginPassword;
     Button ButRegister, ButLogin;
     FirebaseAuth fireAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +85,4 @@ public class Login extends AppCompatActivity{
             }
         });
     }
-
-
 }

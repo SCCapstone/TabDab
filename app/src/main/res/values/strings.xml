@@ -26,4 +26,6 @@
     <string name="name">Name</string>
     <string name="edit_info">Edit Info</string>
     <string name="change_password">Change Password</string>
+    <string name="add_tip">Add Tip</string>
+    <string name="tip">Tip</string>
 </resources>

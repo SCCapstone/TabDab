@@ -6,30 +6,29 @@ import java.util.List;
 public class Bill {
     // Instance variables
     double grandTotal;
+    double tip;
     BillItem[] itemizedBill;
 
-    // Constructor
+    // Constructors
+    public Bill () {
+        this.itemizedBill = new BillItem[20];  // TODO fix magic number
+        this.grandTotal = 0.0;
+        this.tip = 0.0;
+    }
     public Bill (String str) {
         this.itemizedBill = setItemizedBill(str);
         this.grandTotal = setGrandTotal(str);
+        this.tip = 0.0;
     }
 
-    /**
-     * Gets the grand total as a string from the bill by adding each component in the bill
-     * @return The grand total as a string
-     */
-    public String getGrandTotalString () {
-        return String.valueOf(grandTotal);
+    // Getters
+    public double getGrandTotal () {
+        return this.grandTotal;
+    }
+    public double getTip () {
+        return this.tip;
     }
 
-    /**
-     * Takes the string encoding of a bill and decodes it into the itemized bill and grand total
-     * @param str string to decode
-     * @return returns the itemized bill as a string
-     */
-    public static String decode (String str) {
-        return str.replaceAll(",", "\n");
-    }
 
     /**
      * Set the grand total of the bill based off the QR code received
@@ -43,7 +42,20 @@ public class Bill {
             // Split remove all characters before '$' then add the price to the grant total
             total += Double.parseDouble(items[i].substring(items[i].indexOf('$')+1));
         }
+
+        total += tip;
         return total;
+    }
+    public void setGrandTotal (double grandTotal) {
+        this.grandTotal = grandTotal;
+    }
+
+    /**
+     * Set the bill's tip
+     * @param tip Tip you want to add
+     */
+    public void setTip (double tip) {
+        this.tip = tip;
     }
 
     /**
@@ -66,11 +78,16 @@ public class Bill {
         return ret;
     }
 
+    /**
+     * Makes the itemized bill a string with tip included (mostly for BillView display)
+     * @return the itemized bill as a string
+     */
     public String toString () {
         String ret = "";
         for (int i = 0; i < itemizedBill.length; i++) {
             ret += itemizedBill[i].name + ": $" + itemizedBill[i].price + "\n";
         }
+        ret += "Tip: " + tip;
         return ret;
     }
 
@@ -82,6 +99,7 @@ public class Bill {
         for (int i = 0; i < itemizedBill.length; i++) {
             System.out.println(itemizedBill[i].name + ", " + itemizedBill[i].price + "\n");
         }
+        System.out.println("Tip: " + tip);
     }
 
     // TODO Check that the string read from the QR code is of the TabDab format.
