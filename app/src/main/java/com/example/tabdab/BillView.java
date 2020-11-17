@@ -9,22 +9,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
+
 public class BillView extends AppCompatActivity {
     TextView itemizedView;
     TextView grandTotalView;
     TextView editTip;
     Button butAddTip;
-    double tip = 0.0;
     Bill bill;
-
-    // TODO make a constructor that doesn't need an input, initialize above then set the bill
-    //  values in the onCreate method. Update the text view on button click
+    double tip = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bill_view);
 
+        // Setup UI layout
         itemizedView = findViewById(R.id.itemized_view);
         grandTotalView = findViewById(R.id.grand_total_view);
         editTip = findViewById(R.id.editTip);
@@ -39,7 +42,7 @@ public class BillView extends AppCompatActivity {
         itemizedView.setText(bill.toString());
         grandTotalView.setText(Double.toString(bill.getGrandTotal()));
 
-        // TODO fix this
+        // Add tip
         butAddTip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View view) {
@@ -54,13 +57,11 @@ public class BillView extends AppCompatActivity {
     }
 
     public void pay (View view) {
-        Toast payMessage = Toast.makeText(this, R.string.pay_message,
-                                            Toast.LENGTH_SHORT);
-        payMessage.show();
-    }
+        //Toast payMessage = Toast.makeText(this, R.string.pay_message, Toast.LENGTH_SHORT);
+        //payMessage.show();
 
-    public void addTip (View view) {
-        tip = Double.parseDouble(editTip.getText().toString());
-
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("payments");
+        ref.child(Calendar.getInstance().getTime().toString()).setValue(Bill.toJSON(bill));
     }
 }

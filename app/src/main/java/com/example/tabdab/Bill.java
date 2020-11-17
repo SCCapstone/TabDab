@@ -1,5 +1,7 @@
 package com.example.tabdab;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -89,6 +91,11 @@ public class Bill {
         }
         ret += "Tip: " + tip;
         return ret;
+    }
+
+    public static String toJSON (Bill bill) {
+        Gson gson = new Gson();
+        return gson.toJson(bill);
     }
 
     /**
