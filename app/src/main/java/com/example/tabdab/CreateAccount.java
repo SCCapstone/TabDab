@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateAccount extends AppCompatActivity {
 
@@ -45,6 +46,8 @@ public class CreateAccount extends AppCompatActivity {
             public void onClick(View v){
                 String email = uEmail.getText().toString().trim();
                 String password = uPassword.getText().toString().trim();
+                final String firstName = uFirstName.getText().toString().trim();
+                final String lastName = uLastName.getText().toString().trim();
 
                 if(TextUtils.isEmpty(email)){
                     uEmail.setError("Email is required.");
@@ -64,6 +67,8 @@ public class CreateAccount extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()) {
                             Toast.makeText(CreateAccount.this,"User Created.", Toast.LENGTH_SHORT).show();
+                            FirebaseDatabase.getInstance().getReference("users").setValue(firstName);
+                            FirebaseDatabase.getInstance().getReference("users/"+firstName).setValue(lastName);
                             startActivity(new Intent(getApplicationContext(),AccountCreated.class));
                         }else{
                             Toast.makeText(CreateAccount.this,"Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
