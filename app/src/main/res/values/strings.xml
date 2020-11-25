@@ -22,4 +22,10 @@
     <string name="menu_item3">Coke: $1</string>
     <string name="generate_bill_btn">Generate Bill</string>
     <string name="vendor_name">Food Truck Example</string>
+    <string name="account">Account</string>
+    <string name="name">Name</string>
+    <string name="edit_info">Edit Info</string>
+    <string name="change_password">Change Password</string>
+    <string name="add_tip">Add Tip</string>
+    <string name="tip">Tip</string>
 </resources>
