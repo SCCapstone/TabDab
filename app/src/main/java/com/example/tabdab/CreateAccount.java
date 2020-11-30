@@ -44,7 +44,7 @@ public class CreateAccount extends AppCompatActivity {
 
         uRegister.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                String email = uEmail.getText().toString().trim();
+                final String email = uEmail.getText().toString().trim();
                 String password = uPassword.getText().toString().trim();
                 final String firstName = uFirstName.getText().toString().trim();
                 final String lastName = uLastName.getText().toString().trim();
@@ -65,13 +65,19 @@ public class CreateAccount extends AppCompatActivity {
                 mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
-                            Toast.makeText(CreateAccount.this,"User Created.", Toast.LENGTH_SHORT).show();
-                            FirebaseDatabase.getInstance().getReference("users").setValue(firstName);
-                            FirebaseDatabase.getInstance().getReference("users/"+firstName).setValue(lastName);
-                            startActivity(new Intent(getApplicationContext(),AccountCreated.class));
-                        }else{
-                            Toast.makeText(CreateAccount.this,"Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        if (task.isSuccessful()) {
+                            User user = new User((firstName + lastName), email);
+                            FirebaseDatabase.getInstance().getReference("users/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(CreateAccount.this, "User Created.", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(getApplicationContext(), AccountCreated.class));
+                                    } else {
+                                        Toast.makeText(CreateAccount.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                         }
                     }
                 });
