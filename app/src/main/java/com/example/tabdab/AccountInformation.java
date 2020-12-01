@@ -26,7 +26,7 @@ import java.util.jar.Attributes;
 
 public class AccountInformation extends AppCompatActivity{
     TextView UserName, UserEmail;
-    Button ButChangePass, ButEditInfo;
+    Button ButChangePass, ButEditInfo, ButScan;
     String UID;
     FirebaseAuth fireAuth;
     DatabaseReference database;
@@ -36,6 +36,7 @@ public class AccountInformation extends AppCompatActivity{
         setContentView(R.layout.activity_account_information);
         ButChangePass = findViewById(R.id.chngPassBut);
         ButEditInfo = findViewById(R.id.editInfoBut);
+        ButScan = findViewById(R.id.scanBut);
         fireAuth = FirebaseAuth.getInstance();
         user = fireAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference("users/");
@@ -76,6 +77,12 @@ public class AccountInformation extends AppCompatActivity{
                     editAcctInfo.putExtra("Name", UserName.getText().toString());
                     editAcctInfo.putExtra("Email", UserEmail.getText().toString());
                     startActivity(editAcctInfo);
+                }
+            });
+            ButScan.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getApplicationContext(), ScanOrShow.class));
                 }
             });
         }
