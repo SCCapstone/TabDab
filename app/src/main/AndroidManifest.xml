@@ -26,6 +26,8 @@
 
         <activity android:name=".AccountInformation"/>
 
+        <activity android:name=".ChangePassword"/>
+
 
         <activity android:name=".Login">
             <intent-filter>

@@ -32,12 +32,8 @@ public class AccountInformation extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_information);
-
-      //  UserName = findViewById(R.id.AccountName);
-      //  UserEmail = findViewById(R.id.AccountEmail);
         ButChangePass = findViewById(R.id.chngPassBut);
         ButEditInfo = findViewById(R.id.editInfoBut);
-
         fireAuth = FirebaseAuth.getInstance();
         user = fireAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference("users/");
@@ -63,6 +59,15 @@ public class AccountInformation extends AppCompatActivity{
                     Toast.makeText(AccountInformation.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
                 }
             });
+
+            ButChangePass.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent changePass = new Intent(getApplicationContext(),ChangePassword.class);
+                    startActivity(changePass);
+                }
+            });
+
         }
     }
 }

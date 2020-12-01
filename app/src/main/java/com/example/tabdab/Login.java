@@ -75,7 +75,7 @@ public class Login extends AppCompatActivity{
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //If user exists they can login, if not they must register or fix typing
                         if(task.isSuccessful()) {
-                            startActivity(new Intent(getApplicationContext(), ScanOrShow.class));
+                            startActivity(new Intent(getApplicationContext(), AccountInformation.class));
                         }
                         else {
                             LoginPassword.setError("Sign in credentials do not match existing user. Please try again or register if you do not already have an account.");
