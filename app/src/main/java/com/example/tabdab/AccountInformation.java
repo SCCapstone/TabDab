@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.jar.Attributes;
+
 public class AccountInformation extends AppCompatActivity{
     TextView UserName, UserEmail;
     Button ButChangePass, ButEditInfo;
@@ -67,7 +69,15 @@ public class AccountInformation extends AppCompatActivity{
                     startActivity(changePass);
                 }
             });
-
+            ButEditInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent editAcctInfo = new Intent(getApplicationContext(),EditInfo.class);
+                    editAcctInfo.putExtra("Name", UserName.getText().toString());
+                    editAcctInfo.putExtra("Email", UserEmail.getText().toString());
+                    startActivity(editAcctInfo);
+                }
+            });
         }
     }
 }

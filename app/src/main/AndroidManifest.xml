@@ -24,6 +24,8 @@
 
         <activity android:name=".CreateAccount" />
 
+        <activity android:name=".EditInfo" />
+
         <activity android:name=".AccountInformation"/>
 
         <activity android:name=".ChangePassword"/>
