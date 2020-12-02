@@ -28,4 +28,10 @@
     <string name="change_password">Change Password</string>
     <string name="add_tip">Add Tip</string>
     <string name="tip">Tip</string>
+    <string name="cont">Continue</string>
+    <string name="account_created">Account Created</string>
+    <string name="email">Email:</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="generate_bill">Generate Bill</string>
 </resources>

@@ -15,29 +15,19 @@
         <activity
             android:name=".BillCreator"
             android:label="Bill Creator"
-            android:parentActivityName=".ScanOrShow">
+            android:parentActivityName=".AccountInformation">
         </activity>
-
-        <activity android:name=".ScanOrShow" />
-
         <activity android:name=".AccountCreated" />
-
         <activity android:name=".CreateAccount" />
-
         <activity android:name=".EditInfo" />
-
         <activity android:name=".AccountInformation"/>
-
         <activity android:name=".ChangePassword"/>
-
-
         <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".BillView"
             android:label="@string/bill_view"
@@ -46,11 +36,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.tabdab.MainActivity" />
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:label="Main Activity"
-            android:parentActivityName=".ScanOrShow"/>
+            android:parentActivityName=".AccountInformation"/>
     </application>
 
 </manifest>
