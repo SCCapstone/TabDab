@@ -43,12 +43,12 @@ public class Login extends AppCompatActivity{
         ButRegister = findViewById(R.id.registerButton);
         fireAuth = FirebaseAuth.getInstance();
 
-        //Send to registration page if user clicks register button
+        // Send to registration page if user clicks register button
         ButRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register = new Intent(getApplicationContext(), CreateAccount.class);
-                startActivity(register);
+                System.out.println("REGISTER!!!");
+                startActivity(new Intent(getApplicationContext(), CreateAccount.class));
             }
         });
 

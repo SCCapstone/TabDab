@@ -56,11 +56,11 @@
         android:id="@+id/btnRegister"
         android:layout_width="215dp"
         android:layout_height="49dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginBottom="28dp"
         android:text="Register"
-        app:layout_constraintEnd_toEndOf="@+id/uPassword"
-        app:layout_constraintStart_toStartOf="@+id/uPassword"
-        app:layout_constraintTop_toBottomOf="@+id/uPassword" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
@@ -73,4 +73,14 @@
         app:layout_constraintBottom_toTopOf="@+id/uEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/isVendor"
+        android:layout_width="209dp"
+        android:layout_height="34dp"
+        android:layout_marginTop="24dp"
+        android:text="Are you a vendor?:"
+        app:layout_constraintEnd_toEndOf="@+id/uPassword"
+        app:layout_constraintStart_toStartOf="@+id/uPassword"
+        app:layout_constraintTop_toBottomOf="@+id/uPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,7 +54,7 @@ public class AccountInformation extends AppCompatActivity{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User userInfo = snapshot.getValue(User.class);
                     if(userInfo != null) {
-                        String Name = userInfo.name;
+                        String Name = userInfo.firstName + " " + userInfo.lastName;
                         String Email = userInfo.email;
                         UserName.setText(Name);
                         UserEmail.setText(Email);

@@ -52,7 +52,8 @@ public class EditInfo extends AppCompatActivity {
                     Toast.makeText(EditInfo.this,"Please enter what you would like to change", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    User newUserInfo = new User(newName, newEmail);
+                    // TODO fix this for the new first and last name attributes in user
+                    User newUserInfo = new User(newName, newName, newEmail, false);
                     user.updateEmail(newEmail);
                     FirebaseDatabase.getInstance().getReference("users/").child(user.getUid()).setValue(newUserInfo);
                     startActivity(new Intent(getApplicationContext(),AccountInformation.class));

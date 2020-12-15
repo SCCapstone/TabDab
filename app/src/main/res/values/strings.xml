@@ -37,4 +37,5 @@
     <string name="edit_menu">Edit Menu</string>
     <string name="add_item">Add Item</string>
     <string name="price">Price</string>
+    <string name="are_you_a_vendor">Are you a vendor?:</string>
 </resources>

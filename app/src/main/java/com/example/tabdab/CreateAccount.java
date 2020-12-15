@@ -8,7 +8,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +24,7 @@ public class CreateAccount extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText uFirstName,uLastName,uPassword,uEmail;
     private Button uRegister;
+    Switch switchIsVendor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,19 +32,28 @@ public class CreateAccount extends AppCompatActivity {
         setContentView(R.layout.activity_create_account);
 
         mAuth = FirebaseAuth.getInstance();
-
         uEmail = findViewById(R.id.uEmail);
         uFirstName = findViewById(R.id.uFirstName);
         uLastName = findViewById(R.id.uLastName);
         uPassword = findViewById(R.id.uPassword);
         uRegister = findViewById(R.id.btnRegister);
+        switchIsVendor = findViewById(R.id.isVendor);
 
-
-        if(mAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        // TODO Figure out exactly why this is here
+        /*if(mAuth.getCurrentUser() != null){
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
-        }
+        }*/
 
+        // Vendor switch is switched to true
+        switchIsVendor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO Add vendor id if this is checked
+            }
+        });
+
+        // Register button is clicked
         uRegister.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 final String email = uEmail.getText().toString().trim();
@@ -49,6 +61,7 @@ public class CreateAccount extends AppCompatActivity {
                 final String firstName = uFirstName.getText().toString().trim();
                 final String lastName = uLastName.getText().toString().trim();
 
+                // Errors
                 if(TextUtils.isEmpty(email)){
                     uEmail.setError("Email is required.");
                     return;
@@ -62,11 +75,13 @@ public class CreateAccount extends AppCompatActivity {
                     return;
                 }
 
+                // Create the user
                 mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            User user = new User((firstName + " " + lastName), email);
+                            User user = new User(firstName, lastName, email, switchIsVendor.isChecked());
+                            System.out.println(user.firstName + " " + user.lastName + user.email + user.isVendor);
                             FirebaseDatabase.getInstance().getReference("users/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
