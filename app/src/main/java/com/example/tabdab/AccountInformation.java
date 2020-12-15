@@ -26,7 +26,7 @@ import java.util.jar.Attributes;
 
 public class AccountInformation extends AppCompatActivity{
     TextView UserName, UserEmail;
-    Button ButChangePass, ButEditInfo, ButScan, ButGen;
+    Button ButChangePass, ButEditInfo, ButScan, ButGen, ButEditMenu;
     String UID;
     FirebaseAuth fireAuth;
     DatabaseReference database;
@@ -39,6 +39,7 @@ public class AccountInformation extends AppCompatActivity{
         ButEditInfo = findViewById(R.id.editInfoBut);
         ButScan = findViewById(R.id.scanBut);
         ButGen = findViewById(R.id.ButGen);
+        ButEditMenu = findViewById(R.id.ButEditMenu);
 
         fireAuth = FirebaseAuth.getInstance();
         user = fireAuth.getCurrentUser();
@@ -46,8 +47,8 @@ public class AccountInformation extends AppCompatActivity{
         if(user != null) {
             UID = user.getUid();
             String UEmail = user.getEmail();
-            UserName = (TextView)findViewById(R.id.AccountName);
-            UserEmail = (TextView)findViewById(R.id.AccountEmail);
+            UserName = findViewById(R.id.AccountName);
+            UserEmail = findViewById(R.id.AccountEmail);
             database.child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,6 +93,12 @@ public class AccountInformation extends AppCompatActivity{
                 @Override
                 public void onClick (View view) {
                     startActivity(new Intent(getApplicationContext(), BillCreator.class));
+                }
+            });
+            ButEditMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(), EditMenu.class));
                 }
             });
         }
