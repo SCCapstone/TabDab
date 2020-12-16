@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,33 +10,28 @@
         android:id="@+id/menuItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="10dp"
         android:ems="10"
         android:hint="@string/name"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/menuItemPrice"
-        app:layout_constraintHorizontal_bias="0.316"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/menuItemPrice"
-        android:layout_width="72dp"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
+        android:layout_toRightOf="@id/menuItemName"
+        android:layout_alignTop="@id/menuItemName"
         android:ems="10"
         android:hint="@string/price"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/menuItemName" />
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/ButAddItem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_item"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuItemName" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@id/menuItemPrice"
+        android:text="@string/add_item" />
+</RelativeLayout>

@@ -19,4 +19,6 @@ public class EditMenu extends AppCompatActivity {
         editPrice = findViewById(R.id.menuItemPrice);
         ButAddItem = findViewById(R.id.ButAddItem);
     }
+
+    // TODO add the dynamic code for adding buttons
 }

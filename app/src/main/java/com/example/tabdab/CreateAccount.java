@@ -46,6 +46,8 @@ public class CreateAccount extends AppCompatActivity {
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (switchIsVendor.isChecked()) {
           vendorId.setVisibility(View.VISIBLE);
+        } else {
+          vendorId.setVisibility(View.INVISIBLE);
         }
       }
     });
@@ -80,13 +82,12 @@ public class CreateAccount extends AppCompatActivity {
             if (task.isSuccessful()) {
               User user = new User(firstName, lastName, email,
                       switchIsVendor.isChecked(), vendorID);
-              System.out.println(user.firstName + " " + user.lastName + user.email + user.isVendor);
               FirebaseDatabase.getInstance().getReference("users/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                   if (task.isSuccessful()) {
                     Toast.makeText(CreateAccount.this, "User Created.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), AccountCreated.class));
+                    startActivity(new Intent(getApplicationContext(), AccountInformation.class));
                   } else {
                     Toast.makeText(CreateAccount.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                   }

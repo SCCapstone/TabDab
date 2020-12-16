@@ -16,7 +16,6 @@
             android:name=".BillCreator"
             android:label="Bill Creator"
             android:parentActivityName=".AccountInformation"></activity>
-        <activity android:name=".AccountCreated" />
         <activity android:name=".CreateAccount" />
         <activity android:name=".EditInfo" />
         <activity android:name=".AccountInformation" />
