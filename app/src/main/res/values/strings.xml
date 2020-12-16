@@ -37,5 +37,11 @@
     <string name="edit_menu">Edit Menu</string>
     <string name="add_item">Add Item</string>
     <string name="price">Price</string>
+    <string name="register">Register</string>
     <string name="are_you_a_vendor">Are you a vendor?:</string>
+    <string name="vendor_id">Vendor ID</string>
+    <string name="tabdab">TabDab</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="password">Password</string>
 </resources>
