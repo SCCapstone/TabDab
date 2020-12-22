@@ -21,7 +21,7 @@
     <string name="menu_item2">Fries: $3</string>
     <string name="menu_item3">Coke: $1</string>
     <string name="generate_bill_btn">Generate Bill</string>
-    <string name="vendor_name">Food Truck Example</string>
+    <string name="vendor_name">Vendor Name</string>
     <string name="account">Account</string>
     <string name="name">Name</string>
     <string name="edit_info">Edit Info</string>
@@ -41,7 +41,11 @@
     <string name="are_you_a_vendor">Are you a vendor?:</string>
     <string name="vendor_id">Vendor ID</string>
     <string name="tabdab">TabDab</string>
-    <string name="first_name">First Name</string>
-    <string name="last_name">Last Name</string>
     <string name="password">Password</string>
+    <string name="register_vendor">Register Vendor</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="edit_account">Edit Account</string>
+    <string name="save">Save</string>
+    <string name="login">Login</string>
 </resources>

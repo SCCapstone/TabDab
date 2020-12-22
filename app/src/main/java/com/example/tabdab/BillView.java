@@ -57,9 +57,6 @@ public class BillView extends AppCompatActivity {
     }
 
     public void pay (View view) {
-        //Toast payMessage = Toast.makeText(this, R.string.pay_message, Toast.LENGTH_SHORT);
-        //payMessage.show();
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("payments");
         ref.child(Calendar.getInstance().getTime().toString()).setValue(Bill.toJSON(bill));

@@ -22,7 +22,11 @@ public class User {
   }
 
   // Setters
-  public void setVendor (boolean val) {this.isVendor = val;}
+  public void setIsVendor (boolean val) {this.isVendor = val;}
+  public void setFirstName (String name) {this.firstName = name;}
+  public void setLastName (String name) {this.lastName = name;}
+  public void setEmail (String email) {this.email = email;}
+  public void setVendorID (String vendorID) {this.vendorID = vendorID;}
 
   // Getters
   public String getFirstName () {return this.firstName;}
@@ -30,4 +34,8 @@ public class User {
   public String getEmail () {return this.email;}
   public String getVendorID () {return this.vendorID;}
   public boolean getIsVendor () {return this.isVendor;}
+
+  public String toString () {
+    return this.firstName + " " + this.lastName + "\n" + this.email + "\n" + this.isVendor + "\n" + this.vendorID;
+  }
 }

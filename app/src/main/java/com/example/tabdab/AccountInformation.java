@@ -25,8 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.jar.Attributes;
 
 public class AccountInformation extends AppCompatActivity{
-    TextView UserName, UserEmail;
-    Button ButChangePass, ButEditInfo, ButScan, ButGen, ButEditMenu;
+    TextView UserName, UserEmail, VendorID, textVendorID;
+    Button ButChangePass, ButEditInfo, ButScan, ButGen, ButEditMenu, ButRegisterVendor;
     String UID;
     FirebaseAuth fireAuth;
     DatabaseReference database;
@@ -40,27 +40,35 @@ public class AccountInformation extends AppCompatActivity{
         ButScan = findViewById(R.id.scanBut);
         ButGen = findViewById(R.id.ButGen);
         ButEditMenu = findViewById(R.id.ButEditMenu);
+        ButRegisterVendor = findViewById(R.id.registerVendorButton);
 
         fireAuth = FirebaseAuth.getInstance();
         user = fireAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference("users/");
+
         if(user != null) {
             UID = user.getUid();
             String UEmail = user.getEmail();
             UserName = findViewById(R.id.AccountName);
             UserEmail = findViewById(R.id.AccountEmail);
+            textVendorID = findViewById(R.id.textVendorID);
+            VendorID = findViewById(R.id.AccountVendorID);
+
             database.child(UID).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User userInfo = snapshot.getValue(User.class);
                     if(userInfo != null) {
-                        String Name = userInfo.firstName + " " + userInfo.lastName;
-                        String Email = userInfo.email;
-                        UserName.setText(Name);
-                        UserEmail.setText(Email);
+                        UserName.setText(userInfo.firstName + " " + userInfo.lastName);
+                        UserEmail.setText(userInfo.email);
+
+                        if (userInfo.isVendor) {
+                            VendorID.setText(userInfo.vendorID);
+                            textVendorID.setVisibility(View.VISIBLE);
+                            VendorID.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Toast.makeText(AccountInformation.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
@@ -101,6 +109,13 @@ public class AccountInformation extends AppCompatActivity{
                     startActivity(new Intent(getApplicationContext(), EditMenu.class));
                 }
             });
+            ButRegisterVendor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View view) {
+                    startActivity(new Intent(getApplicationContext(), CreateVendor.class));
+                }
+            });
+
         }
     }
 }

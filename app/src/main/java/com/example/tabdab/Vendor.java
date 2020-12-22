@@ -10,9 +10,15 @@ public class Vendor {
     this.menu = new Menu();
   }
 
+  public Vendor (String name) {
+    this.vendorId = "";
+    this.name = name;
+    this.menu = new Menu();
+  }
+
   public Vendor (String vendorId, String name) {
     this.vendorId = vendorId;
-    this. name = name;
+    this.name = name;
     this.menu = new Menu();
   }
 

@@ -11,11 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditMenu"></activity>
+        <activity android:name=".CreateVendor"></activity>
+        <activity android:name=".EditMenu" />
         <activity
             android:name=".BillCreator"
             android:label="Bill Creator"
-            android:parentActivityName=".AccountInformation"></activity>
+            android:parentActivityName=".AccountInformation" />
         <activity android:name=".CreateAccount" />
         <activity android:name=".EditInfo" />
         <activity android:name=".AccountInformation" />
