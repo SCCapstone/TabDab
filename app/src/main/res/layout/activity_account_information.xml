@@ -1,115 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/headerAccount"
         android:layout_width="158dp"
         android:layout_height="39dp"
         android:text="@string/account"
         android:textAlignment="center"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.143" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"/>
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.192"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.248" />
+        android:layout_below="@+id/headerAccount"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="25dp"/>
 
     <TextView
         android:id="@+id/AccountName"
         android:layout_width="131dp"
         android:layout_height="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.453"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.249"
-        tools:text=" " />
+        android:layout_toRightOf="@+id/textName"
+        android:layout_alignTop="@id/textName"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/textEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/email"
+        android:layout_below="@+id/textName"
+        android:layout_marginLeft="25dp"/>
 
     <TextView
         android:id="@+id/AccountEmail"
         android:layout_width="131dp"
         android:layout_height="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.453"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.314" />
+        android:layout_toRightOf="@+id/textEmail"
+        android:layout_alignTop="@id/textEmail"
+        android:layout_marginLeft="5dp"/>
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textVendorID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/email"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.192"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.314" />
+        android:text="@string/vendor_id"
+        android:layout_below="@+id/textEmail"
+        android:layout_marginLeft="25dp"
+        android:visibility="invisible"/>
+    <TextView
+        android:id="@+id/AccountVendorID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textVendorID"
+        android:layout_alignTop="@id/textVendorID"
+        android:layout_marginLeft="5dp"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/editInfoBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/edit_info"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.576" />
+        android:layout_below="@+id/AccountVendorID"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"/>
 
     <Button
         android:id="@+id/chngPassBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/reset_password"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.696" />
+        android:layout_below="@id/editInfoBut"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/scanBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="132dp"
         android:text="@string/scan_qr"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_below="@id/chngPassBut"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:id="@+id/ButGen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/generate_bill"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanBut"
-        app:layout_constraintVertical_bias="0.38" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_below="@id/scanBut"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/ButEditMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_menu"
+        android:layout_below="@id/ButGen"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/registerVendorButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register_vendor"
+        android:layout_below="@id/ButEditMenu"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

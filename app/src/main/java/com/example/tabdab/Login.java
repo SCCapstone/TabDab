@@ -43,12 +43,11 @@ public class Login extends AppCompatActivity{
         ButRegister = findViewById(R.id.registerButton);
         fireAuth = FirebaseAuth.getInstance();
 
-        //Send to registration page if user clicks register button
+        // Send to registration page if user clicks register buttons
         ButRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent register = new Intent(getApplicationContext(), CreateAccount.class);
-                startActivity(register);
+                startActivity(new Intent(getApplicationContext(), CreateAccount.class));
             }
         });
 
@@ -69,6 +68,7 @@ public class Login extends AppCompatActivity{
                     LoginPassword.setError("Password Required");
                     return;
                 }
+
                 //Check to see if user exists already in firebase
                 fireAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
