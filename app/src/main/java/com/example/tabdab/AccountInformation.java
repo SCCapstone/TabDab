@@ -48,7 +48,7 @@ public class AccountInformation extends AppCompatActivity{
 
         if(user != null) {
             UID = user.getUid();
-            String UEmail = user.getEmail();
+            String UEmail = user.getEmail();  // TODO Possibly remove this (Doesn't get used).
             UserName = findViewById(R.id.AccountName);
             UserEmail = findViewById(R.id.AccountEmail);
             textVendorID = findViewById(R.id.textVendorID);
@@ -59,7 +59,7 @@ public class AccountInformation extends AppCompatActivity{
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User userInfo = snapshot.getValue(User.class);
                     if(userInfo != null) {
-                        UserName.setText(userInfo.firstName + " " + userInfo.lastName);
+                        UserName.setText(userInfo.getFirstName() + " " + userInfo.getLastName());
                         UserEmail.setText(userInfo.email);
 
                         if (userInfo.isVendor) {
