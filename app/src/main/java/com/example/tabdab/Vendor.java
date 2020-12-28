@@ -41,6 +41,14 @@ public class Vendor {
   public void setName (String name) {this.name = name;}
   public void setMenu (List<BillItem> menu) {this.menu = menu;}
 
+  public String menuToString () {
+    String str = "";
+    for (int i = 0; i < this.menu.size(); i++) {
+      str = str + this.menu.get(i).getName() + ": " + this.menu.get(i).getPrice() + "\n";
+    }
+    return str;
+  }
+
   public void printVendor () {
     System.out.println("VendorID: " + this.vendorId + "\nName: " + this.name + "\nMenu:\n");
     for (BillItem item : this.menu) {

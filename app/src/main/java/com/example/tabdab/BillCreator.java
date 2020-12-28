@@ -1,13 +1,28 @@
 package com.example.tabdab;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.List;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -17,13 +32,17 @@ public class BillCreator extends AppCompatActivity {
     // TODO Create a "bill" class to handle qr code data, getGrandTotal, toQRCode, etc.
 
     // Set up ui elements
+    ScrollView scroller;
     Button generateBtn;
-    Button menuItem1Btn;
-    Button menuItem2Btn;
-    Button menuItem3Btn;
     ImageView qrImage;
     TextView itemizedBill;
     String qrValue;
+
+    String userId;
+    DatabaseReference database;
+    FirebaseUser userRef;
+    User user;
+    Vendor vendor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,35 +51,43 @@ public class BillCreator extends AppCompatActivity {
 
         // Set up the UI layout
         generateBtn = findViewById(R.id.generate_bill_btn);
-        menuItem1Btn = findViewById(R.id.menu_item1);
-        menuItem2Btn = findViewById(R.id.menu_item2);
-        menuItem3Btn = findViewById(R.id.menu_item3);
         qrImage = findViewById(R.id.qrPlaceHolder);
         itemizedBill = findViewById(R.id.itemized_bill);
-        qrValue = "";
+        scroller = findViewById(R.id.scroller);
 
-        // Generate the QR code string when menu items are selected
-        menuItem1Btn.setOnClickListener(new View.OnClickListener() {
+        userRef = FirebaseAuth.getInstance().getCurrentUser();
+        database = FirebaseDatabase.getInstance().getReference();
+        userId = userRef.getUid();
+        final Context context = this;
+
+        // Set scroll view buttons
+        database.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick (View v) {
-                qrValue = setQRValue(menuItem1Btn);
-                itemizedBill.setText(qrValue);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                LinearLayout menu = findViewById(R.id.menu);
+                user = snapshot.child("users").child(userId).getValue(User.class);
+                vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
+                List<BillItem> menuItems  = vendor.getMenu();
+
+                for (int i = 0; i < menuItems.size(); i++) {
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT);
+                    Button but = new Button(context);
+                    but.setId(i);
+                    but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
+                    menu.addView(but);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("EditMenu.java", error.getMessage());
             }
         });
-        menuItem2Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                qrValue = setQRValue(menuItem2Btn);
-                itemizedBill.setText(qrValue);
-            }
-        });
-        menuItem3Btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View v) {
-                qrValue = setQRValue(menuItem3Btn);
-                itemizedBill.setText(qrValue);
-            }
-        });
+
+
+
 
         // Generate the QR code when the generate button is pressed
         generateBtn.setOnClickListener(new View.OnClickListener() {
