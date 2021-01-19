@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateVendor"></activity>
+        <activity android:name=".BillShow"/>
+        <activity android:name=".CreateVendor" />
         <activity android:name=".EditMenu" />
         <activity
             android:name=".BillCreator"

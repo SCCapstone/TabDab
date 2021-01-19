@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,16 +31,15 @@ import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
 public class BillCreator extends AppCompatActivity {
-
-  // TODO Create a "bill" class to handle qr code data, getGrandTotal, toQRCode, etc.
-
   // Set up ui elements
-  ScrollView scroller;
-  Button generateBtn;
-  ImageView qrImage;
+  ScrollView scroller, itemizedBillScroller;
+  LinearLayout itemized_bill_layout;
+  Button generateBtn, clearBtn;
   TextView itemizedBill;
-  String qrValue;
 
+  // Set up class helper info
+  String qrValue;
+  public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
   String userId;
   DatabaseReference database;
   FirebaseUser userRef;
@@ -53,15 +53,19 @@ public class BillCreator extends AppCompatActivity {
 
     // Set up the UI layout
     generateBtn = findViewById(R.id.generate_bill_btn);
-    qrImage = findViewById(R.id.qrPlaceHolder);
+    clearBtn = findViewById(R.id.clear_btn);
+    itemized_bill_layout = findViewById(R.id.itemized_bill_layout);
     itemizedBill = findViewById(R.id.itemized_bill);
     scroller = findViewById(R.id.scroller);
+
+    itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);
     qrValue = "";
 
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     database = FirebaseDatabase.getInstance().getReference();
     userId = userRef.getUid();
     final Context context = this;
+    final Intent intent = new Intent(this, BillShow.class);
 
     // Set scroll view buttons
     database.addValueEventListener(new ValueEventListener() {
@@ -73,6 +77,7 @@ public class BillCreator extends AppCompatActivity {
           @Override
           public void onClick (View v) {
             qrValue = setQRValue(((Button)v).getText().toString());  // Downcast view to a button
+            itemizedBill.setText(qrValue);
           }
         };
 
@@ -105,16 +110,15 @@ public class BillCreator extends AppCompatActivity {
     generateBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View v) {
-        String data = qrValue;
-
-        QRGEncoder qrgEncoder = new QRGEncoder(data, null,
-                QRGContents.Type.TEXT,500);
-        try {
-          Bitmap qrBits = qrgEncoder.getBitmap();
-          qrImage.setImageBitmap(qrBits);
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
+        intent.putExtra(EXTRA_MESSAGE, qrValue);
+        startActivity(intent);
+      }
+    });
+    clearBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick (View v) {
+        qrValue = "";
+        itemizedBill.setText(qrValue);
       }
     });
   }
