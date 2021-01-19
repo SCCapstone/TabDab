@@ -45,7 +45,7 @@ public class CreateVendor extends AppCompatActivity {
 
     vendors = FirebaseDatabase.getInstance().getReference("vendors").push();
     List<BillItem> menu = new ArrayList<>();
-    menu.add(new BillItem(1, "testobject"));
+    //menu.add(new BillItem(1, "testobject"));
     Vendor vendor = new Vendor(vendors.getKey(), vendorName, menu);
     vendors.setValue(vendor);
 
