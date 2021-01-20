@@ -51,4 +51,5 @@
     <string name="clear">Clear</string>
     <string name="done">Done</string>
     <string name="qr_code">QR code</string>
+    <string name="remove_menu_item">Remove menu item</string>
 </resources>

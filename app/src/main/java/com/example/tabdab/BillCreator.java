@@ -57,10 +57,10 @@ public class BillCreator extends AppCompatActivity {
     itemized_bill_layout = findViewById(R.id.itemized_bill_layout);
     itemizedBill = findViewById(R.id.itemized_bill);
     scroller = findViewById(R.id.scroller);
-
     itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);
     qrValue = "";
 
+    // Database references
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     database = FirebaseDatabase.getInstance().getReference();
     userId = userRef.getUid();
@@ -71,7 +71,6 @@ public class BillCreator extends AppCompatActivity {
     database.addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
-
         // Create an onClickListener that all buttons can use quickly.
         View.OnClickListener listener = new View.OnClickListener() {
           @Override
@@ -94,7 +93,7 @@ public class BillCreator extends AppCompatActivity {
                   LinearLayout.LayoutParams.WRAP_CONTENT);
           Button but = new Button(context);
           but.setId(i);
-          but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
+          but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());  // TODO make this more automated
           but.setOnClickListener(listener);
           menu.addView(but);
         }
