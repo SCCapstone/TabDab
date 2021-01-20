@@ -12,6 +12,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CreateVendor extends AppCompatActivity {
   TextView vendorName, loginPassword, loginEmail;
   Button register;
@@ -38,16 +41,16 @@ public class CreateVendor extends AppCompatActivity {
    * @param vendorName Name of the vendor
    */
   public void makeVendor (String vendorName) {
-    Vendor vendor = new Vendor(vendorName);
-    FirebaseAuth fireAuth = FirebaseAuth.getInstance();
-    FirebaseUser user = fireAuth.getCurrentUser();
+    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
     vendors = FirebaseDatabase.getInstance().getReference("vendors").push();
-    vendors.child("name").setValue(vendorName);
-    vendor.setVendorId(vendors.getKey());
+    List<BillItem> menu = new ArrayList<>();
+    //menu.add(new BillItem(1, "testobject"));
+    Vendor vendor = new Vendor(vendors.getKey(), vendorName, menu);
+    vendors.setValue(vendor);
 
     // Update data in firebase.
-    FirebaseDatabase.getInstance().getReference("users/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("vendorID").setValue(vendors.getKey());
-    FirebaseDatabase.getInstance().getReference("users/").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("isVendor").setValue(true);
+    FirebaseDatabase.getInstance().getReference("users/").child(uid).child("vendorID").setValue(vendors.getKey());
+    FirebaseDatabase.getInstance().getReference("users/").child(uid).child("isVendor").setValue(true);
   }
 }
