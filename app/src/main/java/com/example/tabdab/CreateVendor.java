@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,12 +46,13 @@ public class CreateVendor extends AppCompatActivity {
 
     vendors = FirebaseDatabase.getInstance().getReference("vendors").push();
     List<BillItem> menu = new ArrayList<>();
-    //menu.add(new BillItem(1, "testobject"));
     Vendor vendor = new Vendor(vendors.getKey(), vendorName, menu);
     vendors.setValue(vendor);
 
     // Update data in firebase.
     FirebaseDatabase.getInstance().getReference("users/").child(uid).child("vendorID").setValue(vendors.getKey());
     FirebaseDatabase.getInstance().getReference("users/").child(uid).child("isVendor").setValue(true);
+
+    Toast.makeText(getApplicationContext(), "Vendor Created", Toast.LENGTH_SHORT).show();
   }
 }
