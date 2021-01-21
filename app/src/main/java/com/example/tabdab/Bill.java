@@ -1,26 +1,29 @@
 package com.example.tabdab;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Bill {
     // Instance variables
     double grandTotal;
     double tip;
-    BillItem[] itemizedBill;
+    List<BillItem> itemizedBill;
 
     // Constructors
     public Bill () {
-        this.itemizedBill = new BillItem[20];  // TODO fix magic number
+        this.itemizedBill = new ArrayList<>();
         this.grandTotal = 0.0;
         this.tip = 0.0;
     }
-    public Bill (String str) {
-        this.itemizedBill = setItemizedBill(str);
-        this.grandTotal = setGrandTotal(str);
-        this.tip = 0.0;
+    public Bill (List<BillItem> itemizedBill, double grandTotal, double tip) {
+        this.itemizedBill = itemizedBill;
+        this.grandTotal = grandTotal;
+        this.tip = tip;
     }
 
     // Getters
@@ -31,23 +34,10 @@ public class Bill {
         return this.tip;
     }
 
-
     /**
-     * Set the grand total of the bill based off the QR code received
-     * @param str Encoded QR code string
+     * Set the grand total of the bill
+     * @param grandTotal
      */
-    public double setGrandTotal (String str) {
-        double total = 0.0;
-        String[] items = str.split(",");
-
-        for (int i = 0; i < items.length; i++) {
-            // Split remove all characters before '$' then add the price to the grant total
-            total += Double.parseDouble(items[i].substring(items[i].indexOf('$')+1));
-        }
-
-        total += tip;
-        return total;
-    }
     public void setGrandTotal (double grandTotal) {
         this.grandTotal = grandTotal;
     }
@@ -60,36 +50,31 @@ public class Bill {
         this.tip = tip;
     }
 
-    /**
-     * Decodes the QR string into an itemized bill
-     * @param str string to decode from QR content
-     */
-    public BillItem[] setItemizedBill (String str) {
-        String[] itemized = str.split(",");  // Splits encoded string into separate items
-        BillItem[] ret = new BillItem[itemized.length];
+    public static Bill qrCodeToBill(String str) {
+        double grandTotal = 0.0;
+        double tip = 0.0;
+        List<BillItem> itemizedBill = new ArrayList<>();
+        String[] items = str.split(",");
 
-        // Get each item and price from the separate items
-        for (int i = 0; i < itemized.length; i++) {
-            String[] components = itemized[i].split(":");
+        for (int i = 0; i < items.length; i++) {
+            // Split all characters before ':' for name and all characters after $ for price
+            String[] components = items[i].split(":");
+            String name = components[0];
+            Double price = Double.parseDouble(components[1].substring(components[1].indexOf('$')+1));
 
-            BillItem item = new BillItem ();
-            item.setName(components[0]);
-            item.setPrice(Double.parseDouble(components[1].substring(components[1].indexOf('$')+1)));
-            ret[i] = item;
+            BillItem newItem = new BillItem(price, name);
+            itemizedBill.add(newItem);
+            grandTotal += newItem.getPrice();
         }
-        return ret;
+        return new Bill(itemizedBill, grandTotal, tip);
     }
 
-    /**
-     * Makes the itemized bill a string with tip included (mostly for BillView display)
-     * @return the itemized bill as a string
-     */
     public String toString () {
         String ret = "";
-        for (int i = 0; i < itemizedBill.length; i++) {
-            ret += itemizedBill[i].name + ": $" + itemizedBill[i].price + "\n";
+        for (int i = 0; i < this.itemizedBill.size(); i++) {
+            ret += this.itemizedBill.get(i).getName() + ": $" + this.itemizedBill.get(i).getPrice() + "\n";
         }
-        ret += "Tip: " + tip;
+        ret += "Tip: " + this.getTip();
         return ret;
     }
 
@@ -97,18 +82,33 @@ public class Bill {
         Gson gson = new Gson();
         return gson.toJson(bill);
     }
+    public static Bill fromJSON (String str) {
+        return new Gson().fromJson(str, Bill.class);
+    }
+
 
     /**
      * Prints the grand total and itemized bill
      */
     public void printBill () {
         System.out.println("Grand Total: " + grandTotal);
-        for (int i = 0; i < itemizedBill.length; i++) {
-            System.out.println(itemizedBill[i].name + ", " + itemizedBill[i].price + "\n");
+        for (int i = 0; i < itemizedBill.size(); i++) {
+            System.out.println(itemizedBill.get(i).getName() + ", " + itemizedBill.get(i).getPrice()+ "\n");
         }
         System.out.println("Tip: " + tip);
     }
 
-    // TODO Check that the string read from the QR code is of the TabDab format.
+    /**
+     * Checks that the QR code string is of the proper format.
+     * @param str
+     * @return
+     */
+    public static boolean isQRCodeStringFormat (String str) {
+        if (str.contains(",") || str.contains("$") || str.contains(":")) {
+            Log.d("Bill.java", "QR code string contains one of the following: ',', '$', ':'");
+            return false;
+        }
+        return true;
+    }
 }
 

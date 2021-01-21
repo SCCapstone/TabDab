@@ -50,4 +50,7 @@ dependencies {
 
     // JSON
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Testing
+    androidTestImplementation 'androidx.test.espress:espress-core:3.1.0'
 }

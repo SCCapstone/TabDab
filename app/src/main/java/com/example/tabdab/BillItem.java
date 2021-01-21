@@ -1,5 +1,7 @@
 package com.example.tabdab;
 
+import android.util.Log;
+
 public class BillItem {
     // Instance variables
     double price;
@@ -28,6 +30,10 @@ public class BillItem {
         this.price = price;
     }
     public void setName (String name) {
+        if (name.contains(",") || name.contains(":") || name.contains("$")) {
+            Log.d("BillItem.class", "Bill item name contains ',', ':', or '$'");
+            this.name = "";
+        }
         this.name = name;
     }
 
