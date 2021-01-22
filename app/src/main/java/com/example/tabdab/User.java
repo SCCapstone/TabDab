@@ -1,7 +1,7 @@
 package com.example.tabdab;
 
 public class User {
-  String firstName, lastName, email, vendorID;
+  String firstName, lastName, email, vendorID, cardNum;
   boolean isVendor;
 
   public User() {
@@ -13,12 +13,13 @@ public class User {
   }
 
   public User (String firstName, String lastName, String email, boolean isVendor,
-               String vendorID) {
+               String vendorID, String cardNum) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
     this.isVendor = isVendor;
     this.vendorID = vendorID;
+    this.cardNum = cardNum;
   }
 
   // Setters

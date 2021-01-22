@@ -17,10 +17,10 @@
         android:id="@+id/editFirstName"
         android:layout_width="259dp"
         android:layout_height="40dp"
-        android:hint="@string/first_name"
-        android:inputType="text"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="150dp"/>
+        android:layout_marginTop="150dp"
+        android:hint="@string/first_name"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editLastName"
@@ -40,20 +40,29 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"/>
 
+    <EditText
+        android:id="@+id/editCardNum"
+        android:layout_width="263dp"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:hint="@string/email"
+        android:inputType="text" />
+
     <Switch
         android:id="@+id/isVendor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:text="@string/are_you_a_vendor" />
 
     <EditText
         android:id="@+id/vendorId"
-        android:layout_width="259dp"
+        android:layout_width="258dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:hint="@string/vendor_id"
         android:inputType="textPersonName"
         android:visibility="invisible" />
@@ -65,4 +74,5 @@
         android:text="@string/save"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="200dp"/>
+
 </LinearLayout>

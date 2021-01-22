@@ -40,8 +40,8 @@
         android:id="@+id/uLastName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/last_name"
         android:inputType="textPersonName" />
@@ -50,26 +50,36 @@
         android:id="@+id/uPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/password"
+        android:inputType="textPersonName|textWebPassword" />
+
+    <EditText
+        android:id="@+id/uCardNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="Credit Card Number"
         android:inputType="textPersonName|textWebPassword" />
 
     <Switch
         android:id="@+id/isVendor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:text="@string/are_you_a_vendor" />
 
     <EditText
         android:id="@+id/vendorId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
         android:hint="@string/vendor_id"
         android:inputType="textPersonName"
         android:visibility="invisible" />
@@ -78,8 +88,8 @@
         android:id="@+id/btnRegister"
         android:layout_width="215dp"
         android:layout_height="49dp"
-        android:text="@string/register"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center_horizontal" />
+        android:text="@string/register" />
 
 </LinearLayout>
