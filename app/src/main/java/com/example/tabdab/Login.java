@@ -61,11 +61,11 @@ public class Login extends AppCompatActivity{
 
                 //Checks to make sure that information was entered and that it follows
                 if(TextUtils.isEmpty(email)) {
-                    LoginEmail.setError("Email required");
+                    LoginEmail.setError(getString(R.string.email_required));
                     return;
                 }
                 if(TextUtils.isEmpty(password)) {
-                    LoginPassword.setError("Password Required");
+                    LoginPassword.setError(getString(R.string.password_required));
                     return;
                 }
 
@@ -78,7 +78,7 @@ public class Login extends AppCompatActivity{
                             startActivity(new Intent(getApplicationContext(), AccountInformation.class));
                         }
                         else {
-                            LoginPassword.setError("Sign in credentials do not match existing user. Please try again or register if you do not already have an account.");
+                            LoginPassword.setError(getString(R.string.invalid_user_error));
                         }
                     }
                 });
