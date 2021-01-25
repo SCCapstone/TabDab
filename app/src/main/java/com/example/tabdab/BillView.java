@@ -11,10 +11,6 @@ import android.view.View;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Calendar;
-
-import static com.example.tabdab.Bill.qrCodeToBill;
-
 public class BillView extends AppCompatActivity {
     TextView itemizedView;
     TextView grandTotalView;
@@ -37,7 +33,7 @@ public class BillView extends AppCompatActivity {
         // Get and display data from qr scanner activity
         Intent intent = getIntent();
         String qrResult = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        bill = qrCodeToBill(qrResult);
+        bill = Bill.fromJson(qrResult);
 
         // Set UI components
         itemizedView.setText(bill.toString());
@@ -60,6 +56,6 @@ public class BillView extends AppCompatActivity {
     public void pay (View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("payments");
-        ref.child(Calendar.getInstance().getTime().toString()).setValue(Bill.toJSON(bill));
+        //ref.child(Calendar.getInstance().getTime().toString()).setValue(Bill.toJon(bill));
     }
 }

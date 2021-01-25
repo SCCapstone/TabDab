@@ -45,6 +45,7 @@ public class BillCreator extends AppCompatActivity {
   FirebaseUser userRef;
   User user;
   Vendor vendor;
+  Bill bill = new Bill();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,6 @@ public class BillCreator extends AppCompatActivity {
     itemizedBill = findViewById(R.id.itemized_bill);
     scroller = findViewById(R.id.scroller);
     itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);
-    qrValue = "";
 
     // Database references
     userRef = FirebaseAuth.getInstance().getCurrentUser();
@@ -71,19 +71,18 @@ public class BillCreator extends AppCompatActivity {
     database.addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
+        LinearLayout menu = findViewById(R.id.menu);
+        user = snapshot.child("users").child(userId).getValue(User.class);
+        vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
+        final List<BillItem> menuItems  = vendor.getMenu();
+
         // Create an onClickListener that all buttons can use quickly.
         View.OnClickListener listener = new View.OnClickListener() {
           @Override
           public void onClick (View v) {
-            qrValue = setQRValue(((Button)v).getText().toString());  // Downcast view to a button
-            itemizedBill.setText(qrValue);
+            bill.addBillItem(menuItems.get(v.getId()));
           }
         };
-
-        LinearLayout menu = findViewById(R.id.menu);
-        user = snapshot.child("users").child(userId).getValue(User.class);
-        vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
-        List<BillItem> menuItems  = vendor.getMenu();
 
         // Add the buttons
         for (int i = 0; i < menuItems.size(); i++) {
@@ -109,21 +108,16 @@ public class BillCreator extends AppCompatActivity {
     generateBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View v) {
-        intent.putExtra(EXTRA_MESSAGE, qrValue);
+        bill.setGrandTotal();
+        intent.putExtra(EXTRA_MESSAGE, bill.toJson());
         startActivity(intent);
       }
     });
     clearBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View v) {
-        qrValue = "";
-        itemizedBill.setText(qrValue);
+        bill = new Bill();
       }
     });
-  }
-
-  public String setQRValue (String str) {
-    if (qrValue.isEmpty()) return qrValue = str;
-    else return qrValue += ", " + str;
   }
 }

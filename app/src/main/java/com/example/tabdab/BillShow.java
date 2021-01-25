@@ -29,7 +29,7 @@ public class BillShow extends AppCompatActivity {
     qrResult = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
     // Get and display data from qr scanner activity
-    bill = Bill.qrCodeToBill(qrResult);
+    bill = Bill.fromJson(qrResult);
 
 
     // Display the qr code

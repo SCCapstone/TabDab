@@ -41,6 +41,11 @@ public class Bill {
     public void setGrandTotal (double grandTotal) {
         this.grandTotal = grandTotal;
     }
+    public void setGrandTotal () {
+        for (BillItem item : this.itemizedBill) {
+            this.grandTotal += item.getPrice();
+        }
+    }
 
     /**
      * Set the bill's tip
@@ -50,24 +55,10 @@ public class Bill {
         this.tip = tip;
     }
 
-    public static Bill qrCodeToBill(String str) {
-        double grandTotal = 0.0;
-        double tip = 0.0;
-        List<BillItem> itemizedBill = new ArrayList<>();
-        String[] items = str.split(",");
-
-        for (int i = 0; i < items.length; i++) {
-            // Split all characters before ':' for name and all characters after $ for price
-            String[] components = items[i].split(":");
-            String name = components[0];
-            Double price = Double.parseDouble(components[1].substring(components[1].indexOf('$')+1));
-
-            BillItem newItem = new BillItem(price, name);
-            itemizedBill.add(newItem);
-            grandTotal += newItem.getPrice();
-        }
-        return new Bill(itemizedBill, grandTotal, tip);
+    public void addBillItem (BillItem item) {
+        this.itemizedBill.add(item);
     }
+
 
     public String toString () {
         String ret = "";
@@ -78,11 +69,11 @@ public class Bill {
         return ret;
     }
 
-    public static String toJSON (Bill bill) {
+    public String toJson () {
         Gson gson = new Gson();
-        return gson.toJson(bill);
+        return gson.toJson(this);
     }
-    public static Bill fromJSON (String str) {
+    public static Bill fromJson (String str) {
         return new Gson().fromJson(str, Bill.class);
     }
 
