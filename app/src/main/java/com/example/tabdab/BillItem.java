@@ -2,6 +2,8 @@ package com.example.tabdab;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 public class BillItem {
     // Instance variables
     double price;
@@ -39,5 +41,13 @@ public class BillItem {
 
     public String toString () {
         return name + ": " + price;
+    }
+
+    public static String toJson (BillItem billItem) {
+        Gson gson = new Gson();
+        return gson.toJson(billItem);
+    }
+    public static BillItem fromJson (String str) {
+        return new Gson().fromJson(str, BillItem.class);
     }
 }
