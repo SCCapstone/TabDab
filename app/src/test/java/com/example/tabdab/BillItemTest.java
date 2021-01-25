@@ -23,4 +23,12 @@ public class BillItemTest {
     assertEquals(0.0, item.getPrice(), 0);
     assertEquals("", item.getName());
   }
+
+  @Test
+  public void toString_test() {
+    double price = 1;
+    String name = "test";
+    BillItem item = new BillItem(price, name);
+    assertEquals("test: 1.0", item.toString());
+  }
 }

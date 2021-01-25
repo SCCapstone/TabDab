@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.view.View;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+
+import static com.example.tabdab.Bill.qrCodeToBill;
 
 public class BillView extends AppCompatActivity {
     TextView itemizedView;
@@ -36,7 +37,7 @@ public class BillView extends AppCompatActivity {
         // Get and display data from qr scanner activity
         Intent intent = getIntent();
         String qrResult = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        bill = new Bill(qrResult);
+        bill = qrCodeToBill(qrResult);
 
         // Set UI components
         itemizedView.setText(bill.toString());

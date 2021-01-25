@@ -52,4 +52,7 @@
     <string name="done">Done</string>
     <string name="qr_code">QR code</string>
     <string name="remove_menu_item">Remove menu item</string>
+    <string name="invalid_user_error">Sign in credentials do not match existing user. Please try again or register if you do not already have an account.</string>
+    <string name="email_required">Email Required</string>
+    <string name="password_required">Password Required</string>
 </resources>
