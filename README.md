@@ -9,7 +9,6 @@ Running this app may require a camera on your device. The app might may crash if
 All you need to do is clone the repository and install the app to a physical device in Android Studio.
 
 ## Running
-
 First clone the repo in your desired directory:
  * git clone https://github.com/SCCapstone/TabDab/
  
@@ -19,13 +18,18 @@ First clone the repo in your desired directory:
    and it will localy build the app on your device.
 
 # Testing
-Will be handled in 492.
+Behavioral tests stored in the /app/src/androidTest/java/com/example/tabdab/ folder.
+Unit tests are stroed in the /app/src/test/java/com/example/tabdab/ folder.
 
 ## Testing Technology
-Will be handled in 492.
+Testing is done using Junit and Espresso APIs.
 
 ## Running Tests
-Will be handled in 492.
+In order to run tests on the TabDab app. Follow these instructions:
+1. Open the project in android studio.
+2. Right click on the com.example.tabdab(androidTest) option in the project window and click the Run option.
+3. Right click on the com.example.tabdab(test) option in the project window and click the Run option.
+4. All tests will complete after hitting run.
 
 # Authors
 
