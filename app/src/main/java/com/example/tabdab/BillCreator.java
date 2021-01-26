@@ -38,14 +38,14 @@ public class BillCreator extends AppCompatActivity {
   TextView itemizedBill;
 
   // Set up class helper info
-  String qrValue;
   public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
   String userId;
   DatabaseReference database;
   FirebaseUser userRef;
   User user;
   Vendor vendor;
-  Bill bill = new Bill();
+  Bill bill;
+  String itemizedBillStr;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +59,9 @@ public class BillCreator extends AppCompatActivity {
     itemizedBill = findViewById(R.id.itemized_bill);
     scroller = findViewById(R.id.scroller);
     itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);
+
+    bill = new Bill();
+    itemizedBillStr = "";
 
     // Database references
     userRef = FirebaseAuth.getInstance().getCurrentUser();
@@ -81,6 +84,14 @@ public class BillCreator extends AppCompatActivity {
           @Override
           public void onClick (View v) {
             bill.addBillItem(menuItems.get(v.getId()));
+
+            // Update the itemized bill at the top of the activity
+            if (itemizedBillStr.isEmpty()) {
+              itemizedBillStr = menuItems.get(v.getId()).getName();
+            } else {
+              itemizedBillStr = itemizedBillStr + ", " + menuItems.get(v.getId()).getName();
+            }
+            itemizedBill.setText(itemizedBillStr);
           }
         };
 
