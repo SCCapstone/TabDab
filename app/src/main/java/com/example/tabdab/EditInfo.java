@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class EditInfo extends AppCompatActivity {
   Button saveInfoBut;
-  EditText newFirstName, newLastName, newUserEmail, vendorId;
+  EditText newFirstName, newLastName, newUserEmail, vendorId, newCardNum, newExpDate, newCVV;
   Switch switchIsVendor;
   FirebaseAuth fireAuth;
   DatabaseReference database;
@@ -42,6 +42,10 @@ public class EditInfo extends AppCompatActivity {
     newUserEmail = findViewById(R.id.editEmailtxt);
     vendorId = findViewById(R.id.vendorId);
     switchIsVendor = findViewById(R.id.isVendor);
+    newCardNum = findViewById(R.id.editCardNum);
+    newExpDate = findViewById(R.id.editExpDate);
+    newCVV = findViewById(R.id.uCVV);
+
 
     // Vendor switch is switched to true, make the vendor ID input visible to the user
     switchIsVendor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -65,6 +69,9 @@ public class EditInfo extends AppCompatActivity {
         String firstName = newFirstName.getText().toString();
         String lastName = newLastName.getText().toString();
         String newEmail = newUserEmail.getText().toString();
+        String newCard = newCardNum.getText().toString();
+        String newDate = newExpDate.getText().toString();
+        String newCV = newCVV.getText().toString();
         final String vendorID = vendorId.getText().toString();
 
         // Check if the vendor ID the user entered exists.
@@ -94,7 +101,14 @@ public class EditInfo extends AppCompatActivity {
           refUser.child("lastName").setValue(lastName);
         } else if (!newEmail.isEmpty()) {
           refUser.child("email").setValue(newEmail);
+        } else if (!newCard.isEmpty()) {
+          refUser.child("cardNum").setValue(newCard);
+        } else if (!newDate.isEmpty()) {
+          refUser.child("expDate").setValue(newDate);
+        } else if (!newCV.isEmpty()) {
+          refUser.child("cvv").setValue(newCV);
         }
+
       }
     });
 
