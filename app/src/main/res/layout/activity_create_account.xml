@@ -64,7 +64,28 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Credit Card Number"
-        android:inputType="textPersonName|textWebPassword" />
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/uExpDate"
+        android:layout_width="99dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:baselineAligned="false"
+        android:ems="10"
+        android:hint="Exp Date"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/uCVV"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="CVV"
+        android:inputType="textPersonName" />
 
     <Switch
         android:id="@+id/isVendor"

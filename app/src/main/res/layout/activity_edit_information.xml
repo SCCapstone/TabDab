@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,9 +8,9 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="@string/edit_account"
-        android:textSize="28sp"
-        android:layout_gravity="center_horizontal" />
+        android:textSize="28sp" />
 
     <EditText
         android:id="@+id/editFirstName"
@@ -26,19 +25,19 @@
         android:id="@+id/editLastName"
         android:layout_width="259dp"
         android:layout_height="38dp"
-        android:hint="@string/last_name"
-        android:inputType="text"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:hint="@string/last_name"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editEmailtxt"
         android:layout_width="259dp"
         android:layout_height="38dp"
-        android:hint="@string/email"
-        android:inputType="text"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:hint="@string/email"
+        android:inputType="text" />
 
     <EditText
         android:id="@+id/editCardNum"
@@ -46,7 +45,25 @@
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:hint="@string/email"
+        android:hint="Card Number"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editExpDate"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:hint="Exp. Date"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editCVV"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:hint="CVV"
         android:inputType="text" />
 
     <Switch
@@ -71,8 +88,9 @@
         android:id="@+id/saveEditBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/save"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="200dp"/>
+        android:layout_marginTop="200dp"
+        android:baselineAligned="false"
+        android:text="@string/save" />
 
 </LinearLayout>

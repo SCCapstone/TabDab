@@ -28,7 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 public class CreateAccount extends AppCompatActivity {
 
   private FirebaseAuth mAuth;
-  private EditText uFirstName,uLastName,uPassword,uEmail, vendorId, uCardNum;
+  private EditText uFirstName,uLastName,uPassword,uEmail, vendorId, uCardNum, uExpDate, uCVV;
   private Button uRegister;
   private Switch switchIsVendor;
 
@@ -46,6 +46,8 @@ public class CreateAccount extends AppCompatActivity {
     vendorId = findViewById(R.id.vendorId);
     uCardNum = findViewById(R.id.uCardNum);
     switchIsVendor = findViewById(R.id.isVendor);
+    uExpDate = findViewById(R.id.uExpDate);
+    uCVV = findViewById(R.id.uCVV);
 
     // Vendor switch is switched to true, make the vendor ID input visible to the user
     switchIsVendor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -68,7 +70,8 @@ public class CreateAccount extends AppCompatActivity {
         final String lastName = uLastName.getText().toString().trim();
         final String vendorID = vendorId.getText().toString().trim();
         final String cardNum = uCardNum.getText().toString().trim();
-
+        final String expDate = uExpDate.getText().toString().trim();
+        final String CVV = uCVV.getText().toString().trim();
         // Errors
         if (TextUtils.isEmpty(email)) {
           uEmail.setError("Email is required");
@@ -85,6 +88,12 @@ public class CreateAccount extends AppCompatActivity {
         if (cardNum.length() < 16 || cardNum.isEmpty()) {
           uCardNum.setError("Please enter card number");
           return;
+        }
+        if (TextUtils.isEmpty(expDate)) {
+          uExpDate.setError("Please enter expiration date");
+        }
+        if (TextUtils.isEmpty(CVV)) {
+          uCVV.setError("Please enter CVV");
         }
         // Check that the vendor ID exists
         if (!vendorID.isEmpty()) {
@@ -109,7 +118,7 @@ public class CreateAccount extends AppCompatActivity {
           public void onComplete(@NonNull Task<AuthResult> task) {
             if (task.isSuccessful()) {
               User user = new User(firstName, lastName, email,
-                      switchIsVendor.isChecked(), vendorID, cardNum);
+                      switchIsVendor.isChecked(), vendorID, cardNum, expDate, CVV);
               FirebaseDatabase.getInstance().getReference("users/")
                       .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                       .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
