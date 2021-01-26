@@ -26,7 +26,7 @@ import java.util.jar.Attributes;
 
 public class AccountInformation extends AppCompatActivity{
     TextView UserName, UserEmail, VendorID, textVendorID;
-    Button ButChangePass, ButEditInfo, ButScan, ButGen, ButEditMenu, ButRegisterVendor;
+    Button ButChangePass, ButEditInfo, ButScan, ButGen, ButEditMenu, ButRegisterVendor, butLogout;
     String UID;
     FirebaseAuth fireAuth;
     DatabaseReference database;
@@ -41,6 +41,7 @@ public class AccountInformation extends AppCompatActivity{
         ButGen = findViewById(R.id.ButGen);
         ButEditMenu = findViewById(R.id.ButEditMenu);
         ButRegisterVendor = findViewById(R.id.registerVendorButton);
+        butLogout = findViewById(R.id.butLogout);
 
         fireAuth = FirebaseAuth.getInstance();
         user = fireAuth.getCurrentUser();
@@ -113,6 +114,13 @@ public class AccountInformation extends AppCompatActivity{
                 @Override
                 public void onClick (View view) {
                     startActivity(new Intent(getApplicationContext(), CreateVendor.class));
+                }
+            });
+            butLogout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fireAuth.signOut();
+                    startActivity( new Intent(getApplicationContext(), Login.class));
                 }
             });
 
