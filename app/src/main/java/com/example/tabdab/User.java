@@ -1,8 +1,12 @@
 package com.example.tabdab;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class User {
   String firstName, lastName, email, vendorID, cardNum, expDate, CVV;
   boolean isVendor;
+  List<Bill> pastPayments;
 
   public User() {
     this.firstName = "";
@@ -13,6 +17,7 @@ public class User {
     this.cardNum = "";
     this.expDate = "";
     this.CVV = "";
+    this.pastPayments = new ArrayList<>();
   }
 
   public User (String firstName, String lastName, String email, boolean isVendor,
@@ -25,6 +30,7 @@ public class User {
     this.cardNum = cardNum;
     this.expDate = expDate;
     this.CVV = CVV;
+    this.pastPayments = new ArrayList<>();
   }
 
   // Setters
@@ -36,6 +42,9 @@ public class User {
   public void setCardNum (String cardNum) {this.cardNum = cardNum;}
   public void setExpDate (String expDate) {this.expDate = expDate;}
   public void setCVV (String CVV) {this.CVV = CVV;}
+  public void setPastPayments (List<Bill> pastPayments) {
+    this.pastPayments = pastPayments;
+  }
 
   // Getters
   public String getFirstName () {return this.firstName;}
@@ -46,6 +55,11 @@ public class User {
   public String getCardNum () {return this.cardNum;}
   public String getExpDate () {return this.expDate;}
   public String getCVV () {return this.expDate;}
+  public List<Bill> getPastPayments () {return this.pastPayments;}
+
+  public void addPastPayment (Bill bill) {
+    this.pastPayments.add(bill);
+  }
 
   public String toString () {
     return this.firstName + " " + this.lastName + "\n" + this.email + "\n" + this.isVendor + "\n" + this.vendorID + "\n" + this.cardNum + "\n" + this.expDate + "\n" + this.CVV;
