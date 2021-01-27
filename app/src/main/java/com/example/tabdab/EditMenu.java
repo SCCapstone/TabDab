@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ public class EditMenu extends AppCompatActivity {
     EditText editName, editPrice;
     Button ButAddItem, ButRemoveItem;
     ScrollView scroller;
-    LinearLayout itemized_bill_layout;
+    LinearLayout menu;
 
     // Database references
     String userId;
@@ -48,6 +49,7 @@ public class EditMenu extends AppCompatActivity {
         ButAddItem = findViewById(R.id.ButAddItem);
         ButRemoveItem = findViewById(R.id.ButRemoveItem);
         scroller = findViewById(R.id.scroller);
+        menu = findViewById(R.id.menu);
         final Context context = this;
 
         userRef = FirebaseAuth.getInstance().getCurrentUser();
@@ -103,7 +105,7 @@ public class EditMenu extends AppCompatActivity {
                 user = snapshot.child("users").child(userId).getValue(User.class);
                 vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
 
-                // Create an onClickListener that all buttons can use quickly.
+                // OnClickListener to remove an item from the menu
                 View.OnClickListener listener = new View.OnClickListener() {
                     @Override
                     public void onClick (View v) {
@@ -112,14 +114,12 @@ public class EditMenu extends AppCompatActivity {
                 };
 
                 LinearLayout menu = findViewById(R.id.menu);
+                menu.removeAllViews();
                 List<BillItem> menuItems  = vendor.getMenu();
 
                 // Add the buttons
                 for (int i = 0; i < menuItems.size(); i++) {
                     // Set button params
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
                     Button but = new Button(context);
                     but.setId(i);
                     but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
@@ -138,7 +138,11 @@ public class EditMenu extends AppCompatActivity {
         ButRemoveItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO enable buttons to allow for menu item deletion when pressed.
+                // Set all of the buttons in the layout to clickable
+                for (int i = 0; i < menu.getChildCount(); i++) {
+                    Button but = findViewById(i);
+                    but.setEnabled(true);
+                }
             }
         });
     }
