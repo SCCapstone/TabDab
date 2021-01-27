@@ -18,6 +18,7 @@ public class User {
     this.expDate = "";
     this.CVV = "";
     this.pastPayments = new ArrayList<>();
+    this.pastPayments.add(new Bill());
   }
 
   public User (String firstName, String lastName, String email, boolean isVendor,
@@ -31,6 +32,12 @@ public class User {
     this.expDate = expDate;
     this.CVV = CVV;
     this.pastPayments = new ArrayList<>();
+
+    // For firebase purposes
+    BillItem item = new BillItem(1, "test");
+    Bill bill = new Bill();
+    bill.addBillItem(item);
+    this.pastPayments.add(bill);
   }
 
   // Setters

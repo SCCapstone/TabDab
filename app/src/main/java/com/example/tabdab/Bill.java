@@ -33,6 +33,7 @@ public class Bill {
     public double getTip () {
         return this.tip;
     }
+    public List<BillItem> getItemizedBill () {return this.itemizedBill;}
 
     /**
      * Set the grand total of the bill
@@ -46,6 +47,9 @@ public class Bill {
             this.grandTotal += item.getPrice();
         }
     }
+    public void setItemizedBill (List<BillItem> itemizedBill) {
+        this.itemizedBill = itemizedBill;
+    }
 
     /**
      * Set the bill's tip
@@ -57,6 +61,7 @@ public class Bill {
 
     public void addBillItem (BillItem item) {
         this.itemizedBill.add(item);
+        setGrandTotal();
     }
 
 
