@@ -6,13 +6,13 @@
         android:title="Home"
         />
 
-    <item android:id="@+id/trend"
+    <item android:id="@+id/scan"
         android:icon="@drawable/ic_scanner_background"
-        android:title="Trend"
+        android:title="Scanner"
         />
     <item android:id="@+id/setting"
         android:icon="@drawable/ic_settings_background"
-        android:title="Setting"
+        android:title="Settings"
         />
 
 

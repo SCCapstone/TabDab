@@ -76,11 +76,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.home:
-                        openFragment(new HomeFragment());
+                        //openFragment(new HomeFragment());
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         return true;
-
                     case R.id.scannerView:
                         openFragment(new ScanFragment());
+                        return true;
+                    case R.id.setting:
+                        openFragment(new SettingsFragment());
                         return true;
                 }
                 return false;
