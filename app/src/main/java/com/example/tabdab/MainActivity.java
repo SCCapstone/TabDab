@@ -2,10 +2,13 @@ package com.example.tabdab;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.PermissionRequest;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.zxing.Result;
 
 import org.w3c.dom.Text;
@@ -61,6 +65,27 @@ public class MainActivity extends AppCompatActivity {
                 codeScanner.startPreview();
             }
         });
+
+        //Creating the bottom navigation menu
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNav);
+        //Opening the home fragment which is the account information
+        openFragment(new HomeFragment());
+        //Checking which button gets clicked to switch fragments
+        bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        openFragment(new HomeFragment());
+                        return true;
+
+                    case R.id.scannerView:
+                        openFragment(new ScanFragment());
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     // Start camera when the user comes back to the app
@@ -68,5 +93,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         codeScanner.startPreview();
+    }
+    void openFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
     }
 }

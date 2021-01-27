@@ -55,4 +55,6 @@
     <string name="invalid_user_error">Sign in credentials do not match existing user. Please try again or register if you do not already have an account.</string>
     <string name="email_required">Email Required</string>
     <string name="password_required">Password Required</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
