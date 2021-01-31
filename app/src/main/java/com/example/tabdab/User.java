@@ -45,7 +45,7 @@ public class User {
   public boolean getIsVendor () {return this.isVendor;}
   public String getCardNum () {return this.cardNum;}
   public String getExpDate () {return this.expDate;}
-  public String getCVV () {return this.expDate;}
+  public String getCVV () {return this.CVV;}
 
   public String toString () {
     return this.firstName + " " + this.lastName + "\n" + this.email + "\n" + this.isVendor + "\n" + this.vendorID + "\n" + this.cardNum + "\n" + this.expDate + "\n" + this.CVV;

@@ -91,9 +91,15 @@ public class CreateAccount extends AppCompatActivity {
         }
         if (TextUtils.isEmpty(expDate)) {
           uExpDate.setError("Please enter expiration date");
+          return;
         }
         if (TextUtils.isEmpty(CVV)) {
           uCVV.setError("Please enter CVV");
+          return;
+        }
+        if (switchIsVendor.isChecked() && TextUtils.isEmpty(vendorID)) {
+          vendorId.setError(("Please enter vendor ID"));
+          return;
         }
         // Check that the vendor ID exists
         if (!vendorID.isEmpty()) {
