@@ -1,18 +1,26 @@
 package com.example.tabdab;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
+import java.util.List;
 
 public class BillView extends AppCompatActivity {
     TextView itemizedView;
@@ -21,6 +29,11 @@ public class BillView extends AppCompatActivity {
     Button butAddTip;
     Bill bill;
     double tip = 0.0;
+
+    String userId;
+    DatabaseReference database;
+    FirebaseUser userRef;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +49,7 @@ public class BillView extends AppCompatActivity {
         // Get and display data from qr scanner activity
         Intent intent = getIntent();
         String qrResult = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        bill = new Bill(qrResult);
+        bill = Bill.fromJson(qrResult);
 
         // Set UI components
         itemizedView.setText(bill.toString());
@@ -57,8 +70,9 @@ public class BillView extends AppCompatActivity {
     }
 
     public void pay (View view) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("payments");
-        ref.child(Calendar.getInstance().getTime().toString()).setValue(Bill.toJSON(bill));
+        userRef = FirebaseAuth.getInstance().getCurrentUser();
+        database = FirebaseDatabase.getInstance().getReference();
+        userId = userRef.getUid();
     }
+
 }

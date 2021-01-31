@@ -66,6 +66,25 @@ public class EditMenu extends AppCompatActivity {
                 ButAddItem.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (editName.getText().toString().isEmpty()) {
+                            editName.setError("Cannot have empty name.");
+                            return;
+                        }
+                        if (editPrice.getText().toString().isEmpty()) {
+                            editPrice.setError("Cannot have empty name.");
+                            return;
+                        }
+                        if (!isNumeric(editPrice.getText().toString())) {
+                            editPrice.setError("Must be a number");
+                            return;
+                        }
+                        if (editName.getText().toString().contains(":") ||
+                            editName.getText().toString().contains(",") ||
+                            editName.getText().toString().contains("$")) {
+                            editName.setError("Cannot contain special characters.");
+                            return;
+                        }
+
                         vendor.menu.add(new BillItem(Double.parseDouble(editPrice.getText().toString()), editName.getText().toString()));
                         FirebaseDatabase.getInstance().getReference().child("vendors").child(vendor.vendorId).setValue(vendor);
                     }
@@ -122,5 +141,14 @@ public class EditMenu extends AppCompatActivity {
                 // TODO enable buttons to allow for menu item deletion when pressed.
             }
         });
+    }
+
+    public static boolean isNumeric(String str) {
+        try {
+            double dbl = Double.parseDouble(str);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
     }
 }

@@ -38,13 +38,14 @@ public class BillCreator extends AppCompatActivity {
   TextView itemizedBill;
 
   // Set up class helper info
-  String qrValue;
   public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
   String userId;
   DatabaseReference database;
   FirebaseUser userRef;
   User user;
   Vendor vendor;
+  Bill bill;
+  String itemizedBillStr;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,9 @@ public class BillCreator extends AppCompatActivity {
     itemizedBill = findViewById(R.id.itemized_bill);
     scroller = findViewById(R.id.scroller);
     itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);
-    qrValue = "";
+
+    bill = new Bill();
+    itemizedBillStr = "";
 
     // Database references
     userRef = FirebaseAuth.getInstance().getCurrentUser();
@@ -71,19 +74,26 @@ public class BillCreator extends AppCompatActivity {
     database.addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
+        LinearLayout menu = findViewById(R.id.menu);
+        user = snapshot.child("users").child(userId).getValue(User.class);
+        vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
+        final List<BillItem> menuItems  = vendor.getMenu();
+
         // Create an onClickListener that all buttons can use quickly.
         View.OnClickListener listener = new View.OnClickListener() {
           @Override
           public void onClick (View v) {
-            qrValue = setQRValue(((Button)v).getText().toString());  // Downcast view to a button
-            itemizedBill.setText(qrValue);
+            bill.addBillItem(menuItems.get(v.getId()));
+
+            // Update the itemized bill at the top of the activity
+            if (itemizedBillStr.isEmpty()) {
+              itemizedBillStr = menuItems.get(v.getId()).getName();
+            } else {
+              itemizedBillStr = itemizedBillStr + ", " + menuItems.get(v.getId()).getName();
+            }
+            itemizedBill.setText(itemizedBillStr);
           }
         };
-
-        LinearLayout menu = findViewById(R.id.menu);
-        user = snapshot.child("users").child(userId).getValue(User.class);
-        vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
-        List<BillItem> menuItems  = vendor.getMenu();
 
         // Add the buttons
         for (int i = 0; i < menuItems.size(); i++) {
@@ -109,21 +119,16 @@ public class BillCreator extends AppCompatActivity {
     generateBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View v) {
-        intent.putExtra(EXTRA_MESSAGE, qrValue);
+        bill.setGrandTotal();
+        intent.putExtra(EXTRA_MESSAGE, bill.toJson());
         startActivity(intent);
       }
     });
     clearBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View v) {
-        qrValue = "";
-        itemizedBill.setText(qrValue);
+        bill = new Bill();
       }
     });
-  }
-
-  public String setQRValue (String str) {
-    if (qrValue.isEmpty()) return qrValue = str;
-    else return qrValue += ", " + str;
   }
 }
