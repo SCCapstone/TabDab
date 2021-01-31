@@ -33,7 +33,6 @@ public class EditMenu extends AppCompatActivity {
     LinearLayout menu;
 
     // Database references
-    String userId;
     DatabaseReference database;
     FirebaseUser userRef;
     User user;
@@ -54,14 +53,13 @@ public class EditMenu extends AppCompatActivity {
 
         userRef = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference();
-        userId = userRef.getUid();
 
         // Add a menu item on button press
         database.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Get appropriate user and vendor
-                user = snapshot.child("users").child(userId).getValue(User.class);
+                user = snapshot.child("users").child(userRef.getUid()).getValue(User.class);
                 vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
 
                 // When the add button is pressed a new item is added to the list in the database
@@ -101,21 +99,19 @@ public class EditMenu extends AppCompatActivity {
         // Set the text view to the menu stored in firebase
         database.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user = snapshot.child("users").child(userId).getValue(User.class);
-                vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
+            public void onDataChange(@NonNull final DataSnapshot snapshot) {
+                menu = findViewById(R.id.menu);
+                menu.removeAllViews();
+                final List<BillItem> menuItems  = vendor.getMenu();
 
                 // OnClickListener to remove an item from the menu
                 View.OnClickListener listener = new View.OnClickListener() {
                     @Override
                     public void onClick (View v) {
-                        // TODO remove item from menu
+                        menuItems.remove(v.getId());
+                        System.out.println(v.getId());
                     }
                 };
-
-                LinearLayout menu = findViewById(R.id.menu);
-                menu.removeAllViews();
-                List<BillItem> menuItems  = vendor.getMenu();
 
                 // Add the buttons
                 for (int i = 0; i < menuItems.size(); i++) {
