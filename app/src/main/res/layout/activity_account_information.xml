@@ -72,14 +72,22 @@
         android:text="@string/edit_info"
         android:layout_below="@+id/AccountVendorID"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"/>
+        android:layout_marginTop="100dp"/>
+
+    <Button
+        android:id="@+id/ButPreviousPayments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Payments"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/editInfoBut" />
 
     <Button
         android:id="@+id/chngPassBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/reset_password"
-        android:layout_below="@id/editInfoBut"
+        android:layout_below="@id/ButPreviousPayments"
         android:layout_centerHorizontal="true"/>
 
     <Button
@@ -113,5 +121,13 @@
         android:text="@string/register_vendor"
         android:layout_below="@id/ButEditMenu"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/butLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/registerVendorButton"
+        android:layout_centerHorizontal="true"
+        android:text="Logout" />
 
 </RelativeLayout>

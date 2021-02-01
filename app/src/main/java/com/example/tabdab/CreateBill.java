@@ -5,16 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,13 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import androidmads.library.qrgenearator.QRGContents;
-import androidmads.library.qrgenearator.QRGEncoder;
-
-public class BillCreator extends AppCompatActivity {
+public class CreateBill extends AppCompatActivity {
   // Set up ui elements
   ScrollView scroller, itemizedBillScroller;
   LinearLayout itemized_bill_layout;
@@ -38,19 +31,19 @@ public class BillCreator extends AppCompatActivity {
   TextView itemizedBill;
 
   // Set up class helper info
-  String qrValue;
   public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
   String userId;
   DatabaseReference database;
   FirebaseUser userRef;
   User user;
   Vendor vendor;
-  Bill bill = new Bill();
+  Bill bill;
+  String itemizedBillStr;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_bill_creator);
+    setContentView(R.layout.activity_create_bill);
 
     // Set up the UI layout
     generateBtn = findViewById(R.id.generate_bill_btn);
@@ -59,6 +52,9 @@ public class BillCreator extends AppCompatActivity {
     itemizedBill = findViewById(R.id.itemized_bill);
     scroller = findViewById(R.id.scroller);
     itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);
+
+    bill = new Bill();
+    itemizedBillStr = "";
 
     // Database references
     userRef = FirebaseAuth.getInstance().getCurrentUser();
@@ -81,6 +77,14 @@ public class BillCreator extends AppCompatActivity {
           @Override
           public void onClick (View v) {
             bill.addBillItem(menuItems.get(v.getId()));
+
+            // Update the itemized bill at the top of the activity
+            if (itemizedBillStr.isEmpty()) {
+              itemizedBillStr = menuItems.get(v.getId()).getName();
+            } else {
+              itemizedBillStr = itemizedBillStr + ", " + menuItems.get(v.getId()).getName();
+            }
+            itemizedBill.setText(itemizedBillStr);
           }
         };
 
