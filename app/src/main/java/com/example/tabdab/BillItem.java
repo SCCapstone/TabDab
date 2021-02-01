@@ -33,10 +33,10 @@ public class BillItem {
     }
     public void setName (String name) {
         if (name.contains(",") || name.contains(":") || name.contains("$")) {
-            Log.d("BillItem.class", "Bill item name contains ',', ':', or '$'");
             this.name = "";
+        } else {
+            this.name = name;
         }
-        this.name = name;
     }
 
     public String toString () {

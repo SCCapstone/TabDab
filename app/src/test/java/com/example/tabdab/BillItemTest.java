@@ -25,6 +25,23 @@ public class BillItemTest {
   }
 
   @Test
+  public void testSetName() {
+    BillItem item = new BillItem();
+
+    item.setName("test");
+    assertEquals("test", item.getName());
+
+    item.setName("asdf,asdf");
+    assertEquals("", item.getName());
+
+    item.setName(":");
+    assertEquals("", item.getName());
+
+    item.setName("$100");
+    assertEquals("", item.getName());
+  }
+
+  @Test
   public void toString_test() {
     double price = 1;
     String name = "test";
