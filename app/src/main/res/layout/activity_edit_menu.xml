@@ -62,10 +62,18 @@
 
     <Button
         android:id="@+id/ButRemoveItem"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:text="@string/remove_menu_item" />
+
+    <Button
+        android:id="@+id/ButCancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ButRemoveItem"
+        android:text="Cancel"
+        android:visibility="invisible" />
 </RelativeLayout>
