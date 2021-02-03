@@ -61,11 +61,10 @@ public class User {
   public boolean getIsVendor () {return this.isVendor;}
   public String getCardNum () {return this.cardNum;}
   public String getExpDate () {return this.expDate;}
-  public String getCVV () {return this.expDate;}
+  public String getCVV () {return this.CVV;}
   public List<Bill> getPastPayments () {return this.pastPayments;}
 
-  public void addPastPayment (Bill bill) {
-    this.pastPayments.add(bill);
+  public void addPastPayment (Bill bill) {this.pastPayments.add(bill);
   }
 
   public String toString () {

@@ -1,7 +1,10 @@
 package com.example.tabdab;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.*;
 public class UserTest {
     @Test
     public void constructorTest1(){ //this constructor test has the boolean
@@ -10,9 +13,16 @@ public class UserTest {
         String email = "BobSaget@gmail.com";
         boolean isVendor = false;
         String vendorId = "700";
-
+        String cardNum = "405694564";
+        String expDate = "04/2021";
+        String CVV = "123";
+        List<Bill>pastPayments = new ArrayList<>();
+        BillItem item = new BillItem(1, "test");
+        Bill bill = new Bill();
+        bill.addBillItem(item);
+        pastPayments.add(bill);
         User user = new User(firstName, lastName, email,
-                isVendor, vendorId);
+                isVendor, vendorId, cardNum, expDate, CVV) ;
 
         //firstName
         assertEquals("Bob", user.getFirstName());
@@ -29,10 +39,21 @@ public class UserTest {
         //vendorId
         assertEquals("700", user.getVendorID());
 
+        //cardNum
+        assertEquals("405694564", user.getCardNum());
+
+        //expDate
+        assertEquals("04/2021", user.getExpDate());
+
+        //CVV
+        assertEquals("123", user.getCVV());
+
+        //pastPayments
+        assertEquals(pastPayments, user.getPastPayments());
         //try again but replace the first name
         firstName = "";
         user = new User(firstName, lastName, email,
-        isVendor, vendorId);
+                isVendor, vendorId, cardNum, expDate, CVV) ;
 
         assertEquals("", user.getFirstName());
     }
@@ -44,9 +65,12 @@ public class UserTest {
         String email = "JohnStamos@gmail.com";
         boolean isVendor = true;
         String vendorId = "420";
+        String cardNum = "6798043";
+        String expDate = "12/2100";
+        String CVV = "864";
 
         User user = new User(firstName, lastName, email,
-                isVendor, vendorId);
+                isVendor, vendorId, cardNum, expDate, CVV) ;
 
         //firstName
         assertEquals("John", user.getFirstName());
@@ -66,7 +90,7 @@ public class UserTest {
         //lets change the first name again
         firstName = "";
         user = new User(firstName, lastName, email,
-                isVendor, vendorId);
+                isVendor, vendorId, cardNum, expDate, CVV) ;
         assertEquals("", user.getFirstName());
     }
 
@@ -155,7 +179,11 @@ public class UserTest {
         String email = "RonJeremey@gmail.com";
         boolean isVendor = false;
         String vendorId = "1000";
-        user = new User(firstName, lastName, email, isVendor, vendorId);
+        String cardNum = "74639263864";
+        String expDate = "09/2120";
+        String CVV = "124";
+        user = new User(firstName, lastName, email,
+                isVendor, vendorId, cardNum, expDate, CVV) ;
         assertEquals("Ron Jeremey" + "\n" + "RonJeremey@gmail.com" + "\n" + false + "\n" + "1000", user.toString());
     }
 }
