@@ -80,17 +80,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        setSupportActionBar(toolbar);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-//        navigationView.setNavigationItemSelectedListener(this);
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -112,12 +114,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-//        if (currentFragment == item.getItemId()) {
-//            drawer.closeDrawer(GravityCompat.START);
-//            return false;
-//        }
-//        FragmentManager fm = getSupportFragmentManager();
-//        Fragment fragment = null;
+        if (currentFragment == item.getItemId()) {
+            drawer.closeDrawer(GravityCompat.START);
+            return false;
+        }
+        FragmentManager fm = getSupportFragmentManager();
+        Fragment fragment = null;
 
         switch (item.getItemId()) {
             case R.id.navi_home:
@@ -131,17 +133,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        new SettingsFragment()).commit();
                 break;
             case R.id.navi_vendor:
-                startActivity(new Intent(MainActivity.this, EditMenu.class));
+                startActivity(new Intent(MainActivity.this, BillCreator.class));
                 break;
             case R.id.navi_exit:
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
                 break;
         }
-//        if (fragment != null) {
-//            fm.beginTransaction().replace(R.id.fragment_container, fragment).commit();
-//            drawer.closeDrawer(GravityCompat.START);
-//            return true;
-//        }
+        if (fragment != null) {
+            fm.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+            drawer.closeDrawer(GravityCompat.START);
+            return true;
+        }
         return false;
     }
 }
