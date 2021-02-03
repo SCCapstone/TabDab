@@ -1,18 +1,16 @@
 package com.example.tabdab;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EditMenu extends AppCompatActivity {
@@ -79,8 +76,8 @@ public class EditMenu extends AppCompatActivity {
                             return;
                         }
                         if (editName.getText().toString().contains(":") ||
-                            editName.getText().toString().contains(",") ||
-                            editName.getText().toString().contains("$")) {
+                                editName.getText().toString().contains(",") ||
+                                editName.getText().toString().contains("$")) {
                             editName.setError("Cannot contain special characters.");
                             return;
                         }
@@ -90,6 +87,7 @@ public class EditMenu extends AppCompatActivity {
                     }
                 });
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("EditMenu.java", error.getMessage());
@@ -106,13 +104,13 @@ public class EditMenu extends AppCompatActivity {
                 // Create an onClickListener that all buttons can use quickly.
                 View.OnClickListener listener = new View.OnClickListener() {
                     @Override
-                    public void onClick (View v) {
+                    public void onClick(View v) {
                         // TODO remove item from menu
                     }
                 };
 
                 LinearLayout menu = findViewById(R.id.menu);
-                List<BillItem> menuItems  = vendor.getMenu();
+                List<BillItem> menuItems = vendor.getMenu();
 
                 // Add the buttons
                 for (int i = 0; i < menuItems.size(); i++) {

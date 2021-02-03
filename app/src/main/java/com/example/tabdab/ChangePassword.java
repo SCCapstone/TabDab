@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,21 +34,18 @@ public class ChangePassword extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String email = userEmail.getText().toString().trim();
-                if(email.isEmpty()) {
+                if (email.isEmpty()) {
                     userEmail.setError("Please enter your email address.");
-                }
-                else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     userEmail.setError("This email does not belong to any account, please enter a different email address.");
-                }
-                else {
+                } else {
                     fireAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()) {
-                                Toast.makeText(ChangePassword.this,"An email has been sent to reset your password.", Toast.LENGTH_SHORT).show();
-                            }
-                            else
-                                Toast.makeText(ChangePassword.this,"Something went wrong, please try again.", Toast.LENGTH_SHORT).show();
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ChangePassword.this, "An email has been sent to reset your password.", Toast.LENGTH_SHORT).show();
+                            } else
+                                Toast.makeText(ChangePassword.this, "Something went wrong, please try again.", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -59,7 +55,7 @@ public class ChangePassword extends AppCompatActivity {
         goBackBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goBack = new Intent(getApplicationContext(),AccountInformation.class);
+                Intent goBack = new Intent(getApplicationContext(), AccountInformation.class);
                 startActivity(goBack);
             }
         });

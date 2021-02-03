@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/cardview_light_background"
-        android:text="Settings"
+        android:text="Account Fragment"
         android:textSize="36dp">
 
     </TextView>

@@ -1,19 +1,15 @@
 package com.example.tabdab;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,9 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.jar.Attributes;
-
-public class AccountInformation extends AppCompatActivity{
+public class AccountInformation extends AppCompatActivity {
     TextView UserName, UserEmail, VendorID, textVendorID;
     Button ButChangePass, ButEditInfo, ButScan, ButGen, ButEditMenu, ButRegisterVendor;
     String UID;
@@ -46,7 +40,7 @@ public class AccountInformation extends AppCompatActivity{
         user = fireAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference("users/");
 
-        if(user != null) {
+        if (user != null) {
             UID = user.getUid();
             String UEmail = user.getEmail();  // TODO Possibly remove this (Doesn't get used).
             UserName = findViewById(R.id.AccountName);
@@ -58,7 +52,7 @@ public class AccountInformation extends AppCompatActivity{
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User userInfo = snapshot.getValue(User.class);
-                    if(userInfo != null) {
+                    if (userInfo != null) {
                         UserName.setText(userInfo.getFirstName() + " " + userInfo.getLastName());
                         UserEmail.setText(userInfo.email);
 
@@ -69,6 +63,7 @@ public class AccountInformation extends AppCompatActivity{
                         }
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Toast.makeText(AccountInformation.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
@@ -78,14 +73,14 @@ public class AccountInformation extends AppCompatActivity{
             ButChangePass.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent changePass = new Intent(getApplicationContext(),ChangePassword.class);
+                    Intent changePass = new Intent(getApplicationContext(), ChangePassword.class);
                     startActivity(changePass);
                 }
             });
             ButEditInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent editAcctInfo = new Intent(getApplicationContext(),EditInfo.class);
+                    Intent editAcctInfo = new Intent(getApplicationContext(), EditInfo.class);
                     editAcctInfo.putExtra("Name", UserName.getText().toString());
                     editAcctInfo.putExtra("Email", UserEmail.getText().toString());
                     startActivity(editAcctInfo);
@@ -99,7 +94,7 @@ public class AccountInformation extends AppCompatActivity{
             });
             ButGen.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick (View view) {
+                public void onClick(View view) {
                     startActivity(new Intent(getApplicationContext(), BillCreator.class));
                 }
             });
@@ -111,7 +106,7 @@ public class AccountInformation extends AppCompatActivity{
             });
             ButRegisterVendor.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick (View view) {
+                public void onClick(View view) {
                     startActivity(new Intent(getApplicationContext(), CreateVendor.class));
                 }
             });

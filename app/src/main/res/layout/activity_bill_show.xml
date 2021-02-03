@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
         app:srcCompat="@android:drawable/screen_background_dark_transparent"
-        android:contentDescription="@string/qr_code"/>
+        android:contentDescription="@string/qr_code" />
 
     <Button
         android:id="@+id/done_btn"
@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="200dp"
-        android:text="@string/done"
-        />
+        android:text="@string/done" />
 
 </LinearLayout>
