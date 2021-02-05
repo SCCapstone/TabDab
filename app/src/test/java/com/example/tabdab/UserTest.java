@@ -1,6 +1,6 @@
 package com.example.tabdab;
+import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 import static java.util.Arrays.asList;
@@ -17,13 +17,14 @@ public class UserTest {
         String expDate = "04/2021";
         String CVV = "123";
         List<Bill> pastPayments = new ArrayList<>();
-        BillItem item = new BillItem(1,"test" );
+        BillItem item = new BillItem(1.0,"test" );
         Bill bill = new Bill();
         bill.addBillItem(item);
         pastPayments.add(bill);
 
         User user = new User(firstName, lastName, email,
-                isVendor, vendorId, cardNum, expDate, CVV) ;
+                isVendor, vendorId, cardNum, expDate, CVV);
+        user.setPastPayments(pastPayments);
 
         //firstName
         assertEquals("Bob", user.getFirstName());
@@ -49,22 +50,16 @@ public class UserTest {
         //CVV
         assertEquals("123", user.getCVV());
 
-        //pastPayments
-        //assertEquals(pastPayments, user.getPastPayments()); // this statement gives identical outputs
-        //assertEquals(true, myComparison(pastPayments, user.getPastPayments()));  yeah i cant even get this one to work now
+        //PastPayments
+        assertEquals(pastPayments.toArray()[0],pastPayments.toArray()[0]);
+        assertEquals(pastPayments, user.getPastPayments());
+
         //try again but replace the first name
         firstName = "";
         user = new User(firstName, lastName, email,
                 isVendor, vendorId, cardNum, expDate, CVV) ;
 
         assertEquals("", user.getFirstName());
-    }
-
-    public boolean myComparison(ArrayList<Bill>actual, ArrayList<Bill>expected) {
-        if(actual.size() != expected.size()) {
-            return false;
-        }
-        return false;
     }
 
 
@@ -79,9 +74,15 @@ public class UserTest {
         String cardNum = "6798043";
         String expDate = "12/2100";
         String CVV = "864";
+        List<Bill> pastPayments = new ArrayList<>();
+        BillItem item = new BillItem(56473,"Expensive" );
+        Bill bill = new Bill();
+        bill.addBillItem(item);
+        pastPayments.add(bill);
 
         User user = new User(firstName, lastName, email,
-                isVendor, vendorId, cardNum, expDate, CVV) ;
+                isVendor, vendorId, cardNum, expDate, CVV);
+        user.setPastPayments(pastPayments);
 
         //firstName
         assertEquals("John", user.getFirstName());
@@ -97,6 +98,19 @@ public class UserTest {
 
         //vendorId
         assertEquals("420", user.getVendorID());
+
+        //cardNum
+        assertEquals("6798043", user.getCardNum());
+
+        //expDate
+        assertEquals("12/2100", user.getExpDate());
+
+        //CVV
+        assertEquals("864", user.getCVV());
+
+        //PastPayments
+        assertEquals(pastPayments.toArray()[0],pastPayments.toArray()[0]);
+        assertEquals(pastPayments, user.getPastPayments());
 
         //lets change the first name again
         firstName = "";
@@ -210,6 +224,18 @@ public class UserTest {
 
         user.setCVV("123");
         assertEquals("123", user.getCVV());
+    }
+
+    @Test
+    public void testSetPastPayments() {
+        List<Bill> pastPayments = new ArrayList<>();
+        BillItem item = new BillItem(1.0,"test" );
+        Bill bill = new Bill();
+        bill.addBillItem(item);
+        pastPayments.add(bill);
+        User user = new User();
+        user.setPastPayments(pastPayments);
+        assertEquals(pastPayments,user.getPastPayments());
     }
 
     @Test
