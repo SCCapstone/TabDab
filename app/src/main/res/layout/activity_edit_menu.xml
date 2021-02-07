@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#EF476F"
     android:layout_height="match_parent"
     tools:context=".EditMenu">
 
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_margin="10dp"
+        android:background="#FFFFFF"
         android:ems="10"
         android:hint="@string/name"
         android:inputType="textPersonName" />
@@ -18,6 +20,7 @@
     <EditText
         android:id="@+id/menuItemPrice"
         android:layout_width="75dp"
+        android:background="#FFFFFF"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/menuItemName"
         android:layout_alignTop="@id/menuItemName"
