@@ -2,8 +2,10 @@ package com.example.tabdab;
 
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,8 +32,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private int currentFragment = R.layout.fragment_main;
+    private View header;
+    private int currentFragment = R.layout.activity_account_information;
     private NavigationView navigationView;
+    private FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +47,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.bringToFront();
+        header = navigationView.getHeaderView(0);
+        frameLayout = (FrameLayout) findViewById(R.id.frame);
 
         // Set the home screen as first activity
         FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.fragment_container, new MainFragment()).commit();
+        fm.beginTransaction().add(R.id.frame, new MainFragment()).commit();
 
         // Define and create camera and scanner
         CodeScannerView scannerView = findViewById(R.id.scannerView);
@@ -83,22 +89,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onStart() {
         super.onStart();
-
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     @Override
     public void onBackPressed() {
         // If the drawer is open and back is pressed, close it.
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (this.drawer.isDrawerOpen(GravityCompat.START)) {
+            this.drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -124,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.navi_home:
                 startActivity(new Intent(MainActivity.this, AccountInformation.class));
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.navi_scan:
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
@@ -134,16 +138,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navi_vendor:
                 startActivity(new Intent(MainActivity.this, BillCreator.class));
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.navi_exit:
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
                 break;
         }
         if (fragment != null) {
-            fm.beginTransaction().replace(R.id.fragment_container, fragment).commit();
+            fm.beginTransaction().replace(R.id.frame, fragment).setReorderingAllowed(true).commit();
             drawer.closeDrawer(GravityCompat.START);
             return true;
         }
         return false;
     }
+
 }
