@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#073B4C"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
-        android:text="@string/tabdab"
-        android:textSize="38sp"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"/>
+
+    <ImageView
+        android:layout_width="156dp"
+        android:layout_height="144dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="176dp"
+        app:srcCompat="@mipmap/ic_tabdab" />
 
     <EditText
         android:id="@+id/LogEmail"
+        android:background="#FFFFFF"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
@@ -29,6 +30,7 @@
     <EditText
         android:id="@+id/LogPass"
         android:layout_width="wrap_content"
+        android:background="#FFFFFF"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/password"
