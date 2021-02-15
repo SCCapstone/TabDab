@@ -10,23 +10,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
         android:text="@string/edit_account"
         android:textSize="28sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"/>
 
     <EditText
         android:id="@+id/editFirstName"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="259dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
         android:hint="@string/first_name"
         android:inputType="text" />
 
     <EditText
         android:id="@+id/editLastName"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="259dp"
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
@@ -36,17 +38,17 @@
 
     <EditText
         android:id="@+id/editEmailtxt"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="259dp"
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:hint="@string/email"
+        android:hint="@string/email_login"
         android:inputType="text" />
 
     <EditText
         android:id="@+id/editCardNum"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="263dp"
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
@@ -56,7 +58,7 @@
 
     <EditText
         android:id="@+id/editExpDate"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
@@ -66,7 +68,7 @@
 
     <EditText
         android:id="@+id/editCVV"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
@@ -88,6 +90,7 @@
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
+        android:background="@drawable/login_edit_text"
         android:hint="@string/vendor_id"
         android:inputType="textPersonName"
         android:visibility="invisible" />
@@ -96,9 +99,11 @@
         android:id="@+id/saveEditBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/register_button"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="10dp"
         android:baselineAligned="false"
-        android:text="@string/save" />
+        android:text="@string/save"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

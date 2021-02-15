@@ -9,19 +9,19 @@
     <EditText
         android:id="@+id/menuItemName"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentLeft="true"
         android:layout_margin="10dp"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:ems="10"
         android:hint="@string/name"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/menuItemPrice"
-        android:layout_width="75dp"
-        android:background="#FFFFFF"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        android:background="@drawable/login_edit_text"
         android:layout_toRightOf="@id/menuItemName"
         android:layout_alignTop="@id/menuItemName"
         android:ems="10"
@@ -35,7 +35,10 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_alignTop="@id/menuItemPrice"
-        android:text="@string/add_item" />
+        android:background="@drawable/register_button"
+        android:text="@string/add_item"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 
     <TextView
         android:id="@+id/menuView"
@@ -43,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/menuItemName"
         android:layout_marginLeft="10dp"
-        android:textSize="20dp"/>
+        android:textSize="20sp"/>
 
     <ScrollView
         android:id="@+id/scroller"
@@ -70,13 +73,19 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
-        android:text="@string/remove_menu_item" />
+        android:background="@drawable/register_button"
+        android:text="@string/remove_menu_item"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 
     <Button
         android:id="@+id/ButCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ButRemoveItem"
+        android:background="@drawable/register_button"
         android:text="Cancel"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
         android:visibility="invisible" />
 </RelativeLayout>

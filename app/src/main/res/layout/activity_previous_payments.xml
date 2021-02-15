@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".PreviousPayments">
 
     <ScrollView
@@ -15,8 +16,10 @@
             android:id="@+id/payments"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textAlignment="center"
+            android:gravity="left"
+            android:textAlignment="gravity"
             android:text=""
+            android:textColor="@color/white"
             android:layout_gravity="center_horizontal" />
     </ScrollView>
 </LinearLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#EF476F"
+    android:background="@color/colorThird"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".BillShow">
@@ -25,6 +25,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="200dp"
         android:text="@string/done"
-        />
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/register_button" />
 
 </LinearLayout>

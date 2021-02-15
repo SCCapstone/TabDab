@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -64,7 +65,6 @@ public class EditMenu extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user = snapshot.getValue(User.class);
-                System.out.println(user.toString());
             }
 
             @Override
@@ -144,6 +144,8 @@ public class EditMenu extends AppCompatActivity {
                     but.setId(i);
                     but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
                     but.setEnabled(false);
+                    but.setBackground(getDrawable(R.drawable.register_button));
+                    but.setTextColor(Color.WHITE);
                     but.setOnClickListener(listener);
                     menu.addView(but);
                 }

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#EF476F"
+    android:background="@color/colorThird"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".CreateBill">
@@ -24,6 +24,7 @@
                 android:layout_height="match_parent"
                 android:textAlignment="center"
                 android:text=""
+                android:textColor="@color/colorPrimary"
                 android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </ScrollView>
@@ -51,13 +52,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:text="@string/generate_bill_btn" />
+        android:text="@string/generate_bill_btn"
+        android:textAllCaps="false"
+        android:background="@drawable/register_button"
+        android:textColor="@color/white"/>
     <Button
         android:id="@+id/clear_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
-        android:text="@string/clear"/>
+        android:text="@string/clear"
+        android:textAllCaps="false"
+        android:background="@drawable/register_button"
+        android:textColor="@color/white"/>
 
 </LinearLayout>

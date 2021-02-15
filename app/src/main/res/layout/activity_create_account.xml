@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#EF476F"
     android:layout_width="match_parent"
@@ -10,29 +9,29 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:background="#073B4C"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:textStyle="bold"
-        android:text="@string/tabdab"
-        android:textSize="30sp" />
+        android:text="@string/register"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/uEmail"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:ems="10"
-        android:hint="@string/email"
+        android:hint="@string/email_login"
         android:inputType="textWebEmailAddress|textPersonName" />
 
     <EditText
         android:id="@+id/uFirstName"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -43,7 +42,7 @@
 
     <EditText
         android:id="@+id/uLastName"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -54,7 +53,7 @@
 
     <EditText
         android:id="@+id/uPassword"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -65,7 +64,7 @@
 
     <EditText
         android:id="@+id/uCardNum"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -76,7 +75,7 @@
 
     <EditText
         android:id="@+id/uExpDate"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="99dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -88,7 +87,7 @@
 
     <EditText
         android:id="@+id/uCVV"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="98dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -103,11 +102,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="@string/are_you_a_vendor" />
+        android:text="@string/are_you_a_vendor"
+        android:textColor="@android:color/white" />
 
     <EditText
         android:id="@+id/vendorId"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -118,11 +118,12 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:background="#073B4C"
         android:layout_width="215dp"
         android:layout_height="49dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="@string/register" />
+        android:background="@drawable/register_button"
+        android:text="@string/register"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>
