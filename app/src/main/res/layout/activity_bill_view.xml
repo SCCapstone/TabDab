@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#EF476F"
+    android:background="@color/colorPrimary"
     android:layout_height="match_parent"
     tools:context=".BillView">
 
@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/grand_total_view" />
 
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:textSize="50sp"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,15 +33,18 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="@string/pay_button_text"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/login_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editTip"
-        android:background="#FFFFFF"
+        android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginStart="72dp"
         android:layout_marginBottom="68dp"
         android:ems="10"
@@ -54,6 +59,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_tip"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toEndOf="@+id/editTip"

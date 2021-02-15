@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -96,7 +97,9 @@ public class CreateBill extends AppCompatActivity {
                   LinearLayout.LayoutParams.WRAP_CONTENT);
           Button but = new Button(context);
           but.setId(i);
-          but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());  // TODO make this more automated
+          but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
+          but.setBackground(getDrawable(R.drawable.register_button));
+          but.setTextColor(Color.WHITE);
           but.setOnClickListener(listener);
           menu.addView(but);
         }
