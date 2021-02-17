@@ -131,10 +131,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.navi_scan:
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.navi_setting:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                        new SettingsFragment()).commit();
+                SettingsFragment settingsFragment = new SettingsFragment();
                 break;
             case R.id.navi_vendor:
                 startActivity(new Intent(MainActivity.this, BillCreator.class));
