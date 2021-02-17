@@ -2,6 +2,8 @@ package com.example.tabdab;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private View header;
     private int currentFragment = R.layout.activity_account_information;
     private NavigationView navigationView;
     private FrameLayout frameLayout;
@@ -47,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         navigationView.bringToFront();
-        header = navigationView.getHeaderView(0);
         frameLayout = (FrameLayout) findViewById(R.id.frame);
 
         // Set the home screen as first activity
@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
     }
-
     @Override
     protected void onStart() {
         super.onStart();

@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".BillShow" />
         <activity android:name=".CreateVendor" />
         <activity android:name=".EditMenu" />
@@ -40,7 +40,8 @@
         <activity
             android:name=".MainActivity"
             android:label="Main Activity"
-            android:parentActivityName=".AccountInformation" />
+            android:parentActivityName=".AccountInformation"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
