@@ -27,12 +27,8 @@ public class Bill {
     }
 
     // Getters
-    public double getGrandTotal () {
-        return this.grandTotal;
-    }
-    public double getTip () {
-        return this.tip;
-    }
+    public double getGrandTotal () {return this.grandTotal;}
+    public double getTip () {return this.tip;}
 
     /**
      * Set the grand total of the bill
@@ -46,14 +42,11 @@ public class Bill {
             this.grandTotal += item.getPrice();
         }
     }
-
     /**
      * Set the bill's tip
      * @param tip Tip you want to add
      */
-    public void setTip (double tip) {
-        this.tip = tip;
-    }
+    public void setTip (double tip) {this.tip = tip;}
 
     public void addBillItem (BillItem item) {
         this.itemizedBill.add(item);
@@ -73,9 +66,7 @@ public class Bill {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
-    public static Bill fromJson (String str) {
-        return new Gson().fromJson(str, Bill.class);
-    }
+    public static Bill fromJson (String str) {return new Gson().fromJson(str, Bill.class);}
 
 
     /**
