@@ -14,4 +14,13 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
+    @Override
+    public void onViewCreated (View view, Bundle savedInstance) {
+
+    }
+
+    public static MainFragment newInstance() {
+        return new MainFragment();
+    }
 }

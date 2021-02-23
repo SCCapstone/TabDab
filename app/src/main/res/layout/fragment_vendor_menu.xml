@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    tools:context=".VendorMenuFragment">
+
+    <TextView
+        android:id="@+id/vendorName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:text="@string/hello_blank_fragment"
+        android:textSize="25dp"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/butMakeBill"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/login_button"
+        android:text="Create Bill"
+        android:textColor="@color/white"
+        android:textAllCaps="false" />
+    <Button
+        android:id="@+id/butEditMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/login_button"
+        android:text="Edit Menu"
+        android:textColor="@color/white"
+        android:textAllCaps="false" />
+
+</LinearLayout>

@@ -75,7 +75,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //If user exists they can login, if not they must register or fix typing
                         if (task.isSuccessful()) {
-                            startActivity(new Intent(getApplicationContext(), AccountInformation.class));
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             LoginPassword.setError(getString(R.string.invalid_user_error));
                         }

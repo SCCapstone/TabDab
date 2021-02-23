@@ -1,14 +1,13 @@
 package com.example.tabdab;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
-import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View;
 
@@ -20,13 +19,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 import java.util.List;
 
-public class BillView extends AppCompatActivity {
-  TextView itemizedView;
-  TextView grandTotalView;
-  TextView editTip;
+public class BillViewFragment extends Fragment {
+  TextView itemizedView, grandTotalView, editTip;
   Button butAddTip, butPay;
   Bill bill;
 
@@ -35,20 +31,16 @@ public class BillView extends AppCompatActivity {
   User user;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_bill_view);
+  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View view = inflater.inflate(R.layout.fragment_bill_view, container, false);
+    itemizedView = view.findViewById(R.id.itemized_view);
+    grandTotalView = view.findViewById(R.id.grand_total_view);
+    editTip = view.findViewById(R.id.editTip);
+    butPay = view.findViewById(R.id.pay_button);
+    butAddTip = view.findViewById(R.id.addTipButton);
 
-    // Setup UI layout
-    itemizedView = findViewById(R.id.itemized_view);
-    grandTotalView = findViewById(R.id.grand_total_view);
-    editTip = findViewById(R.id.editTip);
-    butAddTip = findViewById(R.id.addTipButton);
-    butPay = findViewById(R.id.pay_button);
-
-    // Get and display data from qr scanner activity
-    Intent intent = getIntent();
-    String qrResult = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+    // Get and display data from qr scanner fragment
+    String qrResult = getArguments().getString("qrResult", "");
     bill = Bill.fromJson(qrResult);
 
     // Set UI components
@@ -60,7 +52,7 @@ public class BillView extends AppCompatActivity {
       @Override
       public void onClick (View view) {
         bill.setTip(Double.parseDouble(editTip.getText().toString()));
-        grandTotalView = findViewById(R.id.grand_total_view);
+        grandTotalView = view.findViewById(R.id.grand_total_view);
         grandTotalView.setText(Double.toString(bill.getGrandTotal() + bill.getTip()));
         itemizedView.setText(bill.toString());
       }
@@ -89,6 +81,18 @@ public class BillView extends AppCompatActivity {
       }
     });
 
+    return view;
+  }
 
+  public static BillViewFragment newInstance() {
+    return new BillViewFragment();
+  }
+
+  public static BillViewFragment newInstance (String qrResult) {
+    BillViewFragment billView = new BillViewFragment();
+    Bundle args = new Bundle();
+    args.putString("qrResult", qrResult);
+    billView.setArguments(args);
+    return billView;
   }
 }
