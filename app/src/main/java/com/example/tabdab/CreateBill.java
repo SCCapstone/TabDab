@@ -2,13 +2,16 @@ package com.example.tabdab;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -24,7 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-public class CreateBill extends AppCompatActivity {
+public class CreateBill extends Fragment {
   // Set up ui elements
   ScrollView scroller, itemizedBillScroller;
   LinearLayout itemized_bill_layout;
@@ -38,21 +41,20 @@ public class CreateBill extends AppCompatActivity {
   FirebaseUser userRef;
   User user;
   Vendor vendor;
+  List<BillItem> menuItems;
   Bill bill;
   String itemizedBillStr;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_create_bill);
-
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Set up the UI layout
-    generateBtn = findViewById(R.id.generate_bill_btn);
-    clearBtn = findViewById(R.id.clear_btn);
-    itemized_bill_layout = findViewById(R.id.itemized_bill_layout);
-    itemizedBill = findViewById(R.id.itemized_bill);
-    scroller = findViewById(R.id.scroller);
-    itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);
+    View view = inflater.inflate(R.layout.fragment_vendor_menu, container, false);
+    generateBtn = view.findViewById(R.id.generate_bill_btn);
+    clearBtn = view.findViewById(R.id.clear_btn);
+    itemized_bill_layout = view.findViewById(R.id.itemized_bill_layout);
+    itemizedBill = view.findViewById(R.id.itemized_bill);
+    scroller = view.findViewById(R.id.scroller);
+    itemizedBillScroller = view.findViewById(R.id.itemized_bill_scroller);
 
     bill = new Bill();
     itemizedBillStr = "";
@@ -61,48 +63,26 @@ public class CreateBill extends AppCompatActivity {
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     database = FirebaseDatabase.getInstance().getReference();
     userId = userRef.getUid();
-    final Context context = this;
-    final Intent intent = new Intent(this, BillShow.class);
+
+    //final Intent intent = new Intent(this, BillShow.class);
+
+    return view;
+  }
+
+  @Override
+  public void onViewCreated (View view, Bundle savedInstanceState) {
+    Context context = view.getContext();
 
     // Set scroll view buttons
-    database.addValueEventListener(new ValueEventListener() {
+    database.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
-        LinearLayout menu = findViewById(R.id.menu);
+        //LinearLayout menu = findViewById(R.id.menu);
         user = snapshot.child("users").child(userId).getValue(User.class);
         vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
-        final List<BillItem> menuItems  = vendor.getMenu();
-
-        // Create an onClickListener that all buttons can use quickly.
-        View.OnClickListener listener = new View.OnClickListener() {
-          @Override
-          public void onClick (View v) {
-            bill.addBillItem(menuItems.get(v.getId()));
-
-            // Update the itemized bill at the top of the activity
-            if (itemizedBillStr.isEmpty()) {
-              itemizedBillStr = menuItems.get(v.getId()).getName();
-            } else {
-              itemizedBillStr = itemizedBillStr + ", " + menuItems.get(v.getId()).getName();
-            }
-            itemizedBill.setText(itemizedBillStr);
-          }
-        };
-
-        // Add the buttons
-        for (int i = 0; i < menuItems.size(); i++) {
-          // Set button params
-          LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                  LinearLayout.LayoutParams.MATCH_PARENT,
-                  LinearLayout.LayoutParams.WRAP_CONTENT);
-          Button but = new Button(context);
-          but.setId(i);
-          but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
-          but.setBackground(getDrawable(R.drawable.register_button));
-          but.setTextColor(Color.WHITE);
-          but.setOnClickListener(listener);
-          menu.addView(but);
-        }
+        menuItems  = vendor.getMenu();
+        System.out.println("test");
+        System.out.println(menuItems.toString());
       }
 
       @Override
@@ -111,13 +91,45 @@ public class CreateBill extends AppCompatActivity {
       }
     });
 
+    // Create an onClickListener that all buttons can use quickly.
+    View.OnClickListener listener = new View.OnClickListener() {
+      @Override
+      public void onClick (View v) {
+        bill.addBillItem(menuItems.get(v.getId()));
+
+        // Update the itemized bill at the top of the activity
+        if (itemizedBillStr.isEmpty()) {
+          itemizedBillStr = menuItems.get(v.getId()).getName();
+        } else {
+          itemizedBillStr = itemizedBillStr + ", " + menuItems.get(v.getId()).getName();
+        }
+        itemizedBill.setText(itemizedBillStr);
+      }
+    };
+
+    LinearLayout menu = view.findViewById(R.id.menu);
+    // Add the buttons
+    for (int i = 0; i < menuItems.size(); i++) {
+      // Set button params
+      LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.MATCH_PARENT,
+              LinearLayout.LayoutParams.WRAP_CONTENT);
+      Button but = new Button(context);
+      but.setId(i);
+      but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
+      //but.setBackground(getDrawable(R.drawable.register_button));
+      but.setTextColor(Color.WHITE);
+      but.setOnClickListener(listener);
+      menu.addView(but);
+    }
+
     // Generate the QR code when the generate button is pressed
     generateBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View v) {
         bill.setGrandTotal();
-        intent.putExtra(EXTRA_MESSAGE, bill.toJson());
-        startActivity(intent);
+        //intent.putExtra(EXTRA_MESSAGE, bill.toJson());
+        //startActivity(intent);
       }
     });
     clearBtn.setOnClickListener(new View.OnClickListener() {
@@ -127,4 +139,6 @@ public class CreateBill extends AppCompatActivity {
       }
     });
   }
+
+  public static CreateBill newInstance () {return new CreateBill();}
 }

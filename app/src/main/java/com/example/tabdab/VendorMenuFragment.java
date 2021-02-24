@@ -3,6 +3,8 @@ package com.example.tabdab;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +28,20 @@ public class VendorMenuFragment extends Fragment {
     butCreateBill = view.findViewById(R.id.butMakeBill);
     butEditMenu = view.findViewById(R.id.butEditMenu);
 
+    butCreateBill.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick (View v) {
+        FragmentTransaction ft;
+        ft = getParentFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, CreateBill.newInstance()).commit();
+        ft.addToBackStack(null);
+      }
+    });
+
     return view;
   }
 
   public static VendorMenuFragment newInstance () {return new VendorMenuFragment();}
+
+
 }
