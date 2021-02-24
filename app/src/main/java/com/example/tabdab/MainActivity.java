@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
   private boolean isFragmentDisplayed = false;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   private int currentFragment = R.layout.fragment_main;
   private NavigationView navigationView;
   private FrameLayout frameLayout;
+  private FirebaseAuth fireAuth;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_setting:
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, SettingsFragment.newInstance()).commit();
+        ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_vendor:
@@ -95,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         break;
       case R.id.navi_exit:
         Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+        fireAuth.signOut();
         break;
     }
     if (fragment != null) {
