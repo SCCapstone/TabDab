@@ -1,0 +1,87 @@
+Index: app/src/main/java/com/example/tabdab/BillCreator.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.tabdab;\n\nimport android.content.Context;\nimport android.content.Intent;\nimport android.os.Bundle;\nimport android.util.Log;\nimport android.view.View;\nimport android.widget.Button;\nimport android.widget.LinearLayout;\nimport android.widget.ScrollView;\nimport android.widget.TextView;\n\nimport androidx.annotation.NonNull;\nimport androidx.appcompat.app.AppCompatActivity;\n\nimport com.google.firebase.auth.FirebaseAuth;\nimport com.google.firebase.auth.FirebaseUser;\nimport com.google.firebase.database.DataSnapshot;\nimport com.google.firebase.database.DatabaseError;\nimport com.google.firebase.database.DatabaseReference;\nimport com.google.firebase.database.FirebaseDatabase;\nimport com.google.firebase.database.ValueEventListener;\n\nimport java.util.List;\n\npublic class BillCreator extends AppCompatActivity {\n    // Set up ui elements\n    ScrollView scroller, itemizedBillScroller;\n    LinearLayout itemized_bill_layout;\n    Button generateBtn, clearBtn;\n    TextView itemizedBill;\n\n    // Set up class helper info\n    String qrValue;\n    public static final String EXTRA_MESSAGE = \"com.example.android.tabdab.extra.MESSAGE\";\n    String userId;\n    DatabaseReference database;\n    FirebaseUser userRef;\n    User user;\n    Vendor vendor;\n    Bill bill = new Bill();\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_bill_creator);\n\n        // Set up the UI layout\n        generateBtn = findViewById(R.id.generate_bill_btn);\n        clearBtn = findViewById(R.id.clear_btn);\n        itemized_bill_layout = findViewById(R.id.itemized_bill_layout);\n        itemizedBill = findViewById(R.id.itemized_bill);\n        scroller = findViewById(R.id.scroller);\n        itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);\n\n        // Database references\n        userRef = FirebaseAuth.getInstance().getCurrentUser();\n        database = FirebaseDatabase.getInstance().getReference();\n        userId = userRef.getUid();\n        final Context context = this;\n        final Intent intent = new Intent(this, BillShow.class);\n\n        // Set scroll view buttons\n        database.addValueEventListener(new ValueEventListener() {\n            @Override\n            public void onDataChange(@NonNull DataSnapshot snapshot) {\n                LinearLayout menu = findViewById(R.id.menu);\n                user = snapshot.child(\"users\").child(userId).getValue(User.class);\n                vendor = snapshot.child(\"vendors\").child(user.getVendorID()).getValue(Vendor.class);\n                final List<BillItem> menuItems = vendor.getMenu();\n\n                // Create an onClickListener that all buttons can use quickly.\n                View.OnClickListener listener = new View.OnClickListener() {\n                    @Override\n                    public void onClick(View v) {\n                        bill.addBillItem(menuItems.get(v.getId()));\n                    }\n                };\n\n                // Add the buttons\n                for (int i = 0; i < menuItems.size(); i++) {\n                    // Set button params\n                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(\n                            LinearLayout.LayoutParams.MATCH_PARENT,\n                            LinearLayout.LayoutParams.WRAP_CONTENT);\n                    Button but = new Button(context);\n                    but.setId(i);\n                    but.setText(menuItems.get(i).getName() + \": $\" + menuItems.get(i).getPrice());  // TODO make this more automated\n                    but.setOnClickListener(listener);\n                    menu.addView(but);\n                }\n            }\n\n            @Override\n            public void onCancelled(@NonNull DatabaseError error) {\n                Log.d(\"EditMenu.java\", error.getMessage());\n            }\n        });\n\n        // Generate the QR code when the generate button is pressed\n        generateBtn.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                bill.setGrandTotal();\n                intent.putExtra(EXTRA_MESSAGE, bill.toJson());\n                startActivity(intent);\n            }\n        });\n        clearBtn.setOnClickListener(new View.OnClickListener() {\n            @Override\n            public void onClick(View v) {\n                bill = new Bill();\n            }\n        });\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/tabdab/BillCreator.java	(revision c8b1fb2e7b4a4075e89cb340cc51ab1c2fd5369a)
++++ app/src/main/java/com/example/tabdab/BillCreator.java	(date 1613600297000)
+@@ -4,14 +4,17 @@
+ import android.content.Intent;
+ import android.os.Bundle;
+ import android.util.Log;
++import android.view.LayoutInflater;
+ import android.view.View;
++import android.view.ViewGroup;
+ import android.widget.Button;
+ import android.widget.LinearLayout;
+ import android.widget.ScrollView;
+ import android.widget.TextView;
+ 
+ import androidx.annotation.NonNull;
+-import androidx.appcompat.app.AppCompatActivity;
++import androidx.annotation.Nullable;
++import androidx.fragment.app.Fragment;
+ 
+ import com.google.firebase.auth.FirebaseAuth;
+ import com.google.firebase.auth.FirebaseUser;
+@@ -23,7 +26,7 @@
+ 
+ import java.util.List;
+ 
+-public class BillCreator extends AppCompatActivity {
++public class BillCreator extends Fragment {
+     // Set up ui elements
+     ScrollView scroller, itemizedBillScroller;
+     LinearLayout itemized_bill_layout;
+@@ -39,32 +42,38 @@
+     User user;
+     Vendor vendor;
+     Bill bill = new Bill();
++    Context context = getContext();
+ 
+     @Override
+-    protected void onCreate(Bundle savedInstanceState) {
++    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
++        return inflater.inflate(R.layout.activity_bill_creator, container, false);
++    }
++
++    @Override
++    public void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+-        setContentView(R.layout.activity_bill_creator);
++        final View v = getView();
+ 
+         // Set up the UI layout
+-        generateBtn = findViewById(R.id.generate_bill_btn);
+-        clearBtn = findViewById(R.id.clear_btn);
+-        itemized_bill_layout = findViewById(R.id.itemized_bill_layout);
+-        itemizedBill = findViewById(R.id.itemized_bill);
+-        scroller = findViewById(R.id.scroller);
+-        itemizedBillScroller = findViewById(R.id.itemized_bill_scroller);
++        generateBtn = v.findViewById(R.id.generate_bill_btn);
++        clearBtn = v.findViewById(R.id.clear_btn);
++        itemized_bill_layout = v.findViewById(R.id.itemized_bill_layout);
++        itemizedBill = v.findViewById(R.id.itemized_bill);
++        scroller = v.findViewById(R.id.scroller);
++        itemizedBillScroller = v.findViewById(R.id.itemized_bill_scroller);
+ 
+         // Database references
+         userRef = FirebaseAuth.getInstance().getCurrentUser();
+         database = FirebaseDatabase.getInstance().getReference();
+         userId = userRef.getUid();
+-        final Context context = this;
+-        final Intent intent = new Intent(this, BillShow.class);
++
++        //final Intent intent = new Intent(this, BillShow.class);
+ 
+         // Set scroll view buttons
+         database.addValueEventListener(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot snapshot) {
+-                LinearLayout menu = findViewById(R.id.menu);
++                LinearLayout menu = v.findViewById(R.id.menu);
+                 user = snapshot.child("users").child(userId).getValue(User.class);
+                 vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
+                 final List<BillItem> menuItems = vendor.getMenu();
