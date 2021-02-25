@@ -35,7 +35,6 @@ public class SettingsFragment extends Fragment {
         ButEditInfo = v.findViewById(R.id.editInfoBut);
         ButEditMenu = v.findViewById(R.id.ButEditMenu);
 
-
         String UID;
         FirebaseAuth fireAuth;
         DatabaseReference database;
@@ -74,6 +73,7 @@ public class SettingsFragment extends Fragment {
                     Toast.makeText(v.getContext(), "Something went wrong!", Toast.LENGTH_SHORT).show();
                 }
             });
+
             UserName = v.findViewById(R.id.AccountName);
             UserEmail = v.findViewById(R.id.AccountEmail);
             textVendorID = v.findViewById(R.id.textVendorID);

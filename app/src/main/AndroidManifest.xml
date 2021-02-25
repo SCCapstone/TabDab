@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".MainActivity"/>
+        <activity android:name=".CreateBill"/>
         <activity android:name=".BillShow" />
         <activity android:name=".CreateVendor" />
         <activity android:name=".EditMenu" />
