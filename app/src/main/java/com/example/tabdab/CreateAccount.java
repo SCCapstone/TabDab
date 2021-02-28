@@ -127,7 +127,7 @@ public class CreateAccount extends AppCompatActivity {
                   if (task.isSuccessful()) {
                     Toast.makeText(CreateAccount.this, "User Created.",
                             Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), AccountInformation.class));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                   } else {
                     Toast.makeText(CreateAccount.this,
                             "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
