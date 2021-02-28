@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:gravity="center_horizontal"
-        android:text="@string/hello_blank_fragment"
+        android:text="@string/vendor_menu"
         android:textSize="25dp"
         android:textColor="@color/white" />
 
