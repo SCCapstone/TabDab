@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -27,40 +30,56 @@ import java.util.List;
 
 public class EditMenu extends AppCompatActivity {
     EditText editName, editPrice;
-    Button ButAddItem, ButRemoveItem;
+    Button ButAddItem, ButRemoveItem, ButCancel;
     ScrollView scroller;
-    LinearLayout itemized_bill_layout;
+    LinearLayout menu;
 
     // Database references
-    String userId;
-    DatabaseReference database;
+    DatabaseReference dbVendor, dbUser;
     FirebaseUser userRef;
     User user;
     Vendor vendor;
+    List<BillItem> menuItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_menu);
 
+        // UI components
         editName = findViewById(R.id.menuItemName);
         editPrice = findViewById(R.id.menuItemPrice);
         ButAddItem = findViewById(R.id.ButAddItem);
         ButRemoveItem = findViewById(R.id.ButRemoveItem);
+        ButCancel = findViewById(R.id.ButCancel);
         scroller = findViewById(R.id.scroller);
+        menu = findViewById(R.id.menu);
         final Context context = this;
 
+        // Database references
         userRef = FirebaseAuth.getInstance().getCurrentUser();
-        database = FirebaseDatabase.getInstance().getReference();
-        userId = userRef.getUid();
+        dbVendor = FirebaseDatabase.getInstance().getReference("vendors/");
+        dbUser = FirebaseDatabase.getInstance().getReference("users/").child(userRef.getUid());
+
+        // Get the user
+        dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user = snapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("EditMenu.java", "Error getting user data.");
+            }
+        });
 
         // Add a menu item on button press
-        database.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbVendor.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Get appropriate user and vendor
-                user = snapshot.child("users").child(userId).getValue(User.class);
-                vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
+                vendor = snapshot.child(user.getVendorID()).getValue(Vendor.class);
 
                 // When the add button is pressed a new item is added to the list in the database
                 ButAddItem.setOnClickListener(new View.OnClickListener() {
@@ -97,33 +116,37 @@ public class EditMenu extends AppCompatActivity {
         });
 
         // Set the text view to the menu stored in firebase
-        database.addValueEventListener(new ValueEventListener() {
+        dbVendor.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user = snapshot.child("users").child(userId).getValue(User.class);
-                vendor = snapshot.child("vendors").child(user.getVendorID()).getValue(Vendor.class);
+            public void onDataChange(@NonNull final DataSnapshot snapshot) {
+                menu = findViewById(R.id.menu);
+                menu.removeAllViews();
+                menuItems = vendor.getMenu();
 
-                // Create an onClickListener that all buttons can use quickly.
+                // OnClickListener to remove an item from the menu
                 View.OnClickListener listener = new View.OnClickListener() {
                     @Override
                     public void onClick (View v) {
-                        // TODO remove item from menu
+                        // Remove the menu item selected and send the new menu to firebase
+                        menuItems.remove(v.getId());
+                        vendor.setMenu(menuItems);
+                        FirebaseDatabase.getInstance().getReference().child("vendors").child(vendor.vendorId).setValue(vendor);
+
+                        // Set remove and cancel button visibility
+                        ButCancel.setVisibility(View.INVISIBLE);
+                        ButRemoveItem.setVisibility(View.VISIBLE);
                     }
                 };
-
-                LinearLayout menu = findViewById(R.id.menu);
-                List<BillItem> menuItems  = vendor.getMenu();
 
                 // Add the buttons
                 for (int i = 0; i < menuItems.size(); i++) {
                     // Set button params
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT);
                     Button but = new Button(context);
                     but.setId(i);
                     but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
                     but.setEnabled(false);
+                    but.setBackground(getDrawable(R.drawable.register_button));
+                    but.setTextColor(Color.WHITE);
                     but.setOnClickListener(listener);
                     menu.addView(but);
                 }
@@ -135,12 +158,48 @@ public class EditMenu extends AppCompatActivity {
             }
         });
 
+        ButCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbVendor.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        ButCancel.setVisibility(View.INVISIBLE);
+                        ButRemoveItem.setVisibility(View.VISIBLE);
+
+                        // Set all of the buttons in the layout to clickable
+                        for (int i = 0; i < menu.getChildCount(); i++) {
+                            Button but = findViewById(i);
+                            but.setEnabled(false);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d("EditMenu.java", "ButCancel onClick");
+                    }
+                });
+            }
+        });
+
         ButRemoveItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO enable buttons to allow for menu item deletion when pressed.
+                ButRemoveItem.setVisibility(View.INVISIBLE);
+                ButCancel.setVisibility(View.VISIBLE);
+
+                // Set all of the buttons in the layout to clickable
+                for (int i = 0; i < menu.getChildCount(); i++) {
+                    Button but = findViewById(i);
+                    but.setEnabled(true);
+                }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
     public static boolean isNumeric(String str) {

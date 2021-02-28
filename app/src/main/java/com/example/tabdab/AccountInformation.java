@@ -5,15 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,11 +18,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.jar.Attributes;
-
 public class AccountInformation extends AppCompatActivity{
     TextView UserName, UserEmail, VendorID, textVendorID;
-    Button ButChangePass, ButEditInfo, ButScan, ButGen, ButEditMenu, ButRegisterVendor, butLogout;
+    Button ButChangePass, ButEditInfo, ButScan, ButGen, ButEditMenu, ButRegisterVendor, butLogout,
+            ButPreviousPayments;
     String UID;
     FirebaseAuth fireAuth;
     DatabaseReference database;
@@ -36,6 +31,7 @@ public class AccountInformation extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_information);
         ButChangePass = findViewById(R.id.chngPassBut);
+        ButPreviousPayments = findViewById(R.id.ButPreviousPayments);
         ButEditInfo = findViewById(R.id.editInfoBut);
         ButScan = findViewById(R.id.scanBut);
         ButGen = findViewById(R.id.ButGen);
@@ -49,7 +45,7 @@ public class AccountInformation extends AppCompatActivity{
 
         if(user != null) {
             UID = user.getUid();
-            String UEmail = user.getEmail();  // TODO Possibly remove this (Doesn't get used).
+            final String UEmail = user.getEmail();  // TODO Possibly remove this (Doesn't get used).
             UserName = findViewById(R.id.AccountName);
             UserEmail = findViewById(R.id.AccountEmail);
             textVendorID = findViewById(R.id.textVendorID);
@@ -61,7 +57,7 @@ public class AccountInformation extends AppCompatActivity{
                     User userInfo = snapshot.getValue(User.class);
                     if(userInfo != null) {
                         UserName.setText(userInfo.getFirstName() + " " + userInfo.getLastName());
-                        UserEmail.setText(userInfo.email);
+                        UserEmail.setText(UEmail);
 
                         if (userInfo.isVendor) {
                             VendorID.setText(userInfo.vendorID);
@@ -83,6 +79,12 @@ public class AccountInformation extends AppCompatActivity{
                     startActivity(changePass);
                 }
             });
+            ButPreviousPayments.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View view) {
+                    startActivity(new Intent(getApplicationContext(), PastPaymentsFragment.class));
+                }
+            });
             ButEditInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -95,13 +97,13 @@ public class AccountInformation extends AppCompatActivity{
             ButScan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    startActivity(new Intent(getApplicationContext(), QrScannerFragment.class));
                 }
             });
             ButGen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View view) {
-                    startActivity(new Intent(getApplicationContext(), BillCreator.class));
+                    startActivity(new Intent(getApplicationContext(), CreateBill.class));
                 }
             });
             ButEditMenu.setOnClickListener(new View.OnClickListener() {

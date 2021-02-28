@@ -37,4 +37,4 @@ In order to run tests on the TabDab app. Follow these instructions:
 * Max Hensler mhensler@email.sc.edu
 * Fei Zhu fzhu@email.sc.edu
 * Riley Conant rconant@email.sc.edu
-* Matt Kemp kempms@email.sc.edu
+* Tyler Shatley tshatley@email.sc.edu
