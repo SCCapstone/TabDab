@@ -32,7 +32,6 @@ In order to run tests on the TabDab app. Follow these instructions:
 4. All tests will complete after hitting run.
 
 # Authors
-
 * Cameron Knox cbk1@email.sc.edu
 * Max Hensler mhensler@email.sc.edu
 * Fei Zhu fzhu@email.sc.edu
