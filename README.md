@@ -19,7 +19,7 @@ First clone the repo in your desired directory:
 
 # Testing
 Behavioral tests stored in the /app/src/androidTest/java/com/example/tabdab/ folder.
-Unit tests are stroed in the /app/src/test/java/com/example/tabdab/ folder.
+Unit tests are stored in the /app/src/test/java/com/example/tabdab/ folder.
 
 ## Testing Technology
 Testing is done using Junit and Espresso APIs.
