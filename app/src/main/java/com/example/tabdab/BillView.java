@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -59,10 +60,14 @@ public class BillView extends AppCompatActivity {
     butAddTip.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View view) {
-        bill.setTip(Double.parseDouble(editTip.getText().toString()));
-        grandTotalView = findViewById(R.id.grand_total_view);
-        grandTotalView.setText(Double.toString(bill.getGrandTotal() + bill.getTip()));
-        itemizedView.setText(bill.toString());
+        if (!editTip.getText().toString().isEmpty()) {
+          bill.setTip(Double.parseDouble(editTip.getText().toString()));
+          grandTotalView = findViewById(R.id.grand_total_view);
+          grandTotalView.setText(Double.toString(bill.getGrandTotal() + bill.getTip()));
+          itemizedView.setText(bill.toString());
+        } else {
+          Toast.makeText(getApplicationContext(), "Cannot enter empty tip.", Toast.LENGTH_SHORT).show();
+        }
       }
     });
 
@@ -88,6 +93,7 @@ public class BillView extends AppCompatActivity {
         });
 
         // Go back to the main activity
+        Toast.makeText(getApplicationContext(), "Bill Payed!", Toast.LENGTH_LONG).show();
         startActivity(new Intent(getApplicationContext(), AccountInformation.class));
       }
     });
