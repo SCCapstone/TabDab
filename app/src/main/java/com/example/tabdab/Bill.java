@@ -61,7 +61,7 @@ public class Bill {
 
     public void addBillItem (BillItem item) {
         this.itemizedBill.add(item);
-        setGrandTotal();
+        //setGrandTotal();
     }
 
 

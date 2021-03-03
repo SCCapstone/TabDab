@@ -86,6 +86,9 @@ public class BillView extends AppCompatActivity {
             Log.d("BillView.java", "pay method failure.");
           }
         });
+
+        // Go back to the main activity
+        startActivity(new Intent(getApplicationContext(), AccountInformation.class));
       }
     });
 

@@ -127,4 +127,8 @@ public class CreateBill extends AppCompatActivity {
       }
     });
   }
+
+  public void onBackPressed () {
+    startActivity(new Intent(getApplicationContext(), AccountInformation.class));
+  }
 }
