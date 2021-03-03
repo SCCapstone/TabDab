@@ -31,7 +31,6 @@
     <string name="cont">Continue</string>
     <string name="account_created">Account Created</string>
     <string name="email">Email:</string>
-    <string name="email_login">Email</string>
     <string name="reset_password">Reset Password</string>
     <string name="scan_qr">Scan QR</string>
     <string name="generate_bill">Generate Bill</string>
@@ -56,10 +55,5 @@
     <string name="invalid_user_error">Sign in credentials do not match existing user. Please try again or register if you do not already have an account.</string>
     <string name="email_required">Email Required</string>
     <string name="password_required">Password Required</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="vendor_menu">Vendor Menu</string>
-
+    <string name="email_login">Email</string>
 </resources>

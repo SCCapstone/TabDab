@@ -82,7 +82,7 @@ public class AccountInformation extends AppCompatActivity{
             ButPreviousPayments.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View view) {
-                    startActivity(new Intent(getApplicationContext(), PastPaymentsFragment.class));
+                    startActivity(new Intent(getApplicationContext(), PreviousPayments.class));
                 }
             });
             ButEditInfo.setOnClickListener(new View.OnClickListener() {
@@ -97,7 +97,7 @@ public class AccountInformation extends AppCompatActivity{
             ButScan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(getApplicationContext(), QrScannerFragment.class));
+                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
             });
             ButGen.setOnClickListener(new View.OnClickListener() {

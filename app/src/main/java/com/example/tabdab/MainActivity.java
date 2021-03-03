@@ -1,136 +1,72 @@
 package com.example.tabdab;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.view.View;
+import android.webkit.PermissionRequest;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
+import com.budiyev.android.codescanner.CodeScanner;
+import com.budiyev.android.codescanner.CodeScannerView;
+import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.zxing.Result;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-  private boolean isFragmentDisplayed = false;
-  private Toolbar toolbar;
-  private DrawerLayout drawer;
-  private int currentFragment = R.layout.fragment_main;
-  private NavigationView navigationView;
-  private FrameLayout frameLayout;
-  private FirebaseAuth fireAuth;
+import org.w3c.dom.Text;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+import java.util.Scanner;
 
-    // Initialize nav bar
-    toolbar = findViewById(R.id.toolbar);
-    drawer = findViewById(R.id.drawer_layout);
-    navigationView = findViewById(R.id.nav_view);
-    navigationView.bringToFront();
-    frameLayout = findViewById(R.id.frame);  // Might need to cast to FrameLayout
+public class MainActivity extends AppCompatActivity {
+    // https://github.com/yuriy-budiyev/code-scanner
 
-    displayFragment();
-  }
+    // Define scanner and and scanner result string for use throughout the activity
+    CodeScanner codeScanner;
+    public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
 
-  @Override
-  protected void onStart() {
-    super.onStart();
-    setSupportActionBar(toolbar);
-    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-    drawer.addDrawerListener(toggle);
-    toggle.syncState();
-    navigationView.setNavigationItemSelectedListener(this);
-  }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-  @Override
-  public void onBackPressed() {
-    // If the drawer is open and back is pressed, close it.
-    if (this.drawer.isDrawerOpen(GravityCompat.START)) {
-      this.drawer.closeDrawer(GravityCompat.START);
-    } else {
-      super.onBackPressed();
+        // Define and create camera and scanner
+        CodeScannerView scannerView = findViewById(R.id.scannerView);
+        codeScanner = new CodeScanner(this,scannerView);
+        final Intent intent = new Intent(this, BillView.class);
+
+        // Decode the QR code
+        codeScanner.setDecodeCallback(new DecodeCallback() {
+            @Override
+            public void onDecoded(@NonNull final Result result) {
+                // Run in a separate thread for better app performance
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Launch the bill view activity when a QR code is decoded
+                        String message = result.getText().toString();
+                        intent.putExtra(EXTRA_MESSAGE, message);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+
+        // Start camera (qr code scanner)
+        scannerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                codeScanner.startPreview();
+            }
+        });
     }
-  }
 
-  @Override
-  public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-    if (currentFragment == item.getItemId()) {
-      drawer.closeDrawer(GravityCompat.START);
-      return false;
+    // Start camera when the user comes back to the app
+    @Override
+    protected void onResume() {
+        super.onResume();
+        codeScanner.startPreview();
     }
-    FragmentManager fm = getSupportFragmentManager();
-    FragmentTransaction ft;
-    Fragment fragment = null;
-
-    switch (item.getItemId()) {
-      case R.id.navi_past_payments:
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, PastPaymentsFragment.newInstance()).commit();
-        ft.addToBackStack(null);
-        drawer.closeDrawer(GravityCompat.START);
-        break;
-      case R.id.navi_scan:
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance()).commit();
-        ft.addToBackStack(null);
-        drawer.closeDrawer(GravityCompat.START);
-        break;
-      case R.id.navi_setting:
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, SettingsFragment.newInstance()).commit();
-        ft.addToBackStack(null);
-        drawer.closeDrawer(GravityCompat.START);
-        break;
-      case R.id.navi_vendor:
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance()).commit();
-        ft.addToBackStack(null);
-        drawer.closeDrawer(GravityCompat.START);
-        break;
-      case R.id.navi_exit:
-        Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
-        fireAuth.signOut();
-        break;
-    }
-    if (fragment != null) {
-      fm.beginTransaction().replace(R.id.frame, fragment).setReorderingAllowed(true).commit();
-      drawer.closeDrawer(GravityCompat.START);
-      return true;
-    }
-    return false;
-  }
-
-  public void displayFragment () {
-    QrScannerFragment qrScanner = QrScannerFragment.newInstance();
-
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-    // Add the MainFragment
-    fragmentTransaction.add(R.id.fragment_container, qrScanner).addToBackStack(null).commit();
-    isFragmentDisplayed = true;
-  }
-  public void closeFragment() {
-    // Get the FragmentManager.
-
-    FragmentManager fragmentManager = getSupportFragmentManager();
-  }
-
-  public void changeFragment (Fragment fragment) {
-    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.fragment_container, fragment);
-    fragmentTransaction.addToBackStack(null).commit();
-  }
-
 }

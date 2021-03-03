@@ -26,7 +26,7 @@ public class BillShow extends AppCompatActivity {
     Intent intent = getIntent();
     qrImage = findViewById(R.id.qrPlaceHolder);
     doneBtn = findViewById(R.id.done_btn);
-    qrResult = intent.getStringExtra(QrScannerFragment.EXTRA_MESSAGE);
+    qrResult = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
     // Get and display data from qr scanner activity
     bill = Bill.fromJson(qrResult);

@@ -1,12 +1,9 @@
 package com.example.tabdab;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -18,9 +15,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class PastPaymentsFragment extends Fragment {
+public class PreviousPayments extends AppCompatActivity {
   ScrollView scroller;
   TextView textView;
   String prevPaymentsStr;
@@ -30,12 +28,13 @@ public class PastPaymentsFragment extends Fragment {
   User user;
 
   @Override
-  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_past_payments, container, false);
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_previous_payments);
 
     // UI elements
-    scroller = view.findViewById(R.id.scroller);
-    textView = view.findViewById(R.id.payments);
+    scroller = findViewById(R.id.scroller);
+    textView = findViewById(R.id.payments);
 
     // Database elements
     userRef = FirebaseAuth.getInstance().getCurrentUser();
@@ -59,9 +58,5 @@ public class PastPaymentsFragment extends Fragment {
 
       }
     });
-
-    return view;
   }
-
-  public static PastPaymentsFragment newInstance () {return new PastPaymentsFragment();}
 }
