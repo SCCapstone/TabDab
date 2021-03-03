@@ -2,6 +2,7 @@ package com.example.tabdab;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -54,5 +55,6 @@ public class CreateVendor extends AppCompatActivity {
     FirebaseDatabase.getInstance().getReference("users/").child(uid).child("isVendor").setValue(true);
 
     Toast.makeText(getApplicationContext(), "Vendor Created", Toast.LENGTH_SHORT).show();
+    startActivity(new Intent(getApplicationContext(), AccountInformation.class));
   }
 }

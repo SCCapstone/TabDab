@@ -63,6 +63,8 @@ public class AccountInformation extends AppCompatActivity{
                             VendorID.setText(userInfo.vendorID);
                             textVendorID.setVisibility(View.VISIBLE);
                             VendorID.setVisibility(View.VISIBLE);
+                            ButGen.setVisibility(View.VISIBLE);
+                            ButEditMenu.setVisibility(View.VISIBLE);
                         }
                     }
                 }

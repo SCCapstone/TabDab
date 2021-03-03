@@ -124,6 +124,7 @@ public class CreateBill extends AppCompatActivity {
       @Override
       public void onClick (View v) {
         bill = new Bill();
+        itemizedBill.setText("");
       }
     });
   }
