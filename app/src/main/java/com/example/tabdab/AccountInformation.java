@@ -103,7 +103,7 @@ public class AccountInformation extends AppCompatActivity{
             ButGen.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View view) {
-                    startActivity(new Intent(getApplicationContext(), CreateBill.class));
+                    //startActivity(new Intent(getApplicationContext(), CreateBill.class));
                 }
             });
             ButEditMenu.setOnClickListener(new View.OnClickListener() {

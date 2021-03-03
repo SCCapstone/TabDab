@@ -5,7 +5,7 @@
     android:background="@color/colorThird"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CreateBill">
+    tools:context=".CreateBillFragment">
 
     <ScrollView
         android:id="@+id/itemized_bill_scroller"
@@ -66,5 +66,4 @@
         android:textAllCaps="false"
         android:background="@drawable/register_button"
         android:textColor="@color/white"/>
-
 </LinearLayout>
