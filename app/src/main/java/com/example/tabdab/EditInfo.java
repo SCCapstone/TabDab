@@ -1,5 +1,6 @@
 package com.example.tabdab;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,12 +21,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class EditInfo extends AppCompatActivity {
   Button saveInfoBut;
-  EditText newFirstName, newLastName, newUserEmail, vendorId, newCardNum, newExpDate, newCVV;
+  EditText newFirstName, newLastName, newUserEmail, newVendorID, newCardNum, newExpDate, newCVV;
   Switch switchIsVendor;
   FirebaseAuth fireAuth;
   DatabaseReference database;
@@ -40,11 +40,11 @@ public class EditInfo extends AppCompatActivity {
     newFirstName = findViewById(R.id.editFirstName);
     newLastName = findViewById(R.id.editLastName);
     newUserEmail = findViewById(R.id.editEmailtxt);
-    vendorId = findViewById(R.id.vendorId);
+    newVendorID = findViewById(R.id.vendorId);
     switchIsVendor = findViewById(R.id.isVendor);
     newCardNum = findViewById(R.id.editCardNum);
     newExpDate = findViewById(R.id.editExpDate);
-    newCVV = findViewById(R.id.uCVV);
+    newCVV = findViewById(R.id.editCVV);
 
 
     // Vendor switch is switched to true, make the vendor ID input visible to the user
@@ -52,9 +52,9 @@ public class EditInfo extends AppCompatActivity {
       @Override
       public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (switchIsVendor.isChecked()) {
-          vendorId.setVisibility(View.VISIBLE);
+          newVendorID.setVisibility(View.VISIBLE);
         } else {
-          vendorId.setVisibility(View.INVISIBLE);
+          newVendorID.setVisibility(View.INVISIBLE);
         }
       }
     });
@@ -72,7 +72,7 @@ public class EditInfo extends AppCompatActivity {
         String newCard = newCardNum.getText().toString();
         String newDate = newExpDate.getText().toString();
         String newCV = newCVV.getText().toString();
-        final String vendorID = vendorId.getText().toString();
+        final String vendorID = newVendorID.getText().toString();
 
         // Check if the vendor ID the user entered exists.
         DatabaseReference refVendors = FirebaseDatabase.getInstance().getReference().child("vendors");
@@ -109,6 +109,8 @@ public class EditInfo extends AppCompatActivity {
           refUser.child("cvv").setValue(newCV);
         }
 
+        Toast.makeText(getApplicationContext(), "Account updated!", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), AccountInformation.class));
       }
     });
 
