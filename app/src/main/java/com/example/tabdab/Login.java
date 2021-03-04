@@ -2,6 +2,7 @@ package com.example.tabdab;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,7 +27,13 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final SharedPreferences sharedPreferences;
         super.onCreate(savedInstanceState);
+        sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);
+        String login = sharedPreferences.getString("LOGIN",null);
+        if(login != null) {
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        }
         setContentView(R.layout.activity_login);
 
         // Check for camera permission
@@ -75,6 +82,10 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         //If user exists they can login, if not they must register or fix typing
                         if (task.isSuccessful()) {
+                            //User is given the LOGIN flag so that if the app is closed without logging out the app will remember the user
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("LOGIN", LoginEmail.getText().toString().trim());
+                            editor.commit();
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         } else {
                             LoginPassword.setError(getString(R.string.invalid_user_error));
