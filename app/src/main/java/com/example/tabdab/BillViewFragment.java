@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +30,14 @@ public class BillViewFragment extends Fragment {
   DatabaseReference database;
   FirebaseUser userRef;
   User user;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    userRef = FirebaseAuth.getInstance().getCurrentUser();
+    database = FirebaseDatabase.getInstance().getReference().child("users").child(userRef.getUid());
+  }
 
   @Override
   public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +61,6 @@ public class BillViewFragment extends Fragment {
       @Override
       public void onClick (View view) {
         bill.setTip(Double.parseDouble(editTip.getText().toString()));
-        grandTotalView = view.findViewById(R.id.grand_total_view);
         grandTotalView.setText(Double.toString(bill.getGrandTotal() + bill.getTip()));
         itemizedView.setText(bill.toString());
       }
@@ -61,9 +69,6 @@ public class BillViewFragment extends Fragment {
     butPay.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View view) {
-        userRef = FirebaseAuth.getInstance().getCurrentUser();
-        database = FirebaseDatabase.getInstance().getReference().child("users").child(userRef.getUid());
-
         database.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -71,6 +76,8 @@ public class BillViewFragment extends Fragment {
             List<Bill> pastPayments = user.getPastPayments();
             pastPayments.add(bill);
             database.child("pastPayments").setValue(pastPayments);
+
+            Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
           }
 
           @Override

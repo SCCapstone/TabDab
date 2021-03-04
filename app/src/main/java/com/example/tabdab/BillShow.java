@@ -46,7 +46,7 @@ public class BillShow extends AppCompatActivity {
     doneBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        startActivity(new Intent(getApplicationContext(), CreateBill.class));
+        //startActivity(new Intent(getApplicationContext(), CreateBill.class));
       }
     });
   }

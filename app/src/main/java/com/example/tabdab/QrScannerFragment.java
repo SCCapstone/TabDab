@@ -18,59 +18,59 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
 public class QrScannerFragment extends Fragment {
-    // https://github.com/yuriy-budiyev/code-scanner
+  // https://github.com/yuriy-budiyev/code-scanner
 
-    // Define scanner and and scanner result string for use throughout the activity
-    CodeScanner codeScanner;
-    public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
+  // Define scanner and and scanner result string for use throughout the activity
+  CodeScanner codeScanner;
+  public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
 
-    @Nullable
-    @Override
-    public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final Activity activity = getActivity();
-        View view = inflater.inflate(R.layout.fragment_qr_scanner, container, false);
+  @Nullable
+  @Override
+  public View onCreateView (LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    final Activity activity = getActivity();
+    View view = inflater.inflate(R.layout.fragment_qr_scanner, container, false);
 
-        // Define and create camera and scanner
-        CodeScannerView scannerView = view.findViewById(R.id.scannerView);
-        codeScanner = new CodeScanner(activity, scannerView);
-        //final Intent intent = new Intent(this, BillView.class);
+    // Define and create camera and scanner
+    CodeScannerView scannerView = view.findViewById(R.id.scannerView);
+    codeScanner = new CodeScanner(activity, scannerView);
+    //final Intent intent = new Intent(this, BillView.class);
 
-        // Decode the QR code
-        codeScanner.setDecodeCallback(new DecodeCallback() {
-            @Override
-            public void onDecoded(@NonNull final Result result) {
-                // Run in a separate thread for better app performance
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Launch the bill view activity when a QR code is decoded
-                        String message = result.getText();
-                        FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-                        ft.replace(R.id.fragment_container, BillViewFragment.newInstance(message)).commit();
-                        ft.addToBackStack(null);
-                    }
-                });
-            }
+    // Decode the QR code
+    codeScanner.setDecodeCallback(new DecodeCallback() {
+      @Override
+      public void onDecoded(@NonNull final Result result) {
+        // Run in a separate thread for better app performance
+        activity.runOnUiThread(new Runnable() {
+          @Override
+          public void run() {
+            // Launch the bill view activity when a QR code is decoded
+            String message = result.getText();
+            FragmentTransaction ft = getParentFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, BillViewFragment.newInstance(message)).commit();
+            ft.addToBackStack(null);
+          }
         });
+      }
+    });
 
-        // Start camera (qr code scanner)
-        scannerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                codeScanner.startPreview();
-            }
-        });
-        return view;
-    }
-
-    // Start camera when the user comes back to the app
-    @Override
-    public void onResume() {
-        super.onResume();
+    // Start camera (qr code scanner)
+    scannerView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
         codeScanner.startPreview();
-    }
+      }
+    });
+    return view;
+  }
 
-    public static QrScannerFragment newInstance() {
-        return new QrScannerFragment();
-    }
+  // Start camera when the user comes back to the app
+  @Override
+  public void onResume() {
+    super.onResume();
+    codeScanner.startPreview();
+  }
+
+  public static QrScannerFragment newInstance() {
+    return new QrScannerFragment();
+  }
 }
