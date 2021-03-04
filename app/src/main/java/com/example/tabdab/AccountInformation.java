@@ -127,7 +127,6 @@ public class AccountInformation extends AppCompatActivity{
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.remove("LOGIN");
                     editor.commit();
-                    //Adding this as a placement so that I can commit. This comment is not useful and can be deleted
                     fireAuth.signOut();
                     startActivity( new Intent(getApplicationContext(), Login.class));
                 }

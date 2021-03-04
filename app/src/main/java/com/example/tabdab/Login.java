@@ -27,9 +27,10 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //Adding this as a placement so that I can commit. This comment is not useful and can be deleted
         final SharedPreferences sharedPreferences;
         super.onCreate(savedInstanceState);
+        //Creating the LOGIN tag and checking to make sure that if the user has the tag when opening the app they are instead sent to the main activity
+        // and dont need to login again.
         sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);
         String login = sharedPreferences.getString("LOGIN",null);
         if(login != null) {
