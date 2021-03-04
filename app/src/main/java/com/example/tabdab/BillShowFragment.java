@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ public class BillShowFragment extends Fragment {
   // fragment initialization parameters
   private static final String QR_RESULT = "qrResult";
   ImageView qrImage;
-  Button doneBtn;
+  Button butDone;
   Bill bill;
   private String qrResult;
 
@@ -39,7 +40,7 @@ public class BillShowFragment extends Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_bill_show, container, false);
     qrImage = view.findViewById(R.id.qrPlaceHolder);
-    doneBtn = view.findViewById(R.id.done_btn);
+    butDone = view.findViewById(R.id.done_btn);
 
     // Get and display data from qr scanner activity
     bill = Bill.fromJson(qrResult);
@@ -54,7 +55,16 @@ public class BillShowFragment extends Fragment {
       e.printStackTrace();
     }
 
-    // TODO set done button on click listener
+    butDone.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick (View v) {
+        FragmentTransaction ft;
+        ft = getParentFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance()).commit();
+        ft.addToBackStack(null);
+      }
+    });
+
 
     return view;
   }

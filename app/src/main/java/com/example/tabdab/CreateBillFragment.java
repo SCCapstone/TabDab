@@ -39,7 +39,7 @@ public class CreateBillFragment extends Fragment {
 
   // User elements
   String userId;
-  DatabaseReference databaseUser, databaseVendor;
+  DatabaseReference databaseVendor;
   FirebaseUser userRef;
   User user;
   Vendor vendor;
@@ -64,7 +64,6 @@ public class CreateBillFragment extends Fragment {
     // Database references
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     userId = userRef.getUid();
-    databaseUser = FirebaseDatabase.getInstance().getReference().child("users").child(userId);
   }
 
   @Override

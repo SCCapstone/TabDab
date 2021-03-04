@@ -64,7 +64,10 @@ public class VendorMenuFragment extends Fragment {
         butEditMenu.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            startActivity(new Intent(v.getContext(), EditMenu.class));
+            FragmentTransaction ft;
+            ft = getParentFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, EditMenuFragment.newInstance(user)).commit();
+            ft.addToBackStack(null);
           }
         });
       }
