@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.renderscript.Sampler;
 import android.text.TextUtils;
@@ -119,6 +120,11 @@ public class CreateAccount extends AppCompatActivity {
             if (task.isSuccessful()) {
               User user = new User(firstName, lastName, email,
                       switchIsVendor.isChecked(), vendorID, cardNum, expDate, CVV);
+              //User is given the LOGIN tag so that the user is able to close and reopen the app and still be logged in
+              SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Preferences", 0);
+              SharedPreferences.Editor editor = sharedPreferences.edit();
+              editor.putString("LOGIN", email);
+              editor.commit();
               FirebaseDatabase.getInstance().getReference("users/")
                       .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                       .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {

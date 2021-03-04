@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -121,6 +122,11 @@ public class AccountInformation extends AppCompatActivity{
             butLogout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //User's tag of LOGIN is removed so that if the app is closed they will not be remembered now
+                    SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("Preferences", 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.remove("LOGIN");
+                    editor.commit();
                     fireAuth.signOut();
                     startActivity( new Intent(getApplicationContext(), Login.class));
                 }
