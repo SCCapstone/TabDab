@@ -27,6 +27,7 @@ public class Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Adding this as a placement so that I can commit. This comment is not useful and can be deleted
         final SharedPreferences sharedPreferences;
         super.onCreate(savedInstanceState);
         sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);

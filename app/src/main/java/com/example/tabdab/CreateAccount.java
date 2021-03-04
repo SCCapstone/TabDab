@@ -125,6 +125,7 @@ public class CreateAccount extends AppCompatActivity {
               SharedPreferences.Editor editor = sharedPreferences.edit();
               editor.putString("LOGIN", email);
               editor.commit();
+              //Adding this as a placement so that I can commit. This comment is not useful and can be deleted
               FirebaseDatabase.getInstance().getReference("users/")
                       .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                       .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
