@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -50,8 +51,10 @@ public class SettingsFragment extends Fragment {
         ButEditInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent editAcctInfo = new Intent(view.getContext(), EditInfo.class);
-                startActivity(editAcctInfo);
+                FragmentTransaction ft;
+                ft = getParentFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, EditInfoFragment.newInstance()).commit();
+                ft.addToBackStack(null);
             }
         });
 

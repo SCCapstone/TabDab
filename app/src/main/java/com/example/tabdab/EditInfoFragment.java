@@ -1,18 +1,19 @@
 package com.example.tabdab;
 
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
-
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,10 +21,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class EditInfo extends AppCompatActivity {
+public class EditInfoFragment extends Fragment {
+
   Button saveInfoBut;
   EditText newFirstName, newLastName, newUserEmail, vendorId, newCardNum, newExpDate, newCVV;
   Switch switchIsVendor;
@@ -32,19 +33,24 @@ public class EditInfo extends AppCompatActivity {
   FirebaseUser user;
 
   @Override
-  protected void onCreate( Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_edit_information);
+  }
 
-    saveInfoBut = findViewById(R.id.saveEditBut);
-    newFirstName = findViewById(R.id.editFirstName);
-    newLastName = findViewById(R.id.editLastName);
-    newUserEmail = findViewById(R.id.editEmailtxt);
-    vendorId = findViewById(R.id.vendorId);
-    switchIsVendor = findViewById(R.id.isVendor);
-    newCardNum = findViewById(R.id.editCardNum);
-    newExpDate = findViewById(R.id.editExpDate);
-    newCVV = findViewById(R.id.uCVV);
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    View view = inflater.inflate(R.layout.fragment_edit_info, container, false);
+
+    saveInfoBut = view.findViewById(R.id.saveEditBut);
+    newFirstName = view.findViewById(R.id.editFirstName);
+    newLastName = view.findViewById(R.id.editLastName);
+    newUserEmail = view.findViewById(R.id.editEmailtxt);
+    vendorId = view.findViewById(R.id.vendorId);
+    switchIsVendor = view.findViewById(R.id.isVendor);
+    newCardNum = view.findViewById(R.id.editCardNum);
+    newExpDate = view.findViewById(R.id.editExpDate);
+    newCVV = view.findViewById(R.id.editCVV);
 
 
     // Vendor switch is switched to true, make the vendor ID input visible to the user
@@ -82,7 +88,7 @@ public class EditInfo extends AppCompatActivity {
           public void onDataChange(@NonNull DataSnapshot snapshot) {
             if(!snapshot.hasChild(vendorID) || vendorID.isEmpty()) {  // Vendor ID not found
               System.out.println(vendorID);
-              Toast.makeText(EditInfo.this, "Vendor ID not found.", Toast.LENGTH_SHORT).show();
+              Toast.makeText(getContext(), "Vendor ID not found.", Toast.LENGTH_SHORT).show();
             } else if (!vendorID.isEmpty()) {  // Vendor ID exists. Update the user info
               refUser.child("vendorID").setValue(vendorID);
               refUser.child("isVendor").setValue(true);
@@ -112,6 +118,14 @@ public class EditInfo extends AppCompatActivity {
       }
     });
 
+    return view;
+  }
 
+  public EditInfoFragment() {
+    // Required empty public constructor
+  }
+
+  public static EditInfoFragment newInstance() {
+    return new EditInfoFragment();
   }
 }

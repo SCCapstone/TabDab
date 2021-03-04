@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,6 +43,10 @@ public class VendorMenuFragment extends Fragment {
     butCreateBill = view.findViewById(R.id.butMakeBill);
     butEditMenu = view.findViewById(R.id.butEditMenu);
 
+    // Hide the buttons until the user data is retrieved from firebase
+    butCreateBill.setVisibility(View.INVISIBLE);
+    butEditMenu.setVisibility(View.INVISIBLE);
+
     // Get the user info
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     userDatabase = FirebaseDatabase.getInstance().getReference("users").child(userRef.getUid());
@@ -54,22 +59,36 @@ public class VendorMenuFragment extends Fragment {
         butCreateBill.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick (View v) {
-            FragmentTransaction ft;
-            ft = getParentFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, CreateBillFragment.newInstance(user)).commit();
-            ft.addToBackStack(null);
+            // Only let the user go if they are a registered vendor
+            if (!user.getIsVendor()) {
+              Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
+            } else {
+              FragmentTransaction ft;
+              ft = getParentFragmentManager().beginTransaction();
+              ft.replace(R.id.fragment_container, CreateBillFragment.newInstance(user)).commit();
+              ft.addToBackStack(null);
+            }
           }
         });
 
         butEditMenu.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
-            FragmentTransaction ft;
-            ft = getParentFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, EditMenuFragment.newInstance(user)).commit();
-            ft.addToBackStack(null);
+            // Only let the user go if they are a registered vendor
+            if (!user.getIsVendor()) {
+              Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
+            } else {
+              FragmentTransaction ft;
+              ft = getParentFragmentManager().beginTransaction();
+              ft.replace(R.id.fragment_container, EditMenuFragment.newInstance(user)).commit();
+              ft.addToBackStack(null);
+            }
           }
         });
+
+        // Set the buttons back to visible
+        butCreateBill.setVisibility(View.VISIBLE);
+        butEditMenu.setVisibility(View.VISIBLE);
       }
 
       @Override

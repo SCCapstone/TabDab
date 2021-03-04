@@ -21,80 +21,81 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
-    TextView LoginEmail, LoginPassword;
-    Button ButRegister, ButLogin;
-    FirebaseAuth fireAuth;
+  TextView LoginEmail, LoginPassword;
+  Button ButRegister, ButLogin;
+  FirebaseAuth fireAuth;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        final SharedPreferences sharedPreferences;
-        super.onCreate(savedInstanceState);
-        //Creating the LOGIN tag and checking to make sure that if the user has the tag when opening the app they are instead sent to the main activity
-        // and dont need to login again.
-        sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);
-        String login = sharedPreferences.getString("LOGIN",null);
-        if(login != null) {
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
-        }
-        setContentView(R.layout.activity_login);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    final SharedPreferences sharedPreferences;
+    super.onCreate(savedInstanceState);
 
-        // Check for camera permission
-        int requestCode = 0;
-        while (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestCode);
-        }
-
-        //Setting up variables for all parts on login screen
-        LoginEmail = findViewById(R.id.LogEmail);
-        LoginPassword = findViewById(R.id.LogPass);
-        ButLogin = findViewById(R.id.loginButton);
-        ButRegister = findViewById(R.id.registerButton);
-        fireAuth = FirebaseAuth.getInstance();
-
-        // Send to registration page if user clicks register buttons
-        ButRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), CreateAccount.class));
-            }
-        });
-
-        //When user attempts to login
-        ButLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Get what the user entered in the login fields
-                String email = LoginEmail.getText().toString().trim();
-                String password = LoginPassword.getText().toString().trim();
-
-                //Checks to make sure that information was entered and that it follows
-                if (TextUtils.isEmpty(email)) {
-                    LoginEmail.setError(getString(R.string.email_required));
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    LoginPassword.setError(getString(R.string.password_required));
-                    return;
-                }
-
-                //Check to see if user exists already in firebase
-                fireAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        //If user exists they can login, if not they must register or fix typing
-                        if (task.isSuccessful()) {
-                            //User is given the LOGIN flag so that if the app is closed without logging out the app will remember the user
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("LOGIN", LoginEmail.getText().toString().trim());
-                            editor.commit();
-                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        } else {
-                            LoginPassword.setError(getString(R.string.invalid_user_error));
-                        }
-                    }
-                });
-            }
-        });
+    //Creating the LOGIN tag and checking to make sure that if the user has the tag when opening the app they are instead sent to the main activity
+    // and dont need to login again.
+    sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);
+    String login = sharedPreferences.getString("LOGIN",null);
+    if(login != null) {
+      startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
+    setContentView(R.layout.activity_login);
+
+    // Check for camera permission
+    int requestCode = 0;
+    while (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+            PackageManager.PERMISSION_DENIED) {
+      ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestCode);
+    }
+
+    //Setting up variables for all parts on login screen
+    LoginEmail = findViewById(R.id.LogEmail);
+    LoginPassword = findViewById(R.id.LogPass);
+    ButLogin = findViewById(R.id.loginButton);
+    ButRegister = findViewById(R.id.registerButton);
+    fireAuth = FirebaseAuth.getInstance();
+
+    // Send to registration page if user clicks register buttons
+    ButRegister.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        startActivity(new Intent(getApplicationContext(), CreateAccount.class));
+      }
+    });
+
+    //When user attempts to login
+    ButLogin.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        //Get what the user entered in the login fields
+        String email = LoginEmail.getText().toString().trim();
+        String password = LoginPassword.getText().toString().trim();
+
+        //Checks to make sure that information was entered and that it follows
+        if (TextUtils.isEmpty(email)) {
+          LoginEmail.setError(getString(R.string.email_required));
+          return;
+        }
+        if (TextUtils.isEmpty(password)) {
+          LoginPassword.setError(getString(R.string.password_required));
+          return;
+        }
+
+        //Check to see if user exists already in firebase
+        fireAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+          @Override
+          public void onComplete(@NonNull Task<AuthResult> task) {
+            //If user exists they can login, if not they must register or fix typing
+            if (task.isSuccessful()) {
+              //User is given the LOGIN flag so that if the app is closed without logging out the app will remember the user
+              SharedPreferences.Editor editor = sharedPreferences.edit();
+              editor.putString("LOGIN", LoginEmail.getText().toString().trim());
+              editor.commit();
+              startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            } else {
+              LoginPassword.setError(getString(R.string.invalid_user_error));
+            }
+          }
+        });
+      }
+    });
+  }
 }

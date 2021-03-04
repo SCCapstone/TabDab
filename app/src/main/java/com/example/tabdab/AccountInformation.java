@@ -89,10 +89,7 @@ public class AccountInformation extends AppCompatActivity{
             ButEditInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent editAcctInfo = new Intent(getApplicationContext(),EditInfo.class);
-                    editAcctInfo.putExtra("Name", UserName.getText().toString());
-                    editAcctInfo.putExtra("Email", UserEmail.getText().toString());
-                    startActivity(editAcctInfo);
+
                 }
             });
             ButScan.setOnClickListener(new View.OnClickListener() {

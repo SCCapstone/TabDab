@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#06D6A0"
+    android:background="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -14,7 +14,7 @@
         android:text="@string/edit_account"
         android:textSize="28sp"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/editFirstName"
@@ -64,7 +64,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:hint="Exp. Date"
-        android:inputType="text" />
+        android:inputType="date" />
 
     <EditText
         android:id="@+id/editCVV"
@@ -73,7 +73,7 @@
         android:layout_height="38dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:hint="CVV"
+        android:hint="@string/cvv"
         android:inputType="text" />
 
     <Switch
@@ -82,7 +82,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="@string/are_you_a_vendor" />
+        android:text="@string/are_you_a_vendor"
+        android:textColor="@color/white"/>
 
     <EditText
         android:id="@+id/vendorId"
@@ -99,7 +100,7 @@
         android:id="@+id/saveEditBut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/register_button"
+        android:background="@drawable/login_button"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:baselineAligned="false"
