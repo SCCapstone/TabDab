@@ -6,7 +6,7 @@
     android:background="@color/colorThird"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".BillShow">
+    tools:context=".BillShowFragment">
 
     <ImageView
         android:id="@+id/qrPlaceHolder"

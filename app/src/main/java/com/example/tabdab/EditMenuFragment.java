@@ -105,7 +105,7 @@ public class EditMenuFragment extends Fragment {
 
       @Override
       public void onCancelled(@NonNull DatabaseError error) {
-        Log.d("CreateBillFragment.java", error.getMessage());
+        Log.d("EditMenuFragment.java", error.getMessage());
       }
     });
 
@@ -148,7 +148,7 @@ public class EditMenuFragment extends Fragment {
       }
       @Override
       public void onCancelled(@NonNull DatabaseError error) {
-        Log.d("EditMenu.java", error.getMessage());
+        Log.d("EditMenuFragment.java", error.getMessage());
       }
     });
 
