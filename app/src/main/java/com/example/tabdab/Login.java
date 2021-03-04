@@ -1,6 +1,7 @@
 package com.example.tabdab;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -24,19 +25,21 @@ public class Login extends AppCompatActivity {
   TextView LoginEmail, LoginPassword;
   Button ButRegister, ButLogin;
   FirebaseAuth fireAuth;
+  SharedPreferences sharedPreferences;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    final SharedPreferences sharedPreferences;
     super.onCreate(savedInstanceState);
 
-    //Creating the LOGIN tag and checking to make sure that if the user has the tag when opening the app they are instead sent to the main activity
-    // and dont need to login again.
-    sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);
+    /* Creating the LOGIN tag and checking to make sure that if the user has the tag when opening
+     the app they are instead sent to the main activity and don't need to login again. */
+    sharedPreferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
     String login = sharedPreferences.getString("LOGIN",null);
     if(login != null) {
+      System.out.println(login);
       startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
+
     setContentView(R.layout.activity_login);
 
     // Check for camera permission
@@ -88,7 +91,8 @@ public class Login extends AppCompatActivity {
               //User is given the LOGIN flag so that if the app is closed without logging out the app will remember the user
               SharedPreferences.Editor editor = sharedPreferences.edit();
               editor.putString("LOGIN", LoginEmail.getText().toString().trim());
-              editor.commit();
+              editor.apply();
+
               startActivity(new Intent(getApplicationContext(), MainActivity.class));
             } else {
               LoginPassword.setError(getString(R.string.invalid_user_error));

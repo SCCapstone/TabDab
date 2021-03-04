@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -32,11 +34,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   private NavigationView navigationView;
   private FrameLayout frameLayout;
   private FirebaseAuth fireAuth;
+  SharedPreferences sharedPreferences;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    fireAuth = FirebaseAuth.getInstance();
+
+    sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);
 
     // Initialize nav bar
     toolbar = findViewById(R.id.toolbar);
@@ -105,8 +112,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_exit:
-        Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("LOGIN", null);
+        editor.apply();
         fireAuth.signOut();
+
+        startActivity(new Intent(getApplicationContext(), Login.class));
         break;
     }
     if (fragment != null) {
