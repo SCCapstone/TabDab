@@ -37,15 +37,20 @@ public class SettingsFragment extends Fragment {
         ButRegisterVendor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), CreateVendor.class));
+                FragmentTransaction ft;
+                ft = getParentFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, RegisterVendorFragment.newInstance()).commit();
+                ft.addToBackStack(null);
             }
         });
 
         ButChangePass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent changePass = new Intent(view.getContext(), ChangePassword.class);
-                startActivity(changePass);
+                FragmentTransaction ft;
+                ft = getParentFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, ChangePasswordFragment.newInstance()).commit();
+                ft.addToBackStack(null);
             }
         });
         ButEditInfo.setOnClickListener(new View.OnClickListener() {

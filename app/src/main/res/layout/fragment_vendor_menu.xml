@@ -15,8 +15,17 @@
         android:layout_marginTop="100dp"
         android:gravity="center_horizontal"
         android:text="@string/vendor_menu"
-        android:textSize="25dp"
+        android:textSize="40sp"
         android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/vendorId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center_horizontal"
+        android:textSize="15sp"
+        android:textColor="@color/white"/>
 
     <Button
         android:id="@+id/butMakeBill"

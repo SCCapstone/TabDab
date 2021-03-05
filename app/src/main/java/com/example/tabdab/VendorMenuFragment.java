@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class VendorMenuFragment extends Fragment {
-  TextView vendorName;
+  TextView vendorName, vendorId;
   Button butCreateBill, butEditMenu;
   User user;
   FirebaseUser userRef;
@@ -40,6 +40,7 @@ public class VendorMenuFragment extends Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_vendor_menu, container, false);
     vendorName = view.findViewById(R.id.vendorName);
+    vendorId = view.findViewById(R.id.vendorId);
     butCreateBill = view.findViewById(R.id.butMakeBill);
     butEditMenu = view.findViewById(R.id.butEditMenu);
 
@@ -54,6 +55,11 @@ public class VendorMenuFragment extends Fragment {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         user = snapshot.getValue(User.class);
+
+        // Display the users vendor ID if they are registered to one
+        if (user.getIsVendor()) {
+          vendorId.setText("Vendor ID: " + user.getVendorID());
+        }
 
         // Start the new fragments with the user (used to make getting vendor info easier) info on a click
         butCreateBill.setOnClickListener(new View.OnClickListener() {
