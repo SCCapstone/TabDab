@@ -1,6 +1,6 @@
 # TabDab
 
-A QrReading app for paying your bill or generating a bill on your phone.
+A QrReading app for paying your bill or generating a bill on your phone. plz work
 
 ## External Requirements
 Running this app may require a camera on your device. The app might may crash if ran on a device without a camera meaning running on a simulator may not work. There are no other requierments at this time.
