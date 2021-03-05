@@ -4,23 +4,34 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class Bill {
     // Instance variables
+    String vendor;
+    String date;
     double grandTotal;
     double tip;
     List<BillItem> itemizedBill;
 
     // Constructors
     public Bill() {
+        this.vendor = "";
+        this.date = new SimpleDateFormat("mm/dd/yyyy", Locale.getDefault()).format(new Date());
         this.itemizedBill = new ArrayList<>();
         this.grandTotal = 0.0;
         this.tip = 0.0;
     }
 
-    public Bill(List<BillItem> itemizedBill, double grandTotal, double tip) {
+    public Bill(String vendor, List<BillItem> itemizedBill, double grandTotal, double tip) {
+        this.vendor = "";
+        this.date = new SimpleDateFormat("mm/dd/yyyy", Locale.getDefault()).format(new Date());
         this.itemizedBill = itemizedBill;
         this.grandTotal = grandTotal;
         this.tip = tip;
@@ -35,6 +46,8 @@ public class Bill {
         return this.tip;
     }
     public List<BillItem> getItemizedBill () {return this.itemizedBill;}
+    public String getVendor () {return this.vendor;}
+    public String getDate () {return this.date;}
 
     /**
      * Set the grand total of the bill
@@ -62,6 +75,8 @@ public class Bill {
     public void setTip(double tip) {
         this.tip = tip;
     }
+    public void setVendor (String vendor) {this.vendor = vendor;}
+    public void setDate (String date) {this.date = date;}
 
     public void addBillItem(BillItem item) {
         this.itemizedBill.add(item);
@@ -70,7 +85,7 @@ public class Bill {
 
 
     public String toString() {
-        String ret = "";
+        String ret = this.getDate() + "\n" + this.getVendor() + "\n";
         for (int i = 0; i < this.itemizedBill.size(); i++) {
             ret += this.itemizedBill.get(i).getName() + ": $" + this.itemizedBill.get(i).getPrice() + "\n";
         }

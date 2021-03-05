@@ -85,6 +85,7 @@ public class CreateBillFragment extends Fragment {
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         vendor = snapshot.getValue(Vendor.class);
         menuItems = vendor.getMenu();
+        bill.setVendor(vendor.getName());
 
         // Add the buttons
         for (int i = 0; i < menuItems.size(); i++) {
