@@ -22,16 +22,18 @@
         android:id="@+id/textName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/name"
-        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
         android:layout_below="@+id/headerAccount"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="25dp"/>
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="113dp"
+        android:text="@string/name"
+        android:textColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/AccountName"
         android:layout_width="131dp"
         android:layout_height="18dp"
+        android:textSize="20sp"
         android:textColor="@color/colorPrimary"
         android:layout_toRightOf="@+id/textName"
         android:layout_alignTop="@id/textName"
@@ -42,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email"
+        android:textSize="20sp"
         android:textColor="@color/colorPrimary"
         android:layout_below="@+id/textName"
         android:layout_marginLeft="25dp"/>

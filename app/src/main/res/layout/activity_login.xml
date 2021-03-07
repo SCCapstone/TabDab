@@ -24,6 +24,7 @@
         android:layout_marginTop="40dp"
         android:ems="10"
         android:hint="@string/email_login"
+        android:textSize="20sp"
         android:inputType="textEmailAddress"
         android:layout_gravity="center_horizontal"/>
 
@@ -35,6 +36,7 @@
         android:background="@drawable/login_edit_text"
         android:ems="10"
         android:hint="@string/password"
+        android:textSize="20sp"
         android:inputType="textPassword"
         android:layout_gravity="center_horizontal"/>
 

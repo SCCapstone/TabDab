@@ -82,6 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
+        android:textSize="20sp"
         android:text="@string/are_you_a_vendor" />
 
     <EditText

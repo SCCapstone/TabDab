@@ -14,6 +14,7 @@
         android:layout_margin="10dp"
         android:background="@drawable/login_edit_text"
         android:ems="10"
+        android:textSize="20sp"
         android:hint="@string/name"
         android:inputType="textPersonName" />
 
