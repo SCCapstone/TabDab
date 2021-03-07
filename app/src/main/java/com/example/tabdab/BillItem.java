@@ -10,44 +10,48 @@ public class BillItem {
     String name;
 
     // Constructor
-    public BillItem () {
+    public BillItem() {
         this.price = 0.0;
         this.name = "";
     }
-    public BillItem (double price, String name) {
+
+    public BillItem(double price, String name) {
         this.price = price;
         this.name = name;
     }
 
     // Getters
-    public double getPrice () {
+    public double getPrice() {
         return price;
     }
-    public String getName () {
+
+    public String getName() {
         return name;
     }
 
     // Setters
-    public void setPrice (double price) {
+    public void setPrice(double price) {
         this.price = price;
     }
-    public void setName (String name) {
+
+    public void setName(String name) {
         if (name.contains(",") || name.contains(":") || name.contains("$")) {
-            Log.d("BillItem.class", "Bill item name contains ',', ':', or '$'");
             this.name = "";
+        } else {
+            this.name = name;
         }
-        this.name = name;
     }
 
-    public String toString () {
+    public String toString() {
         return name + ": " + price;
     }
 
-    public static String toJson (BillItem billItem) {
+    public static String toJson(BillItem billItem) {
         Gson gson = new Gson();
         return gson.toJson(billItem);
     }
-    public static BillItem fromJson (String str) {
+
+    public static BillItem fromJson(String str) {
         return new Gson().fromJson(str, BillItem.class);
     }
 }

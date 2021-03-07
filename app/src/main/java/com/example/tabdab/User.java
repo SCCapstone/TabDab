@@ -1,12 +1,9 @@
 package com.example.tabdab;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class User {
   String firstName, lastName, email, vendorID, cardNum, expDate, CVV;
@@ -49,20 +46,14 @@ public class User {
   public void setIsVendor (boolean val) {this.isVendor = val;}
   public void setFirstName (String name) {this.firstName = name;}
   public void setLastName (String name) {this.lastName = name;}
-  public void setEmail (String email) {
-      this.email = email;
-  }
+  public void setEmail (String email) {this.email = email;}
   public void setVendorID (String vendorID) {this.vendorID = vendorID;}
-  public void setCardNum (String cardNum) {
-      this.cardNum = cardNum;
+  public void setCardNum (String cardNum) {this.cardNum = cardNum;}
+  public void setExpDate (String expDate) {this.expDate = expDate;}
+  public void setCVV (String CVV) {this.CVV = CVV;}
+  public void setPastPayments (List<Bill> pastPayments) {
+    this.pastPayments = pastPayments;
   }
-  public void setExpDate (String expDate) {
-      this.expDate = expDate;
-  }
-  public void setCVV (String CVV) {
-      this.CVV = CVV;
-  }
-  public void setPastPayments (List<Bill> pastPayments) {this.pastPayments = pastPayments;}
 
   // Getters
   public String getFirstName () {return this.firstName;}
@@ -76,6 +67,15 @@ public class User {
   public List<Bill> getPastPayments () {return this.pastPayments;}
 
   public void addPastPayment (Bill bill) {this.pastPayments.add(bill);
+  }
+
+  public String toJson () {
+    Gson gson = new Gson();
+    return gson.toJson(this);
+  }
+
+  public static User fromJson (String str) {
+    return new Gson().fromJson(str, User.class);
   }
 
   public String toString () {
