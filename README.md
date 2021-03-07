@@ -1,4 +1,4 @@
-# TabDab
+## TabDab
 
 A QrReading app for paying your bill or generating a bill on your phone.
 
@@ -17,7 +17,7 @@ First clone the repo in your desired directory:
  * Build the app using the green hammer at the top of the screen
    and it will localy build the app on your device.
 
-# Testing
+## Testing
 Behavioral tests stored in the /app/src/androidTest/java/com/example/tabdab/ folder.
 Unit tests are stored in the /app/src/test/java/com/example/tabdab/ folder.
 
@@ -31,7 +31,7 @@ In order to run tests on the TabDab app. Follow these instructions:
 3. Right click on the com.example.tabdab(test) option in the project window and click the Run option.
 4. All tests will complete after hitting run.
 
-# Authors
+## Authors
 * Cameron Knox cbk1@email.sc.edu
 * Max Hensler mhensler@email.sc.edu
 * Fei Zhu fzhu@email.sc.edu
