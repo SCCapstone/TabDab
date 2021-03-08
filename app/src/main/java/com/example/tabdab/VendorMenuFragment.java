@@ -70,7 +70,7 @@ public class VendorMenuFragment extends Fragment {
               Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
             } else {
               FragmentTransaction ft;
-              ft = getParentFragmentManager().beginTransaction();
+              ft = getFragmentManager().beginTransaction();
               ft.replace(R.id.fragment_container, CreateBillFragment.newInstance(user)).commit();
               ft.addToBackStack(null);
             }
