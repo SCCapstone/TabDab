@@ -16,6 +16,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,32 +75,34 @@ public class EditInfoFragment extends Fragment {
       public void onClick(View view) {
         String firstName = newFirstName.getText().toString();
         String lastName = newLastName.getText().toString();
-        String newEmail = newUserEmail.getText().toString();
+        String newEmail = newUserEmail.getText().toString().trim();
         String newCard = newCardNum.getText().toString();
         String newDate = newExpDate.getText().toString();
         String newCV = newCVV.getText().toString();
         final String vendorID = vendorId.getText().toString();
 
         // Check if the vendor ID the user entered exists.
-        DatabaseReference refVendors = FirebaseDatabase.getInstance().getReference().child("vendors");
-        final DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        refVendors.addListenerForSingleValueEvent(new ValueEventListener() {
-          @Override
-          public void onDataChange(@NonNull DataSnapshot snapshot) {
-            if(!snapshot.hasChild(vendorID) || vendorID.isEmpty()) {  // Vendor ID not found
-              System.out.println(vendorID);
-              Toast.makeText(getContext(), "Vendor ID not found.", Toast.LENGTH_SHORT).show();
-            } else if (!vendorID.isEmpty()) {  // Vendor ID exists. Update the user info
-              refUser.child("vendorID").setValue(vendorID);
-              refUser.child("isVendor").setValue(true);
+       // if(vendorId.getVisibility() == View.VISIBLE()) {
+          DatabaseReference refVendors = FirebaseDatabase.getInstance().getReference().child("vendors");
+          final DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+          refVendors.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+              if (!snapshot.hasChild(vendorID) || vendorID.isEmpty()) {  // Vendor ID not found
+                System.out.println(vendorID);
+                Toast.makeText(getContext(), "Vendor ID not found.", Toast.LENGTH_SHORT).show();
+              } else if (!vendorID.isEmpty()) {  // Vendor ID exists. Update the user info
+                refUser.child("vendorID").setValue(vendorID);
+                refUser.child("isVendor").setValue(true);
+              }
             }
-          }
-          @Override
-          public void onCancelled(@NonNull DatabaseError error) {
-            Log.d("EditInfo.java", error.getMessage());
-          }
-        });
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+              Log.d("EditInfo.java", error.getMessage());
+            }
+          });
+            user = fireAuth.getCurrentUser();
         // Check which fields the user has updated and update them
         if (!firstName.isEmpty()) {
           refUser.child("firstName").setValue(firstName);
@@ -107,6 +110,7 @@ public class EditInfoFragment extends Fragment {
           refUser.child("lastName").setValue(lastName);
         } else if (!newEmail.isEmpty()) {
           refUser.child("email").setValue(newEmail);
+          user.updateEmail(newEmail);
         } else if (!newCard.isEmpty()) {
           refUser.child("cardNum").setValue(newCard);
         } else if (!newDate.isEmpty()) {
