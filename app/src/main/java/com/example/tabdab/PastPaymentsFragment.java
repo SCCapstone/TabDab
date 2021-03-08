@@ -49,7 +49,7 @@ public class PastPaymentsFragment extends Fragment {
         user = snapshot.getValue(User.class);
         List<Bill> prevPayments = user.getPastPayments();
 
-        for (int i = 1; i < prevPayments.size(); i++) {
+        for (int i = prevPayments.size()-1; i > 0; i--) {
           prevPaymentsStr += prevPayments.get(i).toString() + "\n\n";
         }
         textView.setText(prevPaymentsStr);

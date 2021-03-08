@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".MainActivity"/>
-        <activity android:name=".EditMenu" />
+        <activity android:name=".EditMenu"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".CreateAccount" />
         <activity android:name=".Login">
             <intent-filter>

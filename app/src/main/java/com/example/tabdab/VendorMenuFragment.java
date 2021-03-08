@@ -84,10 +84,7 @@ public class VendorMenuFragment extends Fragment {
             if (!user.getIsVendor()) {
               Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
             } else {
-              FragmentTransaction ft;
-              ft = getParentFragmentManager().beginTransaction();
-              ft.replace(R.id.fragment_container, EditMenuFragment.newInstance(user)).commit();
-              ft.addToBackStack(null);
+              startActivity(new Intent(getContext(), EditMenu.class));
             }
           }
         });

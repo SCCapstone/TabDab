@@ -30,7 +30,7 @@ import java.util.List;
 
 public class EditMenu extends AppCompatActivity {
   EditText editName, editPrice;
-  Button ButAddItem, ButRemoveItem, ButCancel;
+  Button ButAddItem, ButRemoveItem, ButCancel, ButDone;
   ScrollView scroller;
   LinearLayout menu;
 
@@ -52,6 +52,7 @@ public class EditMenu extends AppCompatActivity {
     ButAddItem = findViewById(R.id.ButAddItem);
     ButRemoveItem = findViewById(R.id.ButRemoveItem);
     ButCancel = findViewById(R.id.ButCancel);
+    ButDone = findViewById(R.id.ButDone);
     scroller = findViewById(R.id.scroller);
     menu = findViewById(R.id.menu);
     final Context context = this;
@@ -193,6 +194,13 @@ public class EditMenu extends AppCompatActivity {
           Button but = findViewById(i);
           but.setEnabled(true);
         }
+      }
+    });
+
+    ButDone.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick (View v) {
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
       }
     });
   }
