@@ -60,5 +60,6 @@
     <string name="cvv">CVV</string>
     <string name="create_bill">Create Bill</string>
     <string name="edit_menu">Edit Menu</string>
+    <string name="transaction_history">Transaction History</string>
 
 </resources>
