@@ -8,29 +8,33 @@
     tools:context=".PastPaymentsFragment">
 
     <TextView
-        android:id="@+id/pastPayments"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="60dp"
-        android:text="Past Payments"
+        android:layout_marginTop="50dp"
+        android:text="Transaction\n        History"
+        android:textColor="@android:color/white"
         android:textSize="30sp"
-        android:textColor="@color/white"/>
+        android:textStyle="bold" />
 
     <ScrollView
         android:id="@+id/scroller"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center_horizontal">
+        android:layout_width="242dp"
+        android:layout_height="705dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp">
 
-        <LinearLayout
+        <TextView
             android:id="@+id/payments"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"/>
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:gravity="left"
+            android:text=""
+            android:textAlignment="gravity"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
     </ScrollView>
 </LinearLayout>
