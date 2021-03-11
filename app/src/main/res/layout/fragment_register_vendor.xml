@@ -32,7 +32,7 @@
         android:id="@+id/butRegisterVendor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:text="@string/register"
         android:textColor="@color/white"
         android:textAllCaps="false"

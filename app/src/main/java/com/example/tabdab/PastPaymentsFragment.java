@@ -1,13 +1,16 @@
 package com.example.tabdab;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -23,7 +26,7 @@ import java.util.List;
 
 public class PastPaymentsFragment extends Fragment {
   ScrollView scroller;
-  TextView textView;
+  LinearLayout payments;
   String prevPaymentsStr;
 
   DatabaseReference database;
@@ -36,23 +39,33 @@ public class PastPaymentsFragment extends Fragment {
 
     // UI elements
     scroller = view.findViewById(R.id.scroller);
-    textView = view.findViewById(R.id.payments);
+    payments = view.findViewById(R.id.payments);
 
     // Database elements
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     database = FirebaseDatabase.getInstance().getReference().child("users").child(userRef.getUid());
     prevPaymentsStr = "";
 
+    // Get the users past payments and add them to the scroll view
     database.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         user = snapshot.getValue(User.class);
         List<Bill> prevPayments = user.getPastPayments();
 
-        for (int i = 1; i < prevPayments.size(); i++) {
-          prevPaymentsStr += prevPayments.get(i).toString() + "\n\n";
+        // Set the text views parameters and add it
+        for (int i = prevPayments.size()-1; i > 0; i--) {
+          TextView pastBill = new TextView(getContext());
+          LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          params.setMargins(0,10,0,10);
+          pastBill.setId(i);
+          pastBill.setText(prevPayments.get(i).toString());
+          pastBill.setTextColor(Color.WHITE);
+          pastBill.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.textview_pink, null));
+          pastBill.setLayoutParams(params);
+          pastBill.setPadding(10,10,10,10);
+          payments.addView(pastBill);
         }
-        textView.setText(prevPaymentsStr);
       }
 
       @Override

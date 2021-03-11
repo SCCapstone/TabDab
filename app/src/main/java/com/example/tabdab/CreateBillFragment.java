@@ -67,6 +67,14 @@ public class CreateBillFragment extends Fragment {
   }
 
   @Override
+  public void onResume () {
+    super.onResume();
+    bill = new Bill();
+    itemizedBillStr = "";
+    itemizedBill.setText(itemizedBillStr);
+  }
+
+  @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_create_bill, container, false);
@@ -85,7 +93,6 @@ public class CreateBillFragment extends Fragment {
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         vendor = snapshot.getValue(Vendor.class);
         menuItems = vendor.getMenu();
-        bill.setVendor(vendor.getName());
 
         // Add the buttons
         for (int i = 0; i < menuItems.size(); i++) {
@@ -116,10 +123,22 @@ public class CreateBillFragment extends Fragment {
         generateBtn.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+            bill.setVendor(vendor.getName());
+
             FragmentTransaction ft;
-            ft = getParentFragmentManager().beginTransaction();
+            ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, BillShowFragment.newInstance(bill.toJson())).commit();
             ft.addToBackStack(null);
+          }
+        });
+
+        // Clear the bill if the user needs to restart a bill
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            itemizedBillStr = "";
+            itemizedBill.setText(itemizedBillStr);
+            bill = new Bill();
           }
         });
       }
