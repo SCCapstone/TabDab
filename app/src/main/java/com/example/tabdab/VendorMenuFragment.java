@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class VendorMenuFragment extends Fragment {
   TextView vendorName, vendorId;
-  Button butCreateBill, butEditMenu;
+  Button butCreateBill, butEditMenu, butDailyTotals;
   User user;
   FirebaseUser userRef;
   DatabaseReference userDatabase;
@@ -43,10 +43,12 @@ public class VendorMenuFragment extends Fragment {
     vendorId = view.findViewById(R.id.vendorId);
     butCreateBill = view.findViewById(R.id.butMakeBill);
     butEditMenu = view.findViewById(R.id.butEditMenu);
+    butDailyTotals = view.findViewById(R.id.butDailyTotals);
 
     // Hide the buttons until the user data is retrieved from firebase
     butCreateBill.setVisibility(View.INVISIBLE);
     butEditMenu.setVisibility(View.INVISIBLE);
+    butDailyTotals.setVisibility(View.INVISIBLE);
 
     // Get the user info
     userRef = FirebaseAuth.getInstance().getCurrentUser();
@@ -89,9 +91,25 @@ public class VendorMenuFragment extends Fragment {
           }
         });
 
+        butDailyTotals.setOnClickListener(new View.OnClickListener () {
+          @Override
+          public void onClick(View v) {
+            // Only let the user go if they are a registered vendor
+            if (!user.getIsVendor()) {
+              Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
+            } else {
+              FragmentTransaction ft;
+              ft = getFragmentManager().beginTransaction();
+              ft.replace(R.id.fragment_container, VendorDailyTotalsFragment.newInstance(user)).commit();
+              ft.addToBackStack(null);
+            }
+          }
+        });
+
         // Set the buttons back to visible
         butCreateBill.setVisibility(View.VISIBLE);
         butEditMenu.setVisibility(View.VISIBLE);
+        butDailyTotals.setVisibility(View.VISIBLE);
       }
 
       @Override
