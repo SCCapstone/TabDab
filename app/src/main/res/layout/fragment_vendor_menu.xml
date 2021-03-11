@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:text="Create Bill"
         android:textColor="@color/white"
         android:textAllCaps="false" />
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:text="Edit Menu"
         android:textColor="@color/white"
         android:textAllCaps="false" />

@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="450dp"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:text="@string/reset_password"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
@@ -32,7 +32,7 @@
         android:layout_marginTop="390dp"
         android:text="@string/register_vendor"
         android:textAllCaps="false"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:textColor="@color/white"
         android:layout_centerHorizontal="true" />
 
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="510dp"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:text="@string/edit_info"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"

@@ -54,7 +54,7 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/generate_bill_btn"
         android:textAllCaps="false"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:textColor="@color/white"/>
     <Button
         android:id="@+id/clear_btn"
@@ -64,6 +64,6 @@
         android:layout_gravity="center_horizontal"
         android:text="@string/clear"
         android:textAllCaps="false"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:textColor="@color/white"/>
 </LinearLayout>
