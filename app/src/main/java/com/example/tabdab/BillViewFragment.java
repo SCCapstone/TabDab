@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class BillViewFragment extends Fragment {
@@ -96,10 +97,13 @@ public class BillViewFragment extends Fragment {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
             vendor = snapshot.getValue(Vendor.class);
-            List<Bill> previousPayments = vendor.getPreviousPayments();
-            List<BillItem> dailyTotals = vendor.getDailyTotals();
-            previousPayments.add(bill);
-            vendorDb.child("previousPayments").setValue(previousPayments);
+            //List<Bill> previousPayments = vendor.getPreviousPayments();
+            //HashMap<String, BillItem> dailyTotals = vendor.getDailyTotals();
+            //previousPayments.add(bill);
+            vendor.addPreviousPayment(bill);
+            vendor.addDailyTotalItems(bill);
+            vendorDb.child("previousPayments").setValue(vendor.getPreviousPayments());
+            vendorDb.child("dailyTotals").setValue(vendor.getDailyTotals());
           }
 
           @Override

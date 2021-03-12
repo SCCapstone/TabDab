@@ -3,20 +3,23 @@ package com.example.tabdab;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Vendor {
     String vendorId, name;
     List<BillItem> menu;
     List<Bill> previousPayments;
-    List<BillItem> dailyTotals;
+    Map<String, List<BillItem>> dailyTotals;
 
     public Vendor() {
         this.vendorId = "";
         this.name = "";
         this.menu = new ArrayList<>();
         this.previousPayments = new ArrayList<>();
-        this.dailyTotals = new ArrayList<>();
+        this.dailyTotals = new HashMap<>();
     }
 
     public Vendor(String name) {
@@ -24,7 +27,7 @@ public class Vendor {
         this.name = name;
         this.menu = new ArrayList<>();
         this.previousPayments = new ArrayList<>();
-        this.dailyTotals = new ArrayList<>();
+        this.dailyTotals = new HashMap<>();
     }
 
     public Vendor(String vendorId, String name) {
@@ -32,11 +35,11 @@ public class Vendor {
         this.name = name;
         this.menu = new ArrayList<>();
         this.previousPayments = new ArrayList<>();
-        this.dailyTotals = new ArrayList<>();
+        this.dailyTotals = new HashMap<>();
     }
 
     public Vendor(String vendorId, String name, List<BillItem> menu, List<Bill> previousPayments,
-                  List<BillItem> dailyTotals) {
+                  HashMap<String, List<BillItem>> dailyTotals) {
         this.vendorId = vendorId;
         this.name = name;
         this.menu = menu;
@@ -55,7 +58,7 @@ public class Vendor {
         return this.menu;
     }
     public List<Bill> getPreviousPayments () {return this.previousPayments;}
-    public List<BillItem> getDailyTotals () {return this.dailyTotals;}
+    public Map<String, List<BillItem>> getDailyTotals () {return this.dailyTotals;}
 
     // Setters
     public void setVendorId(String vendorId) {
@@ -68,10 +71,21 @@ public class Vendor {
         this.menu = menu;
     }
     public void setPreviousPayments (List<Bill> previousPayments) {this.previousPayments = previousPayments;}
-    public void setDailyTotals (List<BillItem> dailyTotals) {this.dailyTotals = dailyTotals;}
+    public void setDailyTotals (Map<String, List<BillItem>> dailyTotals) {this.dailyTotals = dailyTotals;}
 
     public void addPreviousPayment (Bill bill) {this.previousPayments.add(bill);}
-    public void addDailyTotalItem (BillItem billItem) {this.dailyTotals.add(billItem);}
+    public void addDailyTotalItems (Bill bill) {
+        String mapString = bill.getDate().replace('/', ' ');
+        /* If the map doesn't contain the key then add the bill items, if it does then merge the
+         old list of items and the current bill */
+        if (this.dailyTotals.containsKey(mapString)) {
+            List<BillItem> daily = this.dailyTotals.get(mapString);
+            daily.addAll(bill.getItemizedBill());
+            this.dailyTotals.put(mapString, daily);
+        } else {
+            this.dailyTotals.put(mapString, bill.getItemizedBill());
+        }
+    }
 
     public String menuToString() {
         String str = "";

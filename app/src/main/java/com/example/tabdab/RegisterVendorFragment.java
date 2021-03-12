@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -58,7 +59,7 @@ public class RegisterVendorFragment extends Fragment {
     vendors = FirebaseDatabase.getInstance().getReference("vendors").push();
     List<BillItem> menu = new ArrayList<>();
     List<Bill> previousPayments = new ArrayList<>();
-    List<BillItem> dailyTotals = new ArrayList<>();
+    HashMap<String, List<BillItem>> dailyTotals = new HashMap<>();
     Vendor vendor = new Vendor(vendors.getKey(), vendorName, menu, previousPayments, dailyTotals);
     vendors.setValue(vendor);
 

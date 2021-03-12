@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,6 @@ import java.util.List;
 public class VendorDailyTotalsFragment extends Fragment {
   ScrollView scroller;
   LinearLayout payments;
-  String prevPaymentsStr;
 
   User user;
   Vendor vendor;
@@ -43,6 +43,15 @@ public class VendorDailyTotalsFragment extends Fragment {
       user = User.fromJson(userStr);
     }
     vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(user.getVendorID());
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    View view = inflater.inflate(R.layout.fragment_vendor_daily_totals, container, false);
+
+    scroller = view.findViewById(R.id.scroller);
+    payments = view.findViewById(R.id.payments);
 
     // Get the vendor the user belongs to
     vendorDb.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -68,18 +77,9 @@ public class VendorDailyTotalsFragment extends Fragment {
 
       @Override
       public void onCancelled(@NonNull DatabaseError error) {
-
+        Log.d("VendorDailyTotalsFrag", error.getMessage());
       }
     });
-  }
-
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    // Inflate the layout for this fragment
-    View view = inflater.inflate(R.layout.fragment_vendor_daily_totals, container, false);
-
-    scroller = view.findViewById(R.id.scroller);
-    payments = view.findViewById(R.id.payments);
 
     return view;
   }
