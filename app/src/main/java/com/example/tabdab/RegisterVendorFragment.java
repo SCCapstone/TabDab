@@ -57,7 +57,9 @@ public class RegisterVendorFragment extends Fragment {
 
     vendors = FirebaseDatabase.getInstance().getReference("vendors").push();
     List<BillItem> menu = new ArrayList<>();
-    Vendor vendor = new Vendor(vendors.getKey(), vendorName, menu);
+    List<Bill> previousPayments = new ArrayList<>();
+    List<BillItem> dailyTotals = new ArrayList<>();
+    Vendor vendor = new Vendor(vendors.getKey(), vendorName, menu, previousPayments, dailyTotals);
     vendors.setValue(vendor);
 
     // Update data in firebase.
@@ -79,8 +81,7 @@ public class RegisterVendorFragment extends Fragment {
 
 
   public static RegisterVendorFragment newInstance() {
-    RegisterVendorFragment fragment = new RegisterVendorFragment();
-    return fragment;
+    return new RegisterVendorFragment();
   }
 
 }

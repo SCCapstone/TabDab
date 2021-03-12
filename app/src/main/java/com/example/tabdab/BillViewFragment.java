@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BillViewFragment extends Fragment {
@@ -27,16 +28,18 @@ public class BillViewFragment extends Fragment {
   Button butAddTip, butPay;
   Bill bill;
 
-  DatabaseReference database;
+  DatabaseReference userDb;
+  DatabaseReference vendorDb;
   FirebaseUser userRef;
   User user;
+  Vendor vendor;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     userRef = FirebaseAuth.getInstance().getCurrentUser();
-    database = FirebaseDatabase.getInstance().getReference().child("users").child(userRef.getUid());
+    userDb = FirebaseDatabase.getInstance().getReference().child("users").child(userRef.getUid());
   }
 
   @Override
@@ -51,6 +54,7 @@ public class BillViewFragment extends Fragment {
     // Get and display data from qr scanner fragment
     String qrResult = getArguments().getString("qrResult", "");
     bill = Bill.fromJson(qrResult);
+    vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(bill.getVendorId());
 
     // Set UI components
     itemizedView.setText(bill.toString());
@@ -67,15 +71,16 @@ public class BillViewFragment extends Fragment {
     });
 
     butPay.setOnClickListener(new View.OnClickListener() {
+      // Update the users past payments
       @Override
       public void onClick (View view) {
-        database.addListenerForSingleValueEvent(new ValueEventListener() {
+        userDb.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
             user = snapshot.getValue(User.class);
             List<Bill> pastPayments = user.getPastPayments();
             pastPayments.add(bill);
-            database.child("pastPayments").setValue(pastPayments);
+            userDb.child("pastPayments").setValue(pastPayments);
 
             Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
           }
@@ -83,6 +88,23 @@ public class BillViewFragment extends Fragment {
           @Override
           public void onCancelled(@NonNull DatabaseError error) {
             Log.d("BillView.java", "pay method failure.");
+          }
+        });
+
+        // Update the vendors daily totals
+        vendorDb.addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(@NonNull DataSnapshot snapshot) {
+            vendor = snapshot.getValue(Vendor.class);
+            List<Bill> previousPayments = vendor.getPreviousPayments();
+            List<BillItem> dailyTotals = vendor.getDailyTotals();
+            previousPayments.add(bill);
+            vendorDb.child("previousPayments").setValue(previousPayments);
+          }
+
+          @Override
+          public void onCancelled(@NonNull DatabaseError error) {
+            Log.d("BillViewFragment", error.getMessage());
           }
         });
       }

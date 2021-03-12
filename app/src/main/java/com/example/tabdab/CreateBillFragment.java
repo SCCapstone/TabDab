@@ -124,6 +124,7 @@ public class CreateBillFragment extends Fragment {
           @Override
           public void onClick(View v) {
             bill.setVendor(vendor.getName());
+            bill.setVendorId(vendor.getVendorId());
 
             FragmentTransaction ft;
             ft = getFragmentManager().beginTransaction();
