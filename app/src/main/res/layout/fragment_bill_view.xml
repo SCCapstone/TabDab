@@ -36,7 +36,7 @@
         android:text="@string/pay_button_text"
         android:textColor="@color/white"
         android:textAllCaps="false"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -62,7 +62,7 @@
         android:text="@string/add_tip"
         android:textColor="@color/white"
         android:textAllCaps="false"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toEndOf="@+id/editTip"

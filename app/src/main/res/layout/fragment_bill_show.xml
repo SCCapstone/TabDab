@@ -27,6 +27,6 @@
         android:text="@string/done"
         android:textColor="@color/white"
         android:textAllCaps="false"
-        android:background="@drawable/login_button" />
+        android:background="@drawable/button_pink_white_outline" />
 
 </LinearLayout>

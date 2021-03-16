@@ -27,7 +27,6 @@ import java.util.List;
 
 public class PastPaymentsFragment extends Fragment {
   ScrollView scroller;
-  //TextView textView;
   LinearLayout payments;
   String prevPaymentsStr;
 
@@ -41,19 +40,20 @@ public class PastPaymentsFragment extends Fragment {
     // UI elements
     scroller = view.findViewById(R.id.scroller);
     payments = view.findViewById(R.id.payments);
-    //textView = view.findViewById(R.id.payments);
 
     // Database elements
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     database = FirebaseDatabase.getInstance().getReference().child("users").child(userRef.getUid());
     prevPaymentsStr = "";
 
+    // Get the users past payments and add them to the scroll view
     database.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         user = snapshot.getValue(User.class);
         List<Bill> prevPayments = user.getPastPayments();
 
+        // Set the text views parameters and add it
         for (int i = prevPayments.size()-1; i > 0; i--) {
           TextView pastBill = new TextView(getContext());
           LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -61,7 +61,7 @@ public class PastPaymentsFragment extends Fragment {
           pastBill.setId(i);
           pastBill.setText(prevPayments.get(i).toString());
           pastBill.setTextColor(Color.WHITE);
-          pastBill.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.login_button, null));
+          pastBill.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.textview_pink, null));
           pastBill.setLayoutParams(params);
           pastBill.setPadding(10,10,10,10);
           payments.addView(pastBill);

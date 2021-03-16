@@ -31,6 +31,8 @@ In order to run tests on the TabDab app. Follow these instructions:
 3. Right click on the com.example.tabdab(test) option in the project window and click the Run option.
 4. All tests will complete after hitting run.
 
+![](https://i.ibb.co/Rcggsjw/3e310b3b8be44b0aadc4764e5ef8f215.png)
+![](https://cdn.discordapp.com/attachments/735542921029484675/818895465662644314/unknown.png)
 # Authors
 
 * Cameron Knox cbk1@email.sc.edu
