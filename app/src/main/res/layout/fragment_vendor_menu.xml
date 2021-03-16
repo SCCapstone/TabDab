@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
     tools:context=".VendorMenuFragment">
 
     <TextView
@@ -16,7 +15,7 @@
         android:gravity="center_horizontal"
         android:text="@string/vendor_menu"
         android:textSize="40sp"
-        android:textColor="@color/white" />
+        android:textColor="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/vendorId"
@@ -25,7 +24,7 @@
         android:layout_marginTop="25dp"
         android:gravity="center_horizontal"
         android:textSize="15sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/colorPrimary"/>
 
     <Button
         android:id="@+id/butMakeBill"
@@ -34,7 +33,7 @@
         android:layout_marginTop="200dp"
         android:background="@drawable/button_pink_white_outline"
         android:text="@string/create_bill"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         android:textAllCaps="false" />
     <Button
         android:id="@+id/butEditMenu"
@@ -43,7 +42,7 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/button_pink_white_outline"
         android:text="@string/edit_menu"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         android:textAllCaps="false" />
 
 </LinearLayout>

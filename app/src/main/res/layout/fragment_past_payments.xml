@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
     android:orientation="vertical"
     tools:context=".PastPaymentsFragment">
 
@@ -15,7 +14,7 @@
         android:layout_marginTop="60dp"
         android:text="@string/transaction_history"
         android:textSize="30sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/colorPrimary"/>
 
     <ScrollView
         android:id="@+id/scroller"
