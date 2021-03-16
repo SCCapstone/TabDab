@@ -3,6 +3,7 @@ package com.example.tabdab;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,11 +34,10 @@ public class PastPaymentsFragment extends Fragment {
   DatabaseReference database;
   FirebaseUser userRef;
   User user;
-
   @Override
   public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_past_payments, container, false);
-
+    getView().findViewById(R.id.navi_past_payments).setOnClickListener((v) ->
     // UI elements
     scroller = view.findViewById(R.id.scroller);
     payments = view.findViewById(R.id.payments);
