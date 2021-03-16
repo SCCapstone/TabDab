@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:background="@drawable/button_pink_white_outline"
-        android:text="Create Bill"
+        android:text="@string/create_bill"
         android:textColor="@color/white"
         android:textAllCaps="false" />
     <Button
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@drawable/button_pink_white_outline"
-        android:text="Edit Menu"
+        android:text="@string/edit_menu"
         android:textColor="@color/white"
         android:textAllCaps="false" />
 

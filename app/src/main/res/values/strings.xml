@@ -17,9 +17,6 @@
 
     <string name="vendor_portion">Vendor Portion</string>
     <string name="customer_portion">Customer Portion</string>
-    <string name="menu_item1">Hamburger: $7</string>
-    <string name="menu_item2">Fries: $3</string>
-    <string name="menu_item3">Coke: $1</string>
     <string name="generate_bill_btn">Generate Bill</string>
     <string name="vendor_name">Vendor Name</string>
     <string name="account">Account</string>
@@ -35,7 +32,6 @@
     <string name="reset_password">Reset Password</string>
     <string name="scan_qr">Scan QR</string>
     <string name="generate_bill">Generate Bill</string>
-    <string name="edit_menu">Edit Menu</string>
     <string name="add_item">Add Item</string>
     <string name="price">Price</string>
     <string name="register">Register</string>
@@ -62,5 +58,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="vendor_menu">Vendor Menu</string>
     <string name="cvv">CVV</string>
+    <string name="create_bill">Create Bill</string>
+    <string name="edit_menu">Edit Menu</string>
+    <string name="transaction_history">Transaction History</string>
 
 </resources>
