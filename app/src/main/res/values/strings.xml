@@ -61,5 +61,6 @@
     <string name="create_bill">Create Bill</string>
     <string name="edit_menu">Edit Menu</string>
     <string name="transaction_history">Transaction History</string>
+    <string name="daily_totals">Daily Totals</string>
 
 </resources>
