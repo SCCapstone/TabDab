@@ -29,11 +29,11 @@ public class BillViewFragment extends Fragment {
   Button butAddTip, butPay;
   Bill bill;
 
-  DatabaseReference userDb;
-  DatabaseReference vendorDb;
+  DatabaseReference userDb, vendorDb, dailyTotalsDb;
   FirebaseUser userRef;
   User user;
   Vendor vendor;
+  DailyTotals dailyTotals;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class BillViewFragment extends Fragment {
       // Update the users past payments
       @Override
       public void onClick (View view) {
+        // Get the user and update firebase with their payment
         userDb.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,18 +93,17 @@ public class BillViewFragment extends Fragment {
           }
         });
 
-        // Update the vendors daily totals
-        vendorDb.addListenerForSingleValueEvent(new ValueEventListener() {
+        // Update the daily totals for the vendor
+        dailyTotalsDb = FirebaseDatabase.getInstance().getReference("daily_totals").child(bill.getVendorId());
+        dailyTotalsDb.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
-            vendor = snapshot.getValue(Vendor.class);
-            //List<Bill> previousPayments = vendor.getPreviousPayments();
-            //HashMap<String, BillItem> dailyTotals = vendor.getDailyTotals();
-            //previousPayments.add(bill);
-            vendor.addPreviousPayment(bill);
-            vendor.addDailyTotalItems(bill);
-            vendorDb.child("previousPayments").setValue(vendor.getPreviousPayments());
-            vendorDb.child("dailyTotals").setValue(vendor.getDailyTotals());
+            dailyTotals = snapshot.getValue(DailyTotals.class);
+            dailyTotals.addPreviousPayment(bill);
+            dailyTotals.addDailyTotalItems(bill);
+
+            dailyTotalsDb.child("previousPayments").setValue(dailyTotals.getPreviousPayments());
+            dailyTotalsDb.child("totals").setValue(dailyTotals.getTotals());
           }
 
           @Override

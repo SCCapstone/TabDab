@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class RegisterVendorFragment extends Fragment {
@@ -56,14 +57,19 @@ public class RegisterVendorFragment extends Fragment {
   public void makeVendor(String vendorName) {
     String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+    // Add the vendor to firebase
     vendors = FirebaseDatabase.getInstance().getReference("vendors").push();
     List<BillItem> menu = new ArrayList<>();
-    List<Bill> previousPayments = new ArrayList<>();
-    HashMap<String, List<BillItem>> dailyTotals = new HashMap<>();
-    Vendor vendor = new Vendor(vendors.getKey(), vendorName, menu, previousPayments, dailyTotals);
+    Vendor vendor = new Vendor(vendors.getKey(), vendorName, menu);
     vendors.setValue(vendor);
 
-    // Update data in firebase.
+    // Add the daily totals info to firebase
+    ArrayList<Bill> previousPayments = new ArrayList<>();
+    HashMap<String, List<BillItem>> totals = new HashMap<>();
+    DailyTotals dailyTotals = new DailyTotals(vendor.getVendorId(), previousPayments, totals);
+    FirebaseDatabase.getInstance().getReference("daily_totals").child(dailyTotals.getVendorId()).setValue(dailyTotals);
+
+    // Update user data in firebase.
     FirebaseDatabase.getInstance().getReference("users/").child(uid).child("vendorID").setValue(vendors.getKey());
     FirebaseDatabase.getInstance().getReference("users/").child(uid).child("isVendor").setValue(true);
 
