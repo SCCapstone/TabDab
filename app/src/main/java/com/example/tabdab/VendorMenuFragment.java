@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class VendorMenuFragment extends Fragment {
   TextView vendorName, vendorId;
-  Button butCreateBill, butEditMenu, butDailyTotals;
+  Button butCreateBill, butEditMenu, butDailyTotals, butEditVendorInfo;
   User user;
   FirebaseUser userRef;
   DatabaseReference userDatabase;
@@ -44,11 +44,13 @@ public class VendorMenuFragment extends Fragment {
     butCreateBill = view.findViewById(R.id.butMakeBill);
     butEditMenu = view.findViewById(R.id.butEditMenu);
     butDailyTotals = view.findViewById(R.id.butDailyTotals);
+    butEditVendorInfo = view.findViewById(R.id.butEditVendor);
 
     // Hide the buttons until the user data is retrieved from firebase
     butCreateBill.setVisibility(View.INVISIBLE);
     butEditMenu.setVisibility(View.INVISIBLE);
     butDailyTotals.setVisibility(View.INVISIBLE);
+    butEditVendorInfo.setVisibility(View.INVISIBLE);
 
     // Get the user info
     userRef = FirebaseAuth.getInstance().getCurrentUser();
@@ -72,7 +74,7 @@ public class VendorMenuFragment extends Fragment {
               Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
             } else {
               FragmentTransaction ft;
-              ft = getFragmentManager().beginTransaction();
+              ft = getParentFragmentManager().beginTransaction();
               ft.replace(R.id.fragment_container, CreateBillFragment.newInstance(user)).commit();
               ft.addToBackStack(null);
             }
@@ -99,8 +101,23 @@ public class VendorMenuFragment extends Fragment {
               Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
             } else {
               FragmentTransaction ft;
-              ft = getFragmentManager().beginTransaction();
+              ft = getParentFragmentManager().beginTransaction();
               ft.replace(R.id.fragment_container, VendorDailyTotalsFragment.newInstance(user)).commit();
+              ft.addToBackStack(null);
+            }
+          }
+        });
+
+        butEditVendorInfo.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            // Only let the user go if they are a registered vendor
+            if (!user.getIsVendor()) {
+              Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
+            } else {
+              FragmentTransaction ft;
+              ft = getParentFragmentManager().beginTransaction();
+              ft.replace(R.id.fragment_container, EditVendorInfoFragment.newInstance(user)).commit();
               ft.addToBackStack(null);
             }
           }
@@ -110,6 +127,7 @@ public class VendorMenuFragment extends Fragment {
         butCreateBill.setVisibility(View.VISIBLE);
         butEditMenu.setVisibility(View.VISIBLE);
         butDailyTotals.setVisibility(View.VISIBLE);
+        butEditVendorInfo.setVisibility(View.VISIBLE);
       }
 
       @Override

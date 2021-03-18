@@ -66,6 +66,7 @@ public class CreateBillFragment extends Fragment {
     userId = userRef.getUid();
   }
 
+  // Reset the bill values when the user comes back to this screen
   @Override
   public void onResume () {
     super.onResume();
@@ -127,7 +128,7 @@ public class CreateBillFragment extends Fragment {
             bill.setVendorId(vendor.getVendorId());
 
             FragmentTransaction ft;
-            ft = getFragmentManager().beginTransaction();
+            ft = getParentFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, BillShowFragment.newInstance(bill.toJson())).commit();
             ft.addToBackStack(null);
           }
