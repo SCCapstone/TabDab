@@ -24,6 +24,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:hint="@string/first_name"
+        android:textAlignment="center"
         android:inputType="text" />
 
     <EditText
@@ -34,6 +35,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:hint="@string/last_name"
+        android:textAlignment="center"
         android:inputType="text" />
 
     <EditText
@@ -44,6 +46,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:hint="@string/email_login"
+        android:textAlignment="center"
         android:inputType="text" />
 
     <EditText
@@ -54,6 +57,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:hint="Card Number"
+        android:textAlignment="center"
         android:inputType="text" />
 
     <EditText
