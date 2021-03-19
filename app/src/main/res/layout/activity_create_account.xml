@@ -61,6 +61,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/password"
+        android:textAlignment="center"
         android:inputType="textPersonName|textWebPassword" />
 
     <EditText
@@ -72,6 +73,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Credit Card Number"
+        android:textAlignment="center"
         android:inputType="textPersonName" />
 
     <EditText
