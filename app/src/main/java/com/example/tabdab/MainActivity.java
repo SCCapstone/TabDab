@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
     // Add the MainFragment
-    fragmentTransaction.add(R.id.fragment_container, qrScanner).addToBackStack(null).commit();
+    fragmentTransaction.add(R.id.fragment_container, qrScanner).commit();
     isFragmentDisplayed = true;
   }
   public void closeFragment() {
