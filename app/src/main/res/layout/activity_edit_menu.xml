@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:background="#EF476F"
     android:layout_height="match_parent"
+    android:padding="5dp"
     tools:context=".EditMenu">
 
     <EditText
@@ -85,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ButRemoveItem"
         android:background="@drawable/register_button"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:textColor="@color/white"
         android:textAllCaps="false"
         android:visibility="invisible" />

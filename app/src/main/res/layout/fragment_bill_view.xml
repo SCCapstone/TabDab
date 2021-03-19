@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+    android:padding="5dp"
     tools:context=".BillViewFragment">
 
     <TextView
@@ -30,7 +31,7 @@
 
     <Button
         android:id="@+id/pay_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="@string/pay_button_text"

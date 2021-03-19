@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
-    tools:context=".EditVendorInfoFragment">
+    tools:context=".EditVendorInfoFragment"
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/editVendorText"
@@ -22,8 +23,9 @@
     <EditText
         android:id="@+id/editVendorName"
         android:background="@drawable/login_edit_text"
-        android:layout_width="259dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:padding="5dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp"
         android:hint="@string/edit_name"
@@ -39,6 +41,7 @@
         android:layout_marginTop="300dp"
         android:baselineAligned="false"
         android:text="@string/save"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 
 </LinearLayout>
