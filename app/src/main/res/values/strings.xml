@@ -63,5 +63,6 @@
     <string name="edit_name">Edit Name</string>
     <string name="daily_totals">Daily Totals</string>
     <string name="edit_vendor_information">Edit Vendor Information</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
