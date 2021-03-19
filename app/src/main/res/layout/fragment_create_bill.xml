@@ -5,33 +5,34 @@
     android:background="@color/colorPrimary"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context=".CreateBillFragment">
 
     <ScrollView
         android:id="@+id/itemized_bill_scroller"
-        android:layout_width="325dp"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal">
         <LinearLayout
             android:id="@+id/itemized_bill_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/itemized_bill"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAlignment="center"
                 android:text=""
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/white"
                 android:layout_gravity="center_horizontal" />
         </LinearLayout>
     </ScrollView>
 
     <ScrollView
         android:id="@+id/scroller"
-        android:layout_width="325dp"
+        android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_marginTop="25dp"
         android:layout_gravity="center_horizontal"
@@ -48,7 +49,7 @@
 
     <Button
         android:id="@+id/generate_bill_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
@@ -58,7 +59,7 @@
         android:textColor="@color/white"/>
     <Button
         android:id="@+id/clear_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"

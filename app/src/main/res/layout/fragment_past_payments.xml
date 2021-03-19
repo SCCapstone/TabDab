@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".PastPaymentsFragment">
 
     <TextView
@@ -11,16 +12,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="25dp"
         android:text="@string/transaction_history"
         android:textSize="30sp"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/white"/>
 
     <ScrollView
         android:id="@+id/scroller"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal">
 
@@ -30,6 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:orientation="vertical"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal" />
     </ScrollView>
 </LinearLayout>

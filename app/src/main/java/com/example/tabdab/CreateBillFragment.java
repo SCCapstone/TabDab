@@ -100,13 +100,17 @@ public class CreateBillFragment extends Fragment {
           // Set button params
           Button but = new Button(getContext());
           but.setId(i);
+          LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          params.setMargins( 0, 0, 0, 5);
+          but.setLayoutParams(params);
           but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
-          but.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.register_button, null));
+          but.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pink_white_outline, null));
           but.setTextColor(Color.WHITE);
           but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
               bill.addBillItem(menuItems.get(v.getId()));
+              bill.setGrandTotal();
 
               // Update the itemized bill
               if (itemizedBillStr.isEmpty()) {

@@ -57,6 +57,7 @@ public class Bill {
         this.grandTotal = grandTotal;
     }
     public void setGrandTotal() {
+        this.grandTotal = 0;
         for (BillItem item : this.itemizedBill) {
             this.grandTotal += item.getPrice();
         }
@@ -73,7 +74,6 @@ public class Bill {
 
     public void addBillItem(BillItem item) {
         this.itemizedBill.add(item);
-        setGrandTotal();
     }
 
 

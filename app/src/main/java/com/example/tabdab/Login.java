@@ -36,7 +36,6 @@ public class Login extends AppCompatActivity {
     sharedPreferences = getApplicationContext().getSharedPreferences("Preferences", Context.MODE_PRIVATE);
     String login = sharedPreferences.getString("LOGIN",null);
     if(login != null) {
-      System.out.println(login);
       startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
 
@@ -101,5 +100,11 @@ public class Login extends AppCompatActivity {
         });
       }
     });
+  }
+
+  @Override
+  public void onBackPressed () {
+    finishAffinity();
+    finish();
   }
 }

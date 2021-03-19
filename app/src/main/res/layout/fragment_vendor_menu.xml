@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context=".VendorMenuFragment">
 
     <TextView
@@ -15,7 +17,7 @@
         android:gravity="center_horizontal"
         android:text="@string/vendor_menu"
         android:textSize="40sp"
-        android:textColor="@color/colorPrimary" />
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/vendorId"
