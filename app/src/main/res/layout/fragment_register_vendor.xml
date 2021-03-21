@@ -24,6 +24,7 @@
         android:layout_height="45dp"
         android:background="@drawable/login_edit_text"
         android:hint="@string/vendor_name"
+        android:textAlignment="center"
         android:inputType="text"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="100dp" />
@@ -32,7 +33,7 @@
         android:id="@+id/butRegisterVendor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         android:text="@string/register"
         android:textColor="@color/white"
         android:textAllCaps="false"

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
+    android:padding="5dp"
     tools:context=".BillViewFragment">
 
     <TextView
@@ -30,13 +31,13 @@
 
     <Button
         android:id="@+id/pay_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="@string/pay_button_text"
         android:textColor="@color/white"
         android:textAllCaps="false"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -62,7 +63,7 @@
         android:text="@string/add_tip"
         android:textColor="@color/white"
         android:textAllCaps="false"
-        android:background="@drawable/login_button"
+        android:background="@drawable/button_pink_white_outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.609"
         app:layout_constraintStart_toEndOf="@+id/editTip"

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
@@ -58,10 +59,10 @@ public class BillShowFragment extends Fragment {
     butDone.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View v) {
-        FragmentTransaction ft;
-        ft = getParentFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance()).commit();
-        ft.addToBackStack(null);
+        getFragmentManager().popBackStack();
+        //ft = getFragmentManager().beginTransaction();
+        //ft.replace(R.id.fragment_container, CreateBillFragment.newInstance()).commit();
+        //ft.addToBackStack(null);
       }
     });
 

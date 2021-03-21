@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="5dp"
     tools:context=".CreateAccount">
 
     <TextView
@@ -19,23 +20,12 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/uEmail"
-        android:background="@drawable/login_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:hint="@string/email_login"
-        android:inputType="textWebEmailAddress|textPersonName" />
-
-    <EditText
         android:id="@+id/uFirstName"
         android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="@string/first_name"
         android:inputType="textPersonName" />
@@ -52,6 +42,17 @@
         android:inputType="textPersonName" />
 
     <EditText
+        android:id="@+id/uEmail"
+        android:background="@drawable/login_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="@string/email_login"
+        android:inputType="textWebEmailAddress|textPersonName" />
+
+    <EditText
         android:id="@+id/uPassword"
         android:background="@drawable/login_edit_text"
         android:layout_width="wrap_content"
@@ -60,6 +61,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/password"
+        android:textAlignment="center"
         android:inputType="textPersonName|textWebPassword" />
 
     <EditText
@@ -71,6 +73,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Credit Card Number"
+        android:textAlignment="center"
         android:inputType="textPersonName" />
 
     <EditText
@@ -118,10 +121,10 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="215dp"
-        android:layout_height="49dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/register_button"
         android:text="@string/register"
         android:textColor="@android:color/white" />

@@ -1,7 +1,16 @@
 package com.example.tabdab;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Vendor {
     String vendorId, name;
@@ -35,11 +44,9 @@ public class Vendor {
     public String getVendorId() {
         return this.vendorId;
     }
-
     public String getName() {
         return this.name;
     }
-
     public List<BillItem> getMenu() {
         return this.menu;
     }
@@ -48,14 +55,13 @@ public class Vendor {
     public void setVendorId(String vendorId) {
         this.vendorId = vendorId;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public void setMenu(List<BillItem> menu) {
         this.menu = menu;
     }
+
 
     public String menuToString() {
         String str = "";
@@ -65,10 +71,8 @@ public class Vendor {
         return str;
     }
 
-    public void printVendor() {
-        System.out.println("VendorID: " + this.vendorId + "\nName: " + this.name + "\nMenu:\n");
-        for (BillItem item : this.menu) {
-            System.out.println("Item: " + item.getName() + ", $" + item.getPrice());
-        }
+    public String toString () {
+        Gson json = new Gson();
+        return json.toJson(this);
     }
 }

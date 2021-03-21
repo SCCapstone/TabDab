@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:background="#EF476F"
     android:layout_height="match_parent"
+    android:padding="5dp"
     tools:context=".EditMenu">
 
     <EditText
@@ -15,6 +16,7 @@
         android:background="@drawable/login_edit_text"
         android:ems="10"
         android:hint="@string/name"
+        android:textAlignment="center"
         android:inputType="textPersonName" />
 
     <EditText
@@ -70,9 +72,9 @@
         android:id="@+id/ButRemoveItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/ButDone"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:background="@drawable/register_button"
         android:text="@string/remove_menu_item"
         android:textColor="@color/white"
@@ -84,8 +86,20 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ButRemoveItem"
         android:background="@drawable/register_button"
-        android:text="Cancel"
+        android:text="@string/cancel"
         android:textColor="@color/white"
         android:textAllCaps="false"
         android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/ButDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/register_button"
+        android:text="@string/done"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        />
 </RelativeLayout>

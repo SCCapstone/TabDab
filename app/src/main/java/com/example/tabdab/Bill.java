@@ -15,6 +15,7 @@ import java.util.Locale;
 public class Bill {
     // Instance variables
     String vendor;
+    String vendorId;
     String date;
     double grandTotal;
     double tip;
@@ -23,15 +24,17 @@ public class Bill {
     // Constructors
     public Bill() {
         this.vendor = "";
-        this.date = new SimpleDateFormat("mm/dd/yyyy", Locale.getDefault()).format(new Date());
+        this.vendorId = "";
+        this.date = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
         this.itemizedBill = new ArrayList<>();
         this.grandTotal = 0.0;
         this.tip = 0.0;
     }
 
-    public Bill(String vendor, List<BillItem> itemizedBill, double grandTotal, double tip) {
+    public Bill(String vendor, String vendorId, List<BillItem> itemizedBill, double grandTotal, double tip) {
         this.vendor = "";
-        this.date = new SimpleDateFormat("mm/dd/yyyy", Locale.getDefault()).format(new Date());
+        this.vendorId = vendorId;
+        this.date = new SimpleDateFormat("MM/dd/yyyy", Locale.getDefault()).format(new Date());
         this.itemizedBill = itemizedBill;
         this.grandTotal = grandTotal;
         this.tip = tip;
@@ -41,24 +44,20 @@ public class Bill {
     public double getGrandTotal() {
         return this.grandTotal;
     }
-
     public double getTip() {
         return this.tip;
     }
     public List<BillItem> getItemizedBill () {return this.itemizedBill;}
     public String getVendor () {return this.vendor;}
+    public String getVendorId () {return this.vendorId;}
     public String getDate () {return this.date;}
 
-    /**
-     * Set the grand total of the bill
-     *
-     * @param grandTotal
-     */
+    // Setters
     public void setGrandTotal(double grandTotal) {
         this.grandTotal = grandTotal;
     }
-
     public void setGrandTotal() {
+        this.grandTotal = 0;
         for (BillItem item : this.itemizedBill) {
             this.grandTotal += item.getPrice();
         }
@@ -66,21 +65,15 @@ public class Bill {
     public void setItemizedBill (List<BillItem> itemizedBill) {
         this.itemizedBill = itemizedBill;
     }
-
-    /**
-     * Set the bill's tip
-     *
-     * @param tip Tip you want to add
-     */
     public void setTip(double tip) {
         this.tip = tip;
     }
     public void setVendor (String vendor) {this.vendor = vendor;}
+    public void setVendorId (String vendorId) {this.vendorId = vendorId;}
     public void setDate (String date) {this.date = date;}
 
     public void addBillItem(BillItem item) {
         this.itemizedBill.add(item);
-        setGrandTotal();
     }
 
 
@@ -97,7 +90,6 @@ public class Bill {
         Gson gson = new Gson();
         return gson.toJson(this);
     }
-
     public static Bill fromJson(String str) {
         return new Gson().fromJson(str, Bill.class);
     }
@@ -112,20 +104,6 @@ public class Bill {
             System.out.println(itemizedBill.get(i).getName() + ", " + itemizedBill.get(i).getPrice() + "\n");
         }
         System.out.println("Tip: " + tip);
-    }
-
-    /**
-     * Checks that the QR code string is of the proper format.
-     *
-     * @param str
-     * @return
-     */
-    public static boolean isQRCodeStringFormat(String str) {
-        if (str.contains(",") || str.contains("$") || str.contains(":")) {
-            Log.d("Bill.java", "QR code string contains one of the following: ',', '$', ':'");
-            return false;
-        }
-        return true;
     }
 }
 

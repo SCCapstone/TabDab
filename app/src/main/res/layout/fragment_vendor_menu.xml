@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
     tools:context=".VendorMenuFragment">
@@ -25,25 +26,43 @@
         android:layout_marginTop="25dp"
         android:gravity="center_horizontal"
         android:textSize="15sp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/colorPrimary"/>
 
     <Button
         android:id="@+id/butMakeBill"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
-        android:background="@drawable/login_button"
-        android:text="Create Bill"
+        android:background="@drawable/button_pink_white_outline"
+        android:text="@string/create_bill"
         android:textColor="@color/white"
         android:textAllCaps="false" />
+    <Button
+        android:id="@+id/butDailyTotals"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_pink_white_outline"
+        android:text="@string/daily_totals"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
     <Button
         android:id="@+id/butEditMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:background="@drawable/login_button"
-        android:text="Edit Menu"
+        android:background="@drawable/button_pink_white_outline"
+        android:text="@string/edit_menu"
         android:textColor="@color/white"
         android:textAllCaps="false" />
+    <Button
+        android:id="@+id/butEditVendor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_pink_white_outline"
+        android:text="@string/edit_vendor_information"
+        android:textColor="@color/white"
+        android:textAllCaps="false"/>
 
 </LinearLayout>

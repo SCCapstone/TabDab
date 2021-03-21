@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   private DrawerLayout drawer;
   private int currentFragment = R.layout.fragment_main;
   private NavigationView navigationView;
+  FragmentManager fm;
   private FrameLayout frameLayout;
   private FirebaseAuth fireAuth;
   SharedPreferences sharedPreferences;
@@ -50,7 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     drawer = findViewById(R.id.drawer_layout);
     navigationView = findViewById(R.id.nav_view);
     navigationView.bringToFront();
-    frameLayout = findViewById(R.id.frame);  // Might need to cast to FrameLayout
+    fm = getSupportFragmentManager();
+    frameLayout = findViewById(R.id.fragment_container);  // Might need to cast to FrameLayout
 
     displayFragment();
   }
@@ -70,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // If the drawer is open and back is pressed, close it.
     if (this.drawer.isDrawerOpen(GravityCompat.START)) {
       this.drawer.closeDrawer(GravityCompat.START);
+    } else if (fm.getBackStackEntryCount() == 0) {
+      finishAffinity();
+      finish();
     } else {
       super.onBackPressed();
     }
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
       drawer.closeDrawer(GravityCompat.START);
       return false;
     }
-    FragmentManager fm = getSupportFragmentManager();
+
     FragmentTransaction ft;
     Fragment fragment = null;
 
@@ -121,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         break;
     }
     if (fragment != null) {
-      fm.beginTransaction().replace(R.id.frame, fragment).setReorderingAllowed(true).commit();
+      fm.beginTransaction().replace(R.id.fragment_container, fragment).setReorderingAllowed(true).commit();
       drawer.closeDrawer(GravityCompat.START);
       return true;
     }
@@ -135,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
     // Add the MainFragment
-    fragmentTransaction.add(R.id.fragment_container, qrScanner).addToBackStack(null).commit();
+    fragmentTransaction.add(R.id.fragment_container, qrScanner).commit();
     isFragmentDisplayed = true;
   }
   public void closeFragment() {

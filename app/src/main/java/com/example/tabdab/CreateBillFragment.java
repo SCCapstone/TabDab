@@ -66,6 +66,15 @@ public class CreateBillFragment extends Fragment {
     userId = userRef.getUid();
   }
 
+  // Reset the bill values when the user comes back to this screen
+  @Override
+  public void onResume () {
+    super.onResume();
+    bill = new Bill();
+    itemizedBillStr = "";
+    itemizedBill.setText(itemizedBillStr);
+  }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Inflate the layout for this fragment
@@ -85,20 +94,23 @@ public class CreateBillFragment extends Fragment {
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         vendor = snapshot.getValue(Vendor.class);
         menuItems = vendor.getMenu();
-        bill.setVendor(vendor.getName());
 
         // Add the buttons
         for (int i = 0; i < menuItems.size(); i++) {
           // Set button params
           Button but = new Button(getContext());
           but.setId(i);
+          LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          params.setMargins( 0, 0, 0, 5);
+          but.setLayoutParams(params);
           but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
-          but.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.register_button, null));
+          but.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pink_white_outline, null));
           but.setTextColor(Color.WHITE);
           but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick (View v) {
               bill.addBillItem(menuItems.get(v.getId()));
+              bill.setGrandTotal();
 
               // Update the itemized bill
               if (itemizedBillStr.isEmpty()) {
@@ -116,10 +128,23 @@ public class CreateBillFragment extends Fragment {
         generateBtn.setOnClickListener(new View.OnClickListener() {
           @Override
           public void onClick(View v) {
+            bill.setVendor(vendor.getName());
+            bill.setVendorId(vendor.getVendorId());
+
             FragmentTransaction ft;
             ft = getParentFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, BillShowFragment.newInstance(bill.toJson())).commit();
             ft.addToBackStack(null);
+          }
+        });
+
+        // Clear the bill if the user needs to restart a bill
+        clearBtn.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            itemizedBillStr = "";
+            itemizedBill.setText(itemizedBillStr);
+            bill = new Bill();
           }
         });
       }
