@@ -29,11 +29,12 @@ public class BillViewFragment extends Fragment {
   Button butAddTip, butPay;
   Bill bill;
 
-  DatabaseReference userDb, vendorDb, dailyTotalsDb;
+  DatabaseReference userDb, vendorDb, dailyTotalsDb, paymentsDb;
   FirebaseUser userRef;
   User user;
   Vendor vendor;
   DailyTotals dailyTotals;
+  PaymentTracker paymentTracker;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +84,12 @@ public class BillViewFragment extends Fragment {
             List<Bill> pastPayments = user.getPastPayments();
             pastPayments.add(bill);
             userDb.child("pastPayments").setValue(pastPayments);
+
+            // Track the payment
+            paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
+                    bill.getVendor(), bill.getGrandTotal(), bill.getTip());
+            paymentsDb = FirebaseDatabase.getInstance().getReference("payments").push();
+            paymentsDb.setValue(paymentTracker);
 
             Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
           }
