@@ -54,17 +54,7 @@ public class EditInfoFragment extends Fragment {
     newCVV = view.findViewById(R.id.editCVV);
 
 
-    // Vendor switch is switched to true, make the vendor ID input visible to the user
-    switchIsVendor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-      @Override
-      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (switchIsVendor.isChecked()) {
-          vendorId.setVisibility(View.VISIBLE);
-        } else {
-          vendorId.setVisibility(View.INVISIBLE);
-        }
-      }
-    });
+
 
     fireAuth = FirebaseAuth.getInstance();
     database =  FirebaseDatabase.getInstance().getReference("users/");
@@ -81,14 +71,25 @@ public class EditInfoFragment extends Fragment {
         String newCV = newCVV.getText().toString();
         final String vendorID = vendorId.getText().toString();
 
+        // Vendor switch is switched to true, make the vendor ID input visible to the user
+        switchIsVendor.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+          @Override
+          public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (switchIsVendor.isChecked()) {
+              vendorId.setVisibility(View.VISIBLE);
+            } else {
+              vendorId.setVisibility(View.INVISIBLE);
+            }
+          }
+        });
+
         // Check if the vendor ID the user entered exists.
-       // if(vendorId.getVisibility() == View.VISIBLE()) {
           DatabaseReference refVendors = FirebaseDatabase.getInstance().getReference().child("vendors");
           final DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
           refVendors.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-              if (!snapshot.hasChild(vendorID) || vendorID.isEmpty()) {  // Vendor ID not found
+              if (!snapshot.hasChild(vendorID) && vendorID.isEmpty()) {  // Vendor ID not found
                 System.out.println(vendorID);
                 Toast.makeText(getContext(), "Vendor ID not found.", Toast.LENGTH_SHORT).show();
               } else if (!vendorID.isEmpty()) {  // Vendor ID exists. Update the user info
@@ -103,6 +104,7 @@ public class EditInfoFragment extends Fragment {
             }
           });
             user = fireAuth.getCurrentUser();
+            // *************************NEED TO ADD VALIDATION CHECKS THAT TYLER HAD CREATED *****************
         // Check which fields the user has updated and update them
         if (!firstName.isEmpty()) {
           refUser.child("firstName").setValue(firstName);
