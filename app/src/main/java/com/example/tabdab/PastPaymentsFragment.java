@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class PastPaymentsFragment extends Fragment {
@@ -55,16 +57,47 @@ public class PastPaymentsFragment extends Fragment {
 
         // Set the text views parameters and add it
         for (int i = prevPayments.size()-1; i > 0; i--) {
-          TextView pastBill = new TextView(getContext());
-          LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
           params.setMargins(0,10,0,10);
-          pastBill.setId(i);
-          pastBill.setText(prevPayments.get(i).toString());
-          pastBill.setTextColor(Color.WHITE);
-          pastBill.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.textview_pink, null));
-          pastBill.setLayoutParams(params);
-          pastBill.setPadding(10,10,10,10);
-          payments.addView(pastBill);
+          LinearLayout bill = new LinearLayout(getContext());
+
+          TextView date = new TextView(getContext());
+          TextView vendorName = new TextView(getContext());
+          TextView itemizedBill = new TextView(getContext());
+          TextView grandTotal = new TextView(getContext());
+
+          // Set the past payment parameters
+          bill.setId(i);
+          bill.setOrientation(LinearLayout.VERTICAL);
+          bill.setBackground(ResourcesCompat.getDrawable(getResources(),
+                  R.drawable.textview_pink, null));
+          bill.setPadding(10,10,10,10);
+          bill.setLayoutParams(params);
+
+          // Set the text parameters
+          date.setLayoutParams(params);
+          date.setText(prevPayments.get(i).getDate());
+          date.setTextColor(Color.WHITE);
+          vendorName.setText(prevPayments.get(i).getVendor());
+          vendorName.setTextSize(25);
+          vendorName.setTextColor(Color.WHITE);
+          vendorName.setLayoutParams(params);
+          itemizedBill.setText(prevPayments.get(i).itemizedBillToString());
+          itemizedBill.setTextColor(Color.WHITE);
+          itemizedBill.setLayoutParams(params);
+          grandTotal.setText("Grand Total: " + prevPayments.get(i).getGrandTotal());
+          grandTotal.setTextColor(Color.WHITE);
+          grandTotal.setLayoutParams(params);
+
+          // Add the text views to the previous payment
+          bill.addView(date);
+          bill.addView(vendorName);
+          bill.addView(itemizedBill);
+          bill.addView(grandTotal);
+
+          // Add the previous payment
+          payments.addView(bill);
         }
       }
 
