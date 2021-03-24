@@ -85,6 +85,15 @@ public class Bill {
         ret += "Tip: " + this.getTip();
         return ret;
     }
+    public String itemizedBillToString () {
+        String ret = "";
+        for (int i = 0; i < this.itemizedBill.size(); i++) {
+            ret = ret + this.itemizedBill.get(i).getName() + ": " +
+                    this.itemizedBill.get(i).getPrice() + "\n";
+        }
+        ret += "Tip: " + this.tip;
+        return ret;
+    }
 
     public String toJson() {
         Gson gson = new Gson();
