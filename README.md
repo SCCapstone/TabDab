@@ -34,7 +34,10 @@ In order to run tests on the TabDab app. Follow these instructions:
 <img src="https://i.ibb.co/Rcggsjw/3e310b3b8be44b0aadc4764e5ef8f215.png" width="100" height="200">
 <img src="https://cdn.discordapp.com/attachments/735542921029484675/818895465662644314/unknown.png" width="100" height="200">
 <img src="https://cdn.discordapp.com/attachments/216726287945957377/759472967989854318/changepw.PNG" width="100" height="200">
-
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/824684585300000798/unknown.png" width="100" height="200">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/824684486033801306/unknown.png" width="100" height="200">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/824684640349454346/unknown.png" width="100" height="200">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/824684392454684672/unknown.png" width="100" height="200">
 
 # Authors
 
