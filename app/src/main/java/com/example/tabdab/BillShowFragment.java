@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 
@@ -21,7 +23,6 @@ public class BillShowFragment extends Fragment {
   private static final String QR_RESULT = "qrResult";
   ImageView qrImage;
   Button butDone;
-  Bill bill;
   private String qrResult;
 
   public BillShowFragment() {
@@ -42,9 +43,6 @@ public class BillShowFragment extends Fragment {
     View view = inflater.inflate(R.layout.fragment_bill_show, container, false);
     qrImage = view.findViewById(R.id.qrPlaceHolder);
     butDone = view.findViewById(R.id.done_btn);
-
-    // Get and display data from qr scanner activity
-    bill = Bill.fromJson(qrResult);
 
     // Display the qr code
     QRGEncoder qrgEncoder = new QRGEncoder(qrResult, null,

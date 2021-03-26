@@ -17,8 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,7 +37,7 @@ public class CreateBillFragment extends Fragment {
 
   // User elements
   String userId;
-  DatabaseReference databaseVendor;
+  DatabaseReference vendorsDb, billsDb;
   FirebaseUser userRef;
   User user;
   Vendor vendor;
@@ -88,8 +86,8 @@ public class CreateBillFragment extends Fragment {
     menu = view.findViewById(R.id.menu);
 
     // Get the vendor information
-    databaseVendor = FirebaseDatabase.getInstance().getReference("vendors").child(user.getVendorID());
-    databaseVendor.addListenerForSingleValueEvent(new ValueEventListener() {
+    vendorsDb = FirebaseDatabase.getInstance().getReference("vendors").child(user.getVendorID());
+    vendorsDb.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         vendor = snapshot.getValue(Vendor.class);
@@ -131,9 +129,14 @@ public class CreateBillFragment extends Fragment {
             bill.setVendor(vendor.getName());
             bill.setVendorId(vendor.getVendorId());
 
+            billsDb = FirebaseDatabase.getInstance().getReference("bills").push();
+            billsDb.setValue(bill);
+
+            billsDb = FirebaseDatabase.getInstance().getReference("bills").child(billsDb.getKey());
+
             FragmentTransaction ft;
             ft = getParentFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, BillShowFragment.newInstance(bill.toJson())).commit();
+            ft.replace(R.id.fragment_container, BillShowFragment.newInstance(billsDb.toString())).commit();
             ft.addToBackStack(null);
           }
         });

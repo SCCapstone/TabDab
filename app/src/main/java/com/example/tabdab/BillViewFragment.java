@@ -29,10 +29,9 @@ public class BillViewFragment extends Fragment {
   Button butAddTip, butPay;
   Bill bill;
 
-  DatabaseReference userDb, vendorDb, dailyTotalsDb, paymentsDb;
+  DatabaseReference userDb, vendorDb, dailyTotalsDb, paymentsDb, billsDb;
   FirebaseUser userRef;
   User user;
-  Vendor vendor;
   DailyTotals dailyTotals;
   PaymentTracker paymentTracker;
 
@@ -55,12 +54,74 @@ public class BillViewFragment extends Fragment {
 
     // Get and display data from qr scanner fragment
     String qrResult = getArguments().getString("qrResult", "");
-    bill = Bill.fromJson(qrResult);
-    vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(bill.getVendorId());
+    //bill = Bill.fromJson(qrResult);
+    billsDb = FirebaseDatabase.getInstance().getReferenceFromUrl(qrResult);
+    billsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot snapshot) {
+        bill = snapshot.getValue(Bill.class);
 
-    // Set UI components
-    itemizedView.setText(bill.toString());
-    grandTotalView.setText(Double.toString(bill.getGrandTotal()));
+        vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(bill.getVendorId());
+
+        // Set UI components
+        itemizedView.setText(bill.toString());
+        grandTotalView.setText(Double.toString(bill.getGrandTotal()));
+
+        butPay.setOnClickListener(new View.OnClickListener() {
+          // Update the users past payments
+          @Override
+          public void onClick (View view) {
+            // Get the user and update firebase with their payment
+            userDb.addListenerForSingleValueEvent(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user = snapshot.getValue(User.class);
+                List<Bill> pastPayments = user.getPastPayments();
+                pastPayments.add(bill);
+                userDb.child("pastPayments").setValue(pastPayments);
+
+                // Track the payment
+                paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
+                        bill.getVendor(), bill.getGrandTotal(), bill.getTip());
+                paymentsDb = FirebaseDatabase.getInstance().getReference("payments").push();
+                paymentsDb.setValue(paymentTracker);
+
+                Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
+              }
+
+              @Override
+              public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("BillView.java", "pay method failure.");
+              }
+            });
+
+            // Update the daily totals for the vendor
+            dailyTotalsDb = FirebaseDatabase.getInstance().getReference("daily_totals").child(bill.getVendorId());
+            dailyTotalsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dailyTotals = snapshot.getValue(DailyTotals.class);
+                dailyTotals.addPreviousPayment(bill);
+                dailyTotals.addDailyTotalItems(bill);
+
+                dailyTotalsDb.child("previousPayments").setValue(dailyTotals.getPreviousPayments());
+                dailyTotalsDb.child("totals").setValue(dailyTotals.getTotals());
+              }
+
+              @Override
+              public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("BillViewFragment", error.getMessage());
+              }
+            });
+          }
+        });
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError error) {
+
+      }
+    });
 
     // Add tip
     butAddTip.setOnClickListener(new View.OnClickListener() {
@@ -69,55 +130,6 @@ public class BillViewFragment extends Fragment {
         bill.setTip(Double.parseDouble(editTip.getText().toString()));
         grandTotalView.setText(Double.toString(bill.getGrandTotal() + bill.getTip()));
         itemizedView.setText(bill.toString());
-      }
-    });
-
-    butPay.setOnClickListener(new View.OnClickListener() {
-      // Update the users past payments
-      @Override
-      public void onClick (View view) {
-        // Get the user and update firebase with their payment
-        userDb.addListenerForSingleValueEvent(new ValueEventListener() {
-          @Override
-          public void onDataChange(@NonNull DataSnapshot snapshot) {
-            user = snapshot.getValue(User.class);
-            List<Bill> pastPayments = user.getPastPayments();
-            pastPayments.add(bill);
-            userDb.child("pastPayments").setValue(pastPayments);
-
-            // Track the payment
-            paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
-                    bill.getVendor(), bill.getGrandTotal(), bill.getTip());
-            paymentsDb = FirebaseDatabase.getInstance().getReference("payments").push();
-            paymentsDb.setValue(paymentTracker);
-
-            Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
-          }
-
-          @Override
-          public void onCancelled(@NonNull DatabaseError error) {
-            Log.d("BillView.java", "pay method failure.");
-          }
-        });
-
-        // Update the daily totals for the vendor
-        dailyTotalsDb = FirebaseDatabase.getInstance().getReference("daily_totals").child(bill.getVendorId());
-        dailyTotalsDb.addListenerForSingleValueEvent(new ValueEventListener() {
-          @Override
-          public void onDataChange(@NonNull DataSnapshot snapshot) {
-            dailyTotals = snapshot.getValue(DailyTotals.class);
-            dailyTotals.addPreviousPayment(bill);
-            dailyTotals.addDailyTotalItems(bill);
-
-            dailyTotalsDb.child("previousPayments").setValue(dailyTotals.getPreviousPayments());
-            dailyTotalsDb.child("totals").setValue(dailyTotals.getTotals());
-          }
-
-          @Override
-          public void onCancelled(@NonNull DatabaseError error) {
-            Log.d("BillViewFragment", error.getMessage());
-          }
-        });
       }
     });
 
