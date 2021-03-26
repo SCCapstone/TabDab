@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FriendsMenuFragment"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/colorPrimary">
+
+    <EditText
+        android:id="@+id/editEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_edit_text"/>
+    <Button
+        android:id="@+id/butDone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/done"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@drawable/button_pink_white_outline"/>
+</LinearLayout>
