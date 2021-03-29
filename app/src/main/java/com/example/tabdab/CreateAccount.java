@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -85,10 +86,12 @@ public class CreateAccount extends AppCompatActivity {
 
 
         // Errors
+        duplicateEmail();
         if (validEmail(email) == false) {
           uEmail.setError("Valid Email Address Required");
           return;
         }
+
         if (TextUtils.isEmpty(password)) {
           uPassword.setError("Password is required");
           return;
@@ -181,6 +184,22 @@ public class CreateAccount extends AppCompatActivity {
       return false;
     return pat.matcher(email).matches();
   }
+
+  /**
+   * Method that checks to see if the email entered by the user is already registered
+   * in the database or not and provides a prompt that the email is in use if it is.
+   */
+  private void duplicateEmail() {
+    mAuth.fetchSignInMethodsForEmail(uEmail.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+      @Override
+      public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+        if(!(task.getResult().getSignInMethods().isEmpty())) {
+          Toast.makeText(CreateAccount.this, "Email is already in use, please use a different email.", Toast.LENGTH_SHORT).show();
+        }
+      }
+    });
+  }
+
   /**
    *
    * @param cardNum
