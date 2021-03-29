@@ -145,8 +145,7 @@ public class CreateAccount extends AppCompatActivity {
               editor.commit();
 
               FirebaseDatabase.getInstance().getReference("users/")
-                      .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                      .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                      .child(user.getEmail().replace('.', '*')).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                   if (task.isSuccessful()) {
@@ -215,7 +214,6 @@ public class CreateAccount extends AppCompatActivity {
     //check to see length of input mm/yyyy
     if (expDate.length() == 7) {
       //check to see if its proper syntax
-      // System.out.println("Length check");
       SimpleDateFormat standard = new SimpleDateFormat("MM/yyyy");
       standard.setLenient(false);
       try {

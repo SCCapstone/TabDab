@@ -46,6 +46,9 @@ public class EditMenu extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_edit_menu);
 
+    String userStr = getIntent().getStringExtra("USER");
+    user = User.fromJson(userStr);
+
     // UI components
     editName = findViewById(R.id.menuItemName);
     editPrice = findViewById(R.id.menuItemPrice);
@@ -61,19 +64,6 @@ public class EditMenu extends AppCompatActivity {
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     dbVendor = FirebaseDatabase.getInstance().getReference("vendors/");
     dbUser = FirebaseDatabase.getInstance().getReference("users/").child(userRef.getUid());
-
-    // Get the user
-    dbUser.addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override
-      public void onDataChange(@NonNull DataSnapshot snapshot) {
-        user = snapshot.getValue(User.class);
-      }
-
-      @Override
-      public void onCancelled(@NonNull DatabaseError error) {
-        Log.d("EditMenu.java", "Error getting user data.");
-      }
-    });
 
     // Add a menu item on button press
     dbVendor.addListenerForSingleValueEvent(new ValueEventListener() {

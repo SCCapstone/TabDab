@@ -16,7 +16,6 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,11 +30,19 @@ public class EditInfoFragment extends Fragment {
   Switch switchIsVendor;
   FirebaseAuth fireAuth;
   DatabaseReference database;
-  FirebaseUser user;
+  FirebaseUser userRef;
+  User user;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    String userStr = getArguments().getString("user", "");
+    user = User.fromJson(userStr);
+
+    fireAuth = FirebaseAuth.getInstance();
+    database =  FirebaseDatabase.getInstance().getReference("users/");
+    userRef = fireAuth.getCurrentUser();
   }
 
   @Override
@@ -52,13 +59,6 @@ public class EditInfoFragment extends Fragment {
     newCardNum = view.findViewById(R.id.editCardNum);
     newExpDate = view.findViewById(R.id.editExpDate);
     newCVV = view.findViewById(R.id.editCVV);
-
-
-
-
-    fireAuth = FirebaseAuth.getInstance();
-    database =  FirebaseDatabase.getInstance().getReference("users/");
-    user = fireAuth.getCurrentUser();
 
     saveInfoBut.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -85,7 +85,8 @@ public class EditInfoFragment extends Fragment {
 
         // Check if the vendor ID the user entered exists.
           DatabaseReference refVendors = FirebaseDatabase.getInstance().getReference().child("vendors");
-          final DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+          final DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("users").child(user.getEmail().replace('.', '*'));
+
           refVendors.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -103,7 +104,7 @@ public class EditInfoFragment extends Fragment {
               Log.d("EditInfo.java", error.getMessage());
             }
           });
-            user = fireAuth.getCurrentUser();
+            userRef = fireAuth.getCurrentUser();
             // *************************NEED TO ADD VALIDATION CHECKS THAT TYLER HAD CREATED *****************
         // Check which fields the user has updated and update them
         if (!firstName.isEmpty()) {
@@ -112,7 +113,7 @@ public class EditInfoFragment extends Fragment {
           refUser.child("lastName").setValue(lastName);
         } else if (!newEmail.isEmpty()) {
           refUser.child("email").setValue(newEmail);
-          user.updateEmail(newEmail);
+          userRef.updateEmail(newEmail);
         } else if (!newCard.isEmpty()) {
           refUser.child("cardNum").setValue(newCard);
         } else if (!newDate.isEmpty()) {
@@ -133,5 +134,12 @@ public class EditInfoFragment extends Fragment {
 
   public static EditInfoFragment newInstance() {
     return new EditInfoFragment();
+  }
+  public static EditInfoFragment newInstance(User user) {
+    EditInfoFragment editInfoFragment = new EditInfoFragment();
+    Bundle args = new Bundle();
+    args.putString("user", user.toJson());
+    editInfoFragment.setArguments(args);
+    return editInfoFragment;
   }
 }

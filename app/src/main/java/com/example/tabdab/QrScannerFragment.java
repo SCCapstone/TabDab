@@ -23,7 +23,16 @@ public class QrScannerFragment extends Fragment {
 
   // Define scanner and and scanner result string for use throughout the activity
   CodeScanner codeScanner;
-  public static final String EXTRA_MESSAGE = "com.example.android.tabdab.extra.MESSAGE";
+
+  User user;
+
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    String userStr = getArguments().getString("user", "");
+    user = User.fromJson(userStr);
+  }
 
   @Nullable
   @Override
@@ -34,7 +43,6 @@ public class QrScannerFragment extends Fragment {
     // Define and create camera and scanner
     CodeScannerView scannerView = view.findViewById(R.id.scannerView);
     codeScanner = new CodeScanner(activity, scannerView);
-    //final Intent intent = new Intent(this, BillView.class);
 
     // Decode the QR code
     codeScanner.setDecodeCallback(new DecodeCallback() {
@@ -47,7 +55,7 @@ public class QrScannerFragment extends Fragment {
             // Launch the bill view activity when a QR code is decoded
             String message = result.getText();
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, BillViewFragment.newInstance(message)).commit();
+            ft.replace(R.id.fragment_container, BillViewFragment.newInstance(user, message)).commit();
             ft.addToBackStack(null);
           }
         });
@@ -73,5 +81,12 @@ public class QrScannerFragment extends Fragment {
 
   public static QrScannerFragment newInstance() {
     return new QrScannerFragment();
+  }
+  public static QrScannerFragment newInstance(User user) {
+    QrScannerFragment qrScannerFragment = new QrScannerFragment();
+    Bundle args = new Bundle();
+    args.putString("user", user.toJson());
+    qrScannerFragment.setArguments(args);
+    return qrScannerFragment;
   }
 }
