@@ -28,7 +28,6 @@ public class EditVendorInfoFragment extends Fragment {
   private EditText editName;
 
   private User user;
-  private Vendor vendor;
   private DatabaseReference vendorDb;
 
   @Override
@@ -38,21 +37,9 @@ public class EditVendorInfoFragment extends Fragment {
       // Get the user from the previous fragment and then initialize the bill
       String userStr = getArguments().getString("userStr", "");
       user = User.fromJson(userStr);
-      System.out.println(user.getVendorID());
 
       // Get the vendor information
       vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(user.getVendorID());
-      vendorDb.addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-          vendor = snapshot.getValue(Vendor.class);
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-          Log.d("EditVendorInfoFrag", error.getMessage());
-        }
-      });
     }
   }
 
@@ -68,7 +55,6 @@ public class EditVendorInfoFragment extends Fragment {
     butSave.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-
         // Check the vendor name in the text box is valid
         if (editName.getText().toString().trim().isEmpty()) {
           Toast.makeText(getContext(), "Vendor must have a name", Toast.LENGTH_SHORT).show();
@@ -82,7 +68,7 @@ public class EditVendorInfoFragment extends Fragment {
               // Go back to the vendor menu
               FragmentTransaction ft;
               ft = getParentFragmentManager().beginTransaction();
-              ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance()).commit();
+              ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
               ft.addToBackStack(null);
             }
 

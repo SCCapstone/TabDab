@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -34,8 +35,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   private NavigationView navigationView;
   FragmentManager fm;
   private FrameLayout frameLayout;
-  private FirebaseAuth fireAuth;
   SharedPreferences sharedPreferences;
+
+  User user;
+  Vendor vendor;
+
+  private FirebaseAuth fireAuth;
+  DatabaseReference userDb;
+  DatabaseReference vendorDb;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     setContentView(R.layout.activity_main);
 
     fireAuth = FirebaseAuth.getInstance();
+    String userEmail = fireAuth.getCurrentUser().getEmail().replace('.', '*');
+    userDb = FirebaseDatabase.getInstance().getReference("users").child(userEmail);
 
+    // For logout purposes
     sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);
 
     // Initialize nav bar
@@ -52,9 +62,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     navigationView = findViewById(R.id.nav_view);
     navigationView.bringToFront();
     fm = getSupportFragmentManager();
-    frameLayout = findViewById(R.id.fragment_container);  // Might need to cast to FrameLayout
+    frameLayout = findViewById(R.id.fragment_container);
 
-    displayFragment();
+    userDb.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot snapshot) {
+        user = snapshot.getValue(User.class);
+        displayFragment();
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError error) {
+        Log.d("MainActivity.java", error.getMessage());
+      }
+    });
   }
 
   @Override
@@ -106,13 +127,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         break;
       case R.id.navi_setting:
         ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, SettingsFragment.newInstance()).commit();
+        ft.replace(R.id.fragment_container, SettingsFragment.newInstance(user)).commit();
+        ft.addToBackStack(null);
+        drawer.closeDrawer(GravityCompat.START);
+        break;
+      case R.id.navi_friends:
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, FriendsMenuFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_vendor:
         ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance()).commit();
+        ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
@@ -134,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   }
 
   public void displayFragment () {
-    QrScannerFragment qrScanner = QrScannerFragment.newInstance();
+    QrScannerFragment qrScanner = QrScannerFragment.newInstance(user);
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -143,16 +170,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     fragmentTransaction.add(R.id.fragment_container, qrScanner).commit();
     isFragmentDisplayed = true;
   }
-  public void closeFragment() {
-    // Get the FragmentManager.
-
-    FragmentManager fragmentManager = getSupportFragmentManager();
-  }
-
-  public void changeFragment (Fragment fragment) {
-    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.fragment_container, fragment);
-    fragmentTransaction.addToBackStack(null).commit();
-  }
-
 }

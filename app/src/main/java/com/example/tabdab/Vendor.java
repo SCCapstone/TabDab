@@ -75,4 +75,7 @@ public class Vendor {
         Gson json = new Gson();
         return json.toJson(this);
     }
+    public static Vendor fromJson (String str) {
+        return new Gson().fromJson(str, Vendor.class);
+    }
 }

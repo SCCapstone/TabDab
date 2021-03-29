@@ -21,12 +21,16 @@ public class FriendsMenuFragment extends Fragment {
   EditText editEmail;
   Button butDone;
 
+  User user;
+
   DatabaseReference emailsDb;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    String userStr = getArguments().getString("user", "");
+    user = User.fromJson(userStr);
     emailsDb = FirebaseDatabase.getInstance().getReference("users");
   }
 
@@ -43,7 +47,7 @@ public class FriendsMenuFragment extends Fragment {
         emailsDb.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+            System.out.println(snapshot.hasChild(editEmail.getText().toString().replace('.','*')));
           }
 
           @Override
@@ -63,5 +67,12 @@ public class FriendsMenuFragment extends Fragment {
 
   public static FriendsMenuFragment newInstance() {
     return new FriendsMenuFragment();
+  }
+  public static FriendsMenuFragment newInstance(User user) {
+    FriendsMenuFragment friendsMenuFragment = new FriendsMenuFragment();
+    Bundle args = new Bundle();
+    args.putString("user", user.toJson());
+    friendsMenuFragment.setArguments(args);
+    return friendsMenuFragment;
   }
 }

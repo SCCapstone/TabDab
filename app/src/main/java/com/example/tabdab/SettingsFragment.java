@@ -25,21 +25,24 @@ import com.google.firebase.database.ValueEventListener;
 public class SettingsFragment extends Fragment {
 
     private Button ButRegisterVendor, ButChangePass, ButEditInfo;
+    User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.fragment_settings, container, false);
+        View v = inflater.inflate(R.layout.fragment_settings, container, false);
         ButRegisterVendor = v.findViewById(R.id.registerVendorButton);
         ButChangePass = v.findViewById(R.id.chngPassBut);
         ButEditInfo = v.findViewById(R.id.editInfoBut);
 
+        String userStr = getArguments().getString("user", "");
+        user = User.fromJson(userStr);
 
         ButRegisterVendor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft;
                 ft = getParentFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, RegisterVendorFragment.newInstance()).commit();
+                ft.replace(R.id.fragment_container, RegisterVendorFragment.newInstance(user)).commit();
                 ft.addToBackStack(null);
             }
         });
@@ -58,7 +61,7 @@ public class SettingsFragment extends Fragment {
             public void onClick(View view) {
                 FragmentTransaction ft;
                 ft = getParentFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, EditInfoFragment.newInstance()).commit();
+                ft.replace(R.id.fragment_container, EditInfoFragment.newInstance(user)).commit();
                 ft.addToBackStack(null);
             }
         });
@@ -68,5 +71,12 @@ public class SettingsFragment extends Fragment {
 
     public static SettingsFragment newInstance () {
         return new SettingsFragment();
+    }
+    public static SettingsFragment newInstance (User user) {
+        SettingsFragment settingsFragment = new SettingsFragment();
+        Bundle args = new Bundle();
+        args.putString("user", user.toJson());
+        settingsFragment.setArguments(args);
+        return settingsFragment;
     }
 }
