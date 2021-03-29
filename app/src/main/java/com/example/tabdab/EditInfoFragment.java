@@ -95,6 +95,7 @@ public class EditInfoFragment extends Fragment {
           DatabaseReference refVendors = FirebaseDatabase.getInstance().getReference().child("vendors");
           final DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("users").child(user.getEmail().replace('.', '*'));
 
+          // Check if the vendor ID exists already
           refVendors.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -112,17 +113,12 @@ public class EditInfoFragment extends Fragment {
               Log.d("EditInfo.java", error.getMessage());
             }
           });
-            userRef = fireAuth.getCurrentUser();
-            // *************************NEED TO ADD VALIDATION CHECKS THAT TYLER HAD CREATED *****************
+
         // Check which fields the user has updated and update them
         if (!firstName.isEmpty()) {
           refUser.child("firstName").setValue(firstName);
         } else if (!lastName.isEmpty()) {
           refUser.child("lastName").setValue(lastName);
-        } else if (!newEmail.isEmpty()) {
-          refUser.child("email").setValue(newEmail);
-          userRef.updateEmail(newEmail);
-        } else if (!newCard.isEmpty()) {
         } else if (!newEmail.isEmpty() && validEmail(newEmail)) {
           //Check for if the email is already registered.
           fireAuth.fetchSignInMethodsForEmail(newUserEmail.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
@@ -133,7 +129,7 @@ public class EditInfoFragment extends Fragment {
               }
               else {
                 refUser.child("email").setValue(newUserEmail.getText().toString().trim());
-                user.updateEmail(newUserEmail.getText().toString().trim());
+                userRef.updateEmail(newUserEmail.getText().toString().trim());
               }
             }
           });
@@ -150,6 +146,7 @@ public class EditInfoFragment extends Fragment {
 
     return view;
   }
+
   /**
    * method that tests to see whether an email is a valid entry
    * does not actually test if email actually exists

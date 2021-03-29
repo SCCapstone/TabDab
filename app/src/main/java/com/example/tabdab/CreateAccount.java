@@ -81,17 +81,12 @@ public class CreateAccount extends AppCompatActivity {
         final String expDate = uExpDate.getText().toString().trim();
         final String CVV = uCVV.getText().toString().trim();
 
-
-
-
-
         // Errors
         duplicateEmail();
         if (validEmail(email) == false) {
           uEmail.setError("Valid Email Address Required");
           return;
         }
-
         if (TextUtils.isEmpty(password)) {
           uPassword.setError("Password is required");
           return;
@@ -167,6 +162,7 @@ public class CreateAccount extends AppCompatActivity {
       }
     });
   }
+
   /**
    * method that tests to see whether an email is a valid entry
    * does not actually test if email actually exists
