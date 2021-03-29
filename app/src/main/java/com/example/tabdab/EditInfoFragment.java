@@ -15,13 +15,21 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 public class EditInfoFragment extends Fragment {
 
@@ -115,10 +123,25 @@ public class EditInfoFragment extends Fragment {
           refUser.child("email").setValue(newEmail);
           userRef.updateEmail(newEmail);
         } else if (!newCard.isEmpty()) {
+        } else if (!newEmail.isEmpty() && validEmail(newEmail)) {
+          //Check for if the email is already registered.
+          fireAuth.fetchSignInMethodsForEmail(newUserEmail.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+            @Override
+            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+              if(!(task.getResult().getSignInMethods().isEmpty())) {
+                newUserEmail.setError("Email already registered.");
+              }
+              else {
+                refUser.child("email").setValue(newUserEmail.getText().toString().trim());
+                user.updateEmail(newUserEmail.getText().toString().trim());
+              }
+            }
+          });
+        } else if (!newCard.isEmpty() && validCardNum(newCard)) {
           refUser.child("cardNum").setValue(newCard);
-        } else if (!newDate.isEmpty()) {
+        } else if (!newDate.isEmpty() && expDateChecker(newDate)) {
           refUser.child("expDate").setValue(newDate);
-        } else if (!newCV.isEmpty()) {
+        } else if (!newCV.isEmpty() && cvvChecker(newCV)) {
           refUser.child("cvv").setValue(newCV);
         }
 
@@ -126,6 +149,102 @@ public class EditInfoFragment extends Fragment {
     });
 
     return view;
+  }
+  /**
+   * method that tests to see whether an email is a valid entry
+   * does not actually test if email actually exists
+   * @param email
+   * @return false and or a valid email if true
+   */
+  private static boolean validEmail(String email) {
+    String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+            "[a-zA-Z0-9_+&*-]+)*@" +
+            "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+            "A-Z]{2,7}$";
+    Pattern pat = Pattern.compile(emailRegex);
+    if (email == null)
+      return false;
+    return pat.matcher(email).matches();
+  }
+
+  /**
+   *
+   * @param cardNum
+   * @return true or false depending if it ist a "valid" card num
+   * checks to see if the string is a whole integer
+   * then checks to see if the length requirement is right
+   * if met return true, else return false
+   */
+  private static boolean validCardNum(String cardNum) {
+    try {
+      // checking valid integer using parseInt() method
+      Long.parseLong(cardNum);
+      //typical american credit/ debit cards have a length between 12 and 15
+      if (cardNum.length() >= 12 && cardNum.length() <= 19) {
+        return true;
+      } //return false if length requirement isnt met
+      else {
+        return false;
+      }
+    }//return false if it isnt an integer to begin with
+    catch (NumberFormatException e) {
+      return false;
+    }
+  }
+  /**
+   * checks to see if the expDate is greater than or equal to the current mm/yyyy
+   * Also checks syntax and length
+   * @param expDate
+   * @return true or false
+   */
+  private static boolean expDateChecker(String expDate) {
+    //check to see length of input mm/yyyy
+    if (expDate.length() == 7) {
+      //check to see if its proper syntax
+      // System.out.println("Length check");
+      SimpleDateFormat standard = new SimpleDateFormat("MM/yyyy");
+      standard.setLenient(false);
+      try {
+        Date userInput = standard.parse(expDate);
+        Date current = new Date();
+        boolean before = userInput.before(new Date());
+        //if the current date is before the user input string and or equal return true. Its valid
+        if (!before) {
+          return true;
+        } else if ((userInput.getMonth() == current.getMonth()) && (userInput.getYear() == current.getYear())) {
+          return true;
+        } else {
+          // System.out.println("Sorry");
+          return false;
+        }
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+    } else {
+      return false;
+    }
+    return false;
+  }
+
+  /**
+   * checks the length of it, cvv's can only be 3 or 4 in length
+   * @param CVV
+   * @return true or false based on if its a "valid" cvv number
+   */
+  private static boolean cvvChecker(String CVV) {
+    if (CVV.length() == 3 || CVV.length() == 4) {
+      try {
+        Integer.parseInt(CVV);
+        //System.out.println("valid");
+        return true;
+      } catch (NumberFormatException e) {
+        // System.out.println(CVV + " is not a valid cvv number");
+        return false;
+      }
+    } //cvv's can only be 3 and sometimes 4 in length
+    else {
+      return false;
+    }
   }
 
   public EditInfoFragment() {
