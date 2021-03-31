@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -125,7 +126,7 @@ public class EditInfoFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
               if(!(task.getResult().getSignInMethods().isEmpty())) {
-                newUserEmail.setError("Email already registered.");
+                Toast.makeText(getContext(), "Email already registered. Please use a different email.", Toast.LENGTH_LONG).show();
               }
               else {
                 refUser.child("email").setValue(newUserEmail.getText().toString().trim());
@@ -141,6 +142,11 @@ public class EditInfoFragment extends Fragment {
           refUser.child("cvv").setValue(newCV);
         }
 
+        FragmentTransaction ft;
+        ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        ft.replace(R.id.fragment_container, SettingsFragment.newInstance(user)).commit();
+        ft.addToBackStack(null);
       }
     });
 
