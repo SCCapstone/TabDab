@@ -135,7 +135,8 @@ public class CreateBillFragment extends Fragment {
             billsDb = FirebaseDatabase.getInstance().getReference("bills").child(billsDb.getKey());
 
             FragmentTransaction ft;
-            ft = getParentFragmentManager().beginTransaction();
+            ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                    R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
             ft.replace(R.id.fragment_container, BillShowFragment.newInstance(billsDb.toString())).commit();
             ft.addToBackStack(null);
           }

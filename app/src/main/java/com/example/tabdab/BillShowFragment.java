@@ -57,10 +57,7 @@ public class BillShowFragment extends Fragment {
     butDone.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick (View v) {
-        getFragmentManager().popBackStack();
-        //ft = getFragmentManager().beginTransaction();
-        //ft.replace(R.id.fragment_container, CreateBillFragment.newInstance()).commit();
-        //ft.addToBackStack(null);
+        getParentFragmentManager().popBackStack();
       }
     });
 
