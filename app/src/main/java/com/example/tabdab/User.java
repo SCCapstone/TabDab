@@ -9,6 +9,7 @@ public class User {
   String firstName, lastName, email, vendorID, cardNum, expDate, CVV;
   boolean isVendor;
   List<Bill> pastPayments;
+  List<Friend> friends;
 
   public User() {
     this.firstName = "";
@@ -21,6 +22,7 @@ public class User {
     this.CVV = "";
     this.pastPayments = new ArrayList<>();
     this.pastPayments.add(new Bill());
+    this.friends = new ArrayList<>();
   }
 
   public User (String firstName, String lastName, String email, boolean isVendor,
@@ -34,6 +36,7 @@ public class User {
     this.expDate = expDate;
     this.CVV = CVV;
     this.pastPayments = new ArrayList<>();
+    this.friends = new ArrayList<>();
 
     // For firebase purposes
     BillItem item = new BillItem(1, "test");
@@ -54,6 +57,7 @@ public class User {
   public void setPastPayments (List<Bill> pastPayments) {
     this.pastPayments = pastPayments;
   }
+  public void setFriends (List<Friend> friends) { this.friends = friends;}
 
   // Getters
   public String getFirstName () {return this.firstName;}
@@ -65,9 +69,10 @@ public class User {
   public String getExpDate () {return this.expDate;}
   public String getCVV () {return this.CVV;}
   public List<Bill> getPastPayments () {return this.pastPayments;}
+  public List<Friend> getFriends () {return this.friends;}
 
-  public void addPastPayment (Bill bill) {this.pastPayments.add(bill);
-  }
+  public void addPastPayment (Bill bill) {this.pastPayments.add(bill);}
+  public void addFriend (Friend friend) {this.friends.add(friend);}
 
   public String toJson () {
     Gson gson = new Gson();

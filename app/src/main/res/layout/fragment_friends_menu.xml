@@ -12,14 +12,44 @@
         android:id="@+id/editEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_edit_text"/>
+        android:background="@drawable/login_edit_text"
+        android:padding="5dp"
+        android:hint="Search by e-mail"/>
     <Button
-        android:id="@+id/butDone"
+        android:id="@+id/butSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:text="@string/done"
+        android:text="@string/search"
         android:textColor="@color/white"
         android:textAllCaps="false"
         android:background="@drawable/button_pink_white_outline"/>
+
+    <ScrollView
+        android:id="@+id/scrollFoundUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal">
+        <LinearLayout
+            android:id="@+id/layoutParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+            <LinearLayout
+                android:id="@+id/layoutFoundUsers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"/>
+            <LinearLayout
+                android:id="@+id/layoutFriends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

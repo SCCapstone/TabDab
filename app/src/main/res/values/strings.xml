@@ -65,5 +65,6 @@
     <string name="edit_vendor_information">Edit Vendor Information</string>
     <string name="cancel">Cancel</string>
     <string name="friends">Friends</string>
+    <string name="search">Search</string>
 
 </resources>

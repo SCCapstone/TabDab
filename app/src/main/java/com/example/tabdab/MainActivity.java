@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         user = snapshot.getValue(User.class);
+        System.out.println(user.toString());
         displayFragment();
       }
 
