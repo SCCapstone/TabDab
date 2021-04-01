@@ -15,7 +15,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   FragmentManager fm;
   private FrameLayout frameLayout;
   SharedPreferences sharedPreferences;
+  View header;
 
   User user;
   Vendor vendor;
@@ -75,6 +78,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("MainActivity.java", error.getMessage());
       }
     });
+
+
+
+    // Header Info
+    header = navigationView.getHeaderView(0);
+    TextView headerUser = header.findViewById(R.id.UserFire);
+    TextView headerEmail = header.findViewById(R.id.EmailFire);
+
+
+    if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+      String userName = FirebaseAuth.getInstance().getCurrentUser().getUid();
+      headerUser.setText(userName);
+      headerEmail.setText(userEmail);
+    }
   }
 
   @Override

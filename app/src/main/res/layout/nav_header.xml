@@ -16,6 +16,7 @@
         android:src="@drawable/ic_person" />
 
     <TextView
+        android:id="@+id/UserFire"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
@@ -23,6 +24,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
+        android:id="@+id/EmailFire"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/email" />
