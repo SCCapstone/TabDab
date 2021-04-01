@@ -6,14 +6,13 @@
     android:background="@color/colorAccent"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="20dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:paddingTop="8dp"
-        android:src="@drawable/ic_person" />
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_tabdab_round" />
 
     <TextView
         android:id="@+id/UserFire"

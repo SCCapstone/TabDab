@@ -89,8 +89,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     if(FirebaseAuth.getInstance().getCurrentUser() != null) {
       String userName = FirebaseAuth.getInstance().getCurrentUser().getUid();
-      headerUser.setText(userName);
-      headerEmail.setText(userEmail);
+      headerUser.setText("ID: " + userName);
+      headerEmail.setText(userEmail.replace('*', '.'));
     }
   }
 
