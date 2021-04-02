@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class FriendsMenuFragment extends Fragment {
   ScrollView scrollerFoundUsers;
   LinearLayout layoutParent, layoutFoundUsers, layoutFriends;
 
-  User user;
+  User user, foundUser;
 
   DatabaseReference emailsDb;
 
@@ -93,6 +94,9 @@ public class FriendsMenuFragment extends Fragment {
     butDone.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+        // Clear everything that was there before
+        layoutFoundUsers.removeAllViews();
+
         emailsDb.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -100,7 +104,7 @@ public class FriendsMenuFragment extends Fragment {
 
             // Check if the entered user exists
             if (snapshot.hasChild(enteredEmail)) {
-              final User foundUser = snapshot.child(enteredEmail).getValue(User.class);
+              foundUser = snapshot.child(enteredEmail).getValue(User.class);
 
               // Create a button for the found user
               Button butUser = new Button(getContext());
@@ -124,18 +128,48 @@ public class FriendsMenuFragment extends Fragment {
                   if (user.getFriends().contains(newFriend)) {
                     Toast.makeText(getContext(), "Already friends.", Toast.LENGTH_SHORT).show();
                   } else {
+                    // Add the friends
                     user.addFriend(new Friend(foundUser.getFirstName(), foundUser.getLastName(),
                             foundUser.getEmail()));
+                    foundUser.addFriend(new Friend(user.getFirstName(), user.getLastName(),
+                            user.getEmail()));
 
                     // Update firebase
                     FirebaseDatabase.getInstance().getReference("users").child(
                             user.getEmail().replace('.', '*')).setValue(user);
+                    FirebaseDatabase.getInstance().getReference("users").child(
+                            foundUser.getEmail().replace('.','*')).setValue(foundUser);
 
                     Toast.makeText(getContext(), "Friend Added!", Toast.LENGTH_SHORT).show();
 
                     // Update the UI
                     layoutFoundUsers.removeAllViews();
                     editEmail.setText("");
+
+                    // Add the user to friends view below
+                    LinearLayout friend = new LinearLayout(getContext());
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(0,0,0,10);
+                    friend.setLayoutParams(params);
+                    friend.setOrientation(LinearLayout.VERTICAL);
+                    friend.setPadding(5,5,5,5);
+                    friend.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.textview_pink, null));
+
+                    TextView name = new TextView(getContext());
+                    name.setText(foundUser.getFirstName() + " " + foundUser.getLastName());
+                    name.setTextColor(Color.WHITE);
+                    name.setTextSize(30);
+
+                    TextView email = new TextView(getContext());
+                    email.setText(foundUser.getEmail());
+                    email.setTextColor(Color.WHITE);
+                    email.setTextSize(20);
+
+                    // Add the views together
+                    friend.addView(name);
+                    friend.addView(email);
+                    layoutFriends.addView(friend);
                   }
                 }
               });
@@ -151,7 +185,7 @@ public class FriendsMenuFragment extends Fragment {
 
           @Override
           public void onCancelled(@NonNull DatabaseError error) {
-
+            Log.d("FriendsMenuFrag", error.getMessage());
           }
         });
       }
