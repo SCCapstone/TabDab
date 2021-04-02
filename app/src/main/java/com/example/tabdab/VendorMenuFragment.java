@@ -70,7 +70,8 @@ public class VendorMenuFragment extends Fragment {
           Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
         } else {
           FragmentTransaction ft;
-          ft = getParentFragmentManager().beginTransaction();
+          ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                  R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
           ft.replace(R.id.fragment_container, CreateBillFragment.newInstance(user)).commit();
           ft.addToBackStack(null);
         }
@@ -99,7 +100,8 @@ public class VendorMenuFragment extends Fragment {
           Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
         } else {
           FragmentTransaction ft;
-          ft = getParentFragmentManager().beginTransaction();
+          ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                  R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
           ft.replace(R.id.fragment_container, VendorDailyTotalsFragment.newInstance(user)).commit();
           ft.addToBackStack(null);
         }
@@ -114,7 +116,8 @@ public class VendorMenuFragment extends Fragment {
           Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
         } else {
           FragmentTransaction ft;
-          ft = getParentFragmentManager().beginTransaction();
+          ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                  R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
           ft.replace(R.id.fragment_container, EditVendorInfoFragment.newInstance(user)).commit();
           ft.addToBackStack(null);
         }

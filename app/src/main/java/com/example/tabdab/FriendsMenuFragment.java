@@ -84,7 +84,7 @@ public class FriendsMenuFragment extends Fragment {
         friend.addView(email);
         layoutFriends.addView(friend);
       }
-    } else {
+    } else {  // No friends
       TextView noFriends = new TextView(getContext());
       noFriends.setText("No friends yet!");
       noFriends.setTextColor(Color.WHITE);
@@ -97,6 +97,7 @@ public class FriendsMenuFragment extends Fragment {
         // Clear everything that was there before
         layoutFoundUsers.removeAllViews();
 
+        // Could potentially be to big. Might want to see if it has the email then go straight to that user
         emailsDb.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {

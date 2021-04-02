@@ -41,7 +41,8 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft;
-                ft = getParentFragmentManager().beginTransaction();
+                ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                        R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 ft.replace(R.id.fragment_container, RegisterVendorFragment.newInstance(user)).commit();
                 ft.addToBackStack(null);
             }
@@ -51,7 +52,8 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft;
-                ft = getParentFragmentManager().beginTransaction();
+                ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                        R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 ft.replace(R.id.fragment_container, ChangePasswordFragment.newInstance()).commit();
                 ft.addToBackStack(null);
             }
@@ -60,7 +62,8 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentTransaction ft;
-                ft = getParentFragmentManager().beginTransaction();
+                ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                        R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 ft.replace(R.id.fragment_container, EditInfoFragment.newInstance(user)).commit();
                 ft.addToBackStack(null);
             }

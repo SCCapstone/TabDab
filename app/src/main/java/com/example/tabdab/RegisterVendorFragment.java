@@ -80,7 +80,8 @@ public class RegisterVendorFragment extends Fragment {
 
     // Launch the vendor menu fragment
     FragmentTransaction ft;
-    ft = getParentFragmentManager().beginTransaction();
+    ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+            R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
     ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
     ft.addToBackStack(null);
   }

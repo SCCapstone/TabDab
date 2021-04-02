@@ -15,12 +15,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   FragmentManager fm;
   private FrameLayout frameLayout;
   SharedPreferences sharedPreferences;
+  View header;
 
   User user;
   Vendor vendor;
@@ -77,6 +78,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("MainActivity.java", error.getMessage());
       }
     });
+
+
+
+    // Header Info
+    header = navigationView.getHeaderView(0);
+    TextView headerUser = header.findViewById(R.id.UserFire);
+    TextView headerEmail = header.findViewById(R.id.EmailFire);
+
+
+    if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+      String userName = FirebaseAuth.getInstance().getCurrentUser().getUid();
+      headerUser.setText("ID: " + userName);
+      headerEmail.setText(userEmail.replace('*', '.'));
+    }
   }
 
   @Override
@@ -115,31 +130,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     switch (item.getItemId()) {
       case R.id.navi_past_payments:
-        ft = getSupportFragmentManager().beginTransaction();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         ft.replace(R.id.fragment_container, PastPaymentsFragment.newInstance()).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_scan:
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance()).commit();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_setting:
-        ft = getSupportFragmentManager().beginTransaction();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         ft.replace(R.id.fragment_container, SettingsFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_friends:
-        ft = getSupportFragmentManager().beginTransaction();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         ft.replace(R.id.fragment_container, FriendsMenuFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_vendor:
-        ft = getSupportFragmentManager().beginTransaction();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
