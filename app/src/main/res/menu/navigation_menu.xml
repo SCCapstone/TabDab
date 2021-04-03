@@ -13,10 +13,6 @@
             android:icon="@android:drawable/ic_menu_revert"
             android:title="Past Payments" />
         <item
-            android:id="@+id/navi_friends"
-            android:icon="@drawable/ic_person"
-            android:title="@string/friends" />
-        <item
             android:id="@+id/navi_vendor"
             android:icon="@drawable/ic_baseline_vendor"
             android:title="Vendor" />

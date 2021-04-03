@@ -145,7 +145,6 @@ public class EditInfoFragment extends Fragment {
                 Toast.makeText(getContext(), "Email already registered. Please use a different email.", Toast.LENGTH_LONG).show();
               } else {
                 user.setEmail(newEmail);
-                //refUser.child("email").setValue(newUserEmail.getText().toString().trim());
                 userRef.updateEmail(newUserEmail.getText().toString().trim());
 
                 database.child(user.getEmail().replace('.','*')).setValue(user);
@@ -156,6 +155,8 @@ public class EditInfoFragment extends Fragment {
         } else {  // Update the user
           refUser.setValue(user);
         }
+
+
 
         FragmentTransaction ft;
         ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
