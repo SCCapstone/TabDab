@@ -34,9 +34,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   private int currentFragment = R.layout.fragment_main;
   private NavigationView navigationView;
   FragmentManager fm;
-  private FrameLayout frameLayout;
   SharedPreferences sharedPreferences;
+
+  private FrameLayout frameLayout;
   View header;
+  TextView headerUser, headerEmail;
+  String userEmail;
 
   User user;
   Vendor vendor;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     setContentView(R.layout.activity_main);
 
     fireAuth = FirebaseAuth.getInstance();
-    String userEmail = fireAuth.getCurrentUser().getEmail().replace('.', '*');
+    userEmail = fireAuth.getCurrentUser().getEmail().replace('.', '*');
     userDb = FirebaseDatabase.getInstance().getReference("users").child(userEmail);
 
     // For logout purposes
@@ -65,11 +68,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     fm = getSupportFragmentManager();
     frameLayout = findViewById(R.id.fragment_container);
 
+    // Header Info
+    header = navigationView.getHeaderView(0);
+    headerUser = header.findViewById(R.id.UserFire);
+    headerEmail = header.findViewById(R.id.EmailFire);
+
     userDb.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
         user = snapshot.getValue(User.class);
-        System.out.println(user.toString());
+
+        // Set the header text
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+          headerUser.setText(user.getFirstName() + " " + user.getLastName());
+          headerEmail.setText(userEmail.replace('*', '.'));
+        }
+
+        // Display the QR scanner
         displayFragment();
       }
 
@@ -78,20 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.d("MainActivity.java", error.getMessage());
       }
     });
-
-
-
-    // Header Info
-    header = navigationView.getHeaderView(0);
-    TextView headerUser = header.findViewById(R.id.UserFire);
-    TextView headerEmail = header.findViewById(R.id.EmailFire);
-
-
-    if(FirebaseAuth.getInstance().getCurrentUser() != null) {
-      String userName = FirebaseAuth.getInstance().getCurrentUser().getUid();
-      headerUser.setText("ID: " + userName);
-      headerEmail.setText(userEmail.replace('*', '.'));
-    }
   }
 
   @Override
