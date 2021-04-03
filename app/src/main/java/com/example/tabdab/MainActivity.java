@@ -13,13 +13,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,9 +34,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   private int currentFragment = R.layout.fragment_main;
   private NavigationView navigationView;
   FragmentManager fm;
-  private FrameLayout frameLayout;
-  private FirebaseAuth fireAuth;
   SharedPreferences sharedPreferences;
+
+  private FrameLayout frameLayout;
+  View header;
+  TextView headerUser, headerEmail;
+  String userEmail;
+
+  User user;
+
+  private FirebaseAuth fireAuth;
+  DatabaseReference userDb;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     setContentView(R.layout.activity_main);
 
     fireAuth = FirebaseAuth.getInstance();
+    userEmail = fireAuth.getCurrentUser().getEmail().replace('.', '*');
+    userDb = FirebaseDatabase.getInstance().getReference("users").child(userEmail);
 
+    // For logout purposes
     sharedPreferences = getApplicationContext().getSharedPreferences("Preferences",0);
 
     // Initialize nav bar
@@ -52,9 +64,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     navigationView = findViewById(R.id.nav_view);
     navigationView.bringToFront();
     fm = getSupportFragmentManager();
-    frameLayout = findViewById(R.id.fragment_container);  // Might need to cast to FrameLayout
+    frameLayout = findViewById(R.id.fragment_container);
 
-    displayFragment();
+    // Header Info
+    header = navigationView.getHeaderView(0);
+    headerUser = header.findViewById(R.id.UserFire);
+    headerEmail = header.findViewById(R.id.EmailFire);
+
+    userDb.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot snapshot) {
+        user = snapshot.getValue(User.class);
+
+        // Set the header text
+        if(FirebaseAuth.getInstance().getCurrentUser() != null) {
+          headerUser.setText(user.getFirstName() + " " + user.getLastName());
+          headerEmail.setText(userEmail.replace('*', '.'));
+        }
+
+        // Display the QR scanner
+        displayFragment();
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError error) {
+        Log.d("MainActivity.java", error.getMessage());
+      }
+    });
   }
 
   @Override
@@ -93,26 +129,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     switch (item.getItemId()) {
       case R.id.navi_past_payments:
-        ft = getSupportFragmentManager().beginTransaction();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
         ft.replace(R.id.fragment_container, PastPaymentsFragment.newInstance()).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_scan:
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance()).commit();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_setting:
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, SettingsFragment.newInstance()).commit();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        ft.replace(R.id.fragment_container, SettingsFragment.newInstance(user)).commit();
+        ft.addToBackStack(null);
+        drawer.closeDrawer(GravityCompat.START);
+        break;
+      case R.id.navi_friends:
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        ft.replace(R.id.fragment_container, FriendsMenuFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_vendor:
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance()).commit();
+        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+        ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
@@ -134,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   }
 
   public void displayFragment () {
-    QrScannerFragment qrScanner = QrScannerFragment.newInstance();
+    QrScannerFragment qrScanner = QrScannerFragment.newInstance(user);
 
     FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -143,16 +190,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     fragmentTransaction.add(R.id.fragment_container, qrScanner).commit();
     isFragmentDisplayed = true;
   }
-  public void closeFragment() {
-    // Get the FragmentManager.
-
-    FragmentManager fragmentManager = getSupportFragmentManager();
-  }
-
-  public void changeFragment (Fragment fragment) {
-    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-    fragmentTransaction.replace(R.id.fragment_container, fragment);
-    fragmentTransaction.addToBackStack(null).commit();
-  }
-
 }

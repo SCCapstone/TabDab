@@ -31,8 +31,12 @@ public class VendorMenuFragment extends Fragment {
   FirebaseUser userRef;
   DatabaseReference userDatabase;
 
-  public VendorMenuFragment() {
-    // Required empty public constructor
+  @Override
+  public void onCreate (Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    String userStr = getArguments().getString("user", "");
+    user = User.fromJson(userStr);
   }
 
   @Override
@@ -52,94 +56,93 @@ public class VendorMenuFragment extends Fragment {
     butDailyTotals.setVisibility(View.INVISIBLE);
     butEditVendorInfo.setVisibility(View.INVISIBLE);
 
-    // Get the user info
-    userRef = FirebaseAuth.getInstance().getCurrentUser();
-    userDatabase = FirebaseDatabase.getInstance().getReference("users").child(userRef.getUid());
-    userDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override
-      public void onDataChange(@NonNull DataSnapshot snapshot) {
-        user = snapshot.getValue(User.class);
+    // Display the users vendor ID if they are registered to one
+    if (user.getIsVendor()) {
+      vendorId.setText("Vendor ID: " + user.getVendorID());
+    }
 
-        // Display the users vendor ID if they are registered to one
-        if (user.getIsVendor()) {
-          vendorId.setText("Vendor ID: " + user.getVendorID());
+    // Start the new fragments with the user (used to make getting vendor info easier) info on a click
+    butCreateBill.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick (View v) {
+        // Only let the user go if they are a registered vendor
+        if (!user.getIsVendor()) {
+          Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
+        } else {
+          FragmentTransaction ft;
+          ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                  R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+          ft.replace(R.id.fragment_container, CreateBillFragment.newInstance(user)).commit();
+          ft.addToBackStack(null);
         }
-
-        // Start the new fragments with the user (used to make getting vendor info easier) info on a click
-        butCreateBill.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick (View v) {
-            // Only let the user go if they are a registered vendor
-            if (!user.getIsVendor()) {
-              Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
-            } else {
-              FragmentTransaction ft;
-              ft = getParentFragmentManager().beginTransaction();
-              ft.replace(R.id.fragment_container, CreateBillFragment.newInstance(user)).commit();
-              ft.addToBackStack(null);
-            }
-          }
-        });
-
-        butEditMenu.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            // Only let the user go if they are a registered vendor
-            if (!user.getIsVendor()) {
-              Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
-            } else {
-              startActivity(new Intent(getContext(), EditMenu.class));
-            }
-          }
-        });
-
-        butDailyTotals.setOnClickListener(new View.OnClickListener () {
-          @Override
-          public void onClick(View v) {
-            // Only let the user go if they are a registered vendor
-            if (!user.getIsVendor()) {
-              Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
-            } else {
-              FragmentTransaction ft;
-              ft = getParentFragmentManager().beginTransaction();
-              ft.replace(R.id.fragment_container, VendorDailyTotalsFragment.newInstance(user)).commit();
-              ft.addToBackStack(null);
-            }
-          }
-        });
-
-        butEditVendorInfo.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-            // Only let the user go if they are a registered vendor
-            if (!user.getIsVendor()) {
-              Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
-            } else {
-              FragmentTransaction ft;
-              ft = getParentFragmentManager().beginTransaction();
-              ft.replace(R.id.fragment_container, EditVendorInfoFragment.newInstance(user)).commit();
-              ft.addToBackStack(null);
-            }
-          }
-        });
-
-        // Set the buttons back to visible
-        butCreateBill.setVisibility(View.VISIBLE);
-        butEditMenu.setVisibility(View.VISIBLE);
-        butDailyTotals.setVisibility(View.VISIBLE);
-        butEditVendorInfo.setVisibility(View.VISIBLE);
-      }
-
-      @Override
-      public void onCancelled(@NonNull DatabaseError error) {
-        Log.d("VendorMenuFragment.java", error.getMessage());
       }
     });
+
+    butEditMenu.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        // Only let the user go if they are a registered vendor
+        if (!user.getIsVendor()) {
+          Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
+        } else {
+          Intent intent = new Intent(getContext(), EditMenu.class);
+          intent.putExtra("USER", user.toJson());
+          startActivity(intent);
+        }
+      }
+    });
+
+    butDailyTotals.setOnClickListener(new View.OnClickListener () {
+      @Override
+      public void onClick(View v) {
+        // Only let the user go if they are a registered vendor
+        if (!user.getIsVendor()) {
+          Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
+        } else {
+          FragmentTransaction ft;
+          ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                  R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+          ft.replace(R.id.fragment_container, VendorDailyTotalsFragment.newInstance(user)).commit();
+          ft.addToBackStack(null);
+        }
+      }
+    });
+
+    butEditVendorInfo.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        // Only let the user go if they are a registered vendor
+        if (!user.getIsVendor()) {
+          Toast.makeText(getContext(), "Please register as a vendor in settings.", Toast.LENGTH_SHORT).show();
+        } else {
+          FragmentTransaction ft;
+          ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                  R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+          ft.replace(R.id.fragment_container, EditVendorInfoFragment.newInstance(user)).commit();
+          ft.addToBackStack(null);
+        }
+      }
+    });
+
+    // Set the buttons back to visible
+    butCreateBill.setVisibility(View.VISIBLE);
+    butEditMenu.setVisibility(View.VISIBLE);
+    butDailyTotals.setVisibility(View.VISIBLE);
+    butEditVendorInfo.setVisibility(View.VISIBLE);
 
     return view;
   }
 
   public static VendorMenuFragment newInstance () {return new VendorMenuFragment();}
+  public static VendorMenuFragment newInstance (User user) {
+    VendorMenuFragment vendorMenuFragment = new VendorMenuFragment();
+    Bundle args = new Bundle();
+    args.putString("user", user.toJson());
+    vendorMenuFragment.setArguments(args);
+    return vendorMenuFragment;
+  }
 
-
+  public VendorMenuFragment() {
+    // Required empty public constructor
+  }
 }

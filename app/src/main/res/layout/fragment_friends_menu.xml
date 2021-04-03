@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FriendsMenuFragment"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
+    <!-- Friend search -->
+    <LinearLayout
+        android:id="@+id/layoutFriendSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/login_edit_text"
+            android:padding="5dp"
+            android:hint="Search by e-mail"/>
+        <Button
+            android:id="@+id/butSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/search"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/button_pink_white_outline"/>
+    </LinearLayout>
+
+    <!-- List the friends found and current friends -->
+    <ScrollView
+        android:id="@+id/scrollFoundUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center_horizontal">
+        <LinearLayout
+            android:id="@+id/layoutParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
+
+            <!-- Found friends -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/results"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/textview_friend_headers"/>
+            <LinearLayout
+                android:id="@+id/layoutFoundUsers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp"/>
+
+            <!-- List current friends -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/friends"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/textview_friend_headers"/>
+            <LinearLayout
+                android:id="@+id/layoutFriends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp">
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -62,8 +62,10 @@ public class VendorDailyTotalsFragment extends Fragment {
       public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
         // Get the selected date and make the date firebase friendly (string with no '/')
         String monthStr = "";
+        String dayStr = "";
+        if (dayOfMonth < 10)   dayStr = "0" +dayOfMonth;
         if (month < 10) monthStr = "0" + (month+1);
-        final String selectedDate = monthStr + " " + dayOfMonth + " " + year;
+        final String selectedDate = monthStr + " " + dayStr + " " + year;
 
         dailyTotalsDb.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override

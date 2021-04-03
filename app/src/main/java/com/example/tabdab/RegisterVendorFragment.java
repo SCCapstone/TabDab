@@ -26,10 +26,15 @@ public class RegisterVendorFragment extends Fragment {
   TextView vendorName;
   Button register;
   DatabaseReference vendors;
+  User user;
+
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    String userStr = getArguments().getString("user", "");
+    user = User.fromJson(userStr);
   }
 
   @Override
@@ -54,8 +59,6 @@ public class RegisterVendorFragment extends Fragment {
    * @param vendorName Name of the vendor
    */
   public void makeVendor(String vendorName) {
-    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
     // Add the vendor to firebase
     vendors = FirebaseDatabase.getInstance().getReference("vendors").push();
     List<BillItem> menu = new ArrayList<>();
@@ -69,15 +72,17 @@ public class RegisterVendorFragment extends Fragment {
     FirebaseDatabase.getInstance().getReference("daily_totals").child(dailyTotals.getVendorId()).setValue(dailyTotals);
 
     // Update user data in firebase.
-    FirebaseDatabase.getInstance().getReference("users/").child(uid).child("vendorID").setValue(vendors.getKey());
-    FirebaseDatabase.getInstance().getReference("users/").child(uid).child("isVendor").setValue(true);
-
+    user.setVendorID(vendors.getKey());
+    FirebaseDatabase.getInstance().getReference("users/").child(user.getEmail().replace('.', '*')).child("vendorID").setValue(vendors.getKey());
+    user.setIsVendor(true);
+    FirebaseDatabase.getInstance().getReference("users/").child(user.getEmail().replace('.', '*')).child("isVendor").setValue(true);
     Toast.makeText(getContext(), "Vendor Registered", Toast.LENGTH_SHORT).show();
 
-    // Launch the vendor fragment
+    // Launch the vendor menu fragment
     FragmentTransaction ft;
-    ft = getParentFragmentManager().beginTransaction();
-    ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance()).commit();
+    ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+            R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+    ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
     ft.addToBackStack(null);
   }
 
@@ -88,6 +93,13 @@ public class RegisterVendorFragment extends Fragment {
 
   public static RegisterVendorFragment newInstance() {
     return new RegisterVendorFragment();
+  }
+  public static RegisterVendorFragment newInstance(User user) {
+    RegisterVendorFragment registerVendorFragment = new RegisterVendorFragment();
+    Bundle args = new Bundle();
+    args.putString("user", user.toJson());
+    registerVendorFragment.setArguments(args);
+    return registerVendorFragment;
   }
 
 }

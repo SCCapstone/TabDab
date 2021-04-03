@@ -2,6 +2,7 @@ package com.example.tabdab;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -39,8 +40,14 @@ public class BillViewFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+
+    String qrResult = getArguments().getString("qrResult", "");
+    billsDb = FirebaseDatabase.getInstance().getReferenceFromUrl(qrResult);
+
+    String userStr = getArguments().getString("user", "");
+    user = User.fromJson(userStr);
     userRef = FirebaseAuth.getInstance().getCurrentUser();
-    userDb = FirebaseDatabase.getInstance().getReference().child("users").child(userRef.getUid());
+    userDb = FirebaseDatabase.getInstance().getReference().child("users").child(user.getEmail().replace('.', '*'));
   }
 
   @Override
@@ -53,9 +60,6 @@ public class BillViewFragment extends Fragment {
     butAddTip = view.findViewById(R.id.addTipButton);
 
     // Get and display data from qr scanner fragment
-    String qrResult = getArguments().getString("qrResult", "");
-    //bill = Bill.fromJson(qrResult);
-    billsDb = FirebaseDatabase.getInstance().getReferenceFromUrl(qrResult);
     billsDb.addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -71,29 +75,17 @@ public class BillViewFragment extends Fragment {
           // Update the users past payments
           @Override
           public void onClick (View view) {
-            // Get the user and update firebase with their payment
-            userDb.addListenerForSingleValueEvent(new ValueEventListener() {
-              @Override
-              public void onDataChange(@NonNull DataSnapshot snapshot) {
-                user = snapshot.getValue(User.class);
-                List<Bill> pastPayments = user.getPastPayments();
-                pastPayments.add(bill);
-                userDb.child("pastPayments").setValue(pastPayments);
+            List<Bill> pastPayments = user.getPastPayments();
+            pastPayments.add(bill);
+            userDb.child("pastPayments").setValue(pastPayments);
 
-                // Track the payment
-                paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
-                        bill.getVendor(), bill.getGrandTotal(), bill.getTip());
-                paymentsDb = FirebaseDatabase.getInstance().getReference("payments").push();
-                paymentsDb.setValue(paymentTracker);
+            // Track the payment
+            paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
+                    bill.getVendor(), bill.getGrandTotal(), bill.getTip());
+            paymentsDb = FirebaseDatabase.getInstance().getReference("payments").push();
+            paymentsDb.setValue(paymentTracker);
 
-                Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
-              }
-
-              @Override
-              public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("BillView.java", "pay method failure.");
-              }
-            });
+            Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
 
             // Update the daily totals for the vendor
             dailyTotalsDb = FirebaseDatabase.getInstance().getReference("daily_totals").child(bill.getVendorId());
@@ -106,6 +98,12 @@ public class BillViewFragment extends Fragment {
 
                 dailyTotalsDb.child("previousPayments").setValue(dailyTotals.getPreviousPayments());
                 dailyTotalsDb.child("totals").setValue(dailyTotals.getTotals());
+
+                // Go back the QR scanner
+                FragmentTransaction ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                        R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                ft.replace(R.id.fragment_container, QrScannerFragment.newInstance(user)).commit();
+                ft.addToBackStack(null);
               }
 
               @Override
@@ -140,9 +138,10 @@ public class BillViewFragment extends Fragment {
     return new BillViewFragment();
   }
 
-  public static BillViewFragment newInstance (String qrResult) {
+  public static BillViewFragment newInstance (User user, String qrResult) {
     BillViewFragment billView = new BillViewFragment();
     Bundle args = new Bundle();
+    args.putString("user", user.toJson());
     args.putString("qrResult", qrResult);
     billView.setArguments(args);
     return billView;

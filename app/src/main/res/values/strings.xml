@@ -64,5 +64,8 @@
     <string name="daily_totals">Daily Totals</string>
     <string name="edit_vendor_information">Edit Vendor Information</string>
     <string name="cancel">Cancel</string>
+    <string name="friends">Friends (Beta)</string>
+    <string name="search">Search</string>
+    <string name="results">Results</string>
 
 </resources>
