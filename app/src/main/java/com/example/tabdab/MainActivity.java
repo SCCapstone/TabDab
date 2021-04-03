@@ -42,11 +42,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
   String userEmail;
 
   User user;
-  Vendor vendor;
 
   private FirebaseAuth fireAuth;
   DatabaseReference userDb;
-  DatabaseReference vendorDb;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

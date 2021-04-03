@@ -22,59 +22,63 @@
     <EditText
         android:id="@+id/uFirstName"
         android:background="@drawable/login_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
         android:ems="10"
         android:hint="@string/first_name"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:padding="5dp"/>
 
     <EditText
         android:id="@+id/uLastName"
         android:background="@drawable/login_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/last_name"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:padding="5dp"/>
 
     <EditText
         android:id="@+id/uEmail"
         android:background="@drawable/login_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/email_login"
-        android:inputType="textWebEmailAddress|textPersonName" />
+        android:inputType="textWebEmailAddress|textPersonName"
+        android:padding="5dp"/>
 
     <EditText
         android:id="@+id/uPassword"
         android:background="@drawable/login_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="@string/password"
-        android:textAlignment="center"
-        android:inputType="textPersonName|textWebPassword" />
+        android:inputType="textPersonName|textWebPassword"
+        android:padding="5dp"/>
 
     <EditText
         android:id="@+id/uCardNum"
         android:background="@drawable/login_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="Credit Card Number"
-        android:textAlignment="center"
-        android:inputType="textPersonName" />
+
+        android:inputType="textPersonName"
+        android:padding="5dp"/>
 
     <EditText
         android:id="@+id/uExpDate"
@@ -86,7 +90,8 @@
         android:baselineAligned="false"
         android:ems="10"
         android:hint="Exp Date"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:padding="5dp"/>
 
     <EditText
         android:id="@+id/uCVV"
@@ -97,7 +102,8 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="CVV"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        android:padding="5dp"/>
 
     <Switch
         android:id="@+id/isVendor"
@@ -111,12 +117,13 @@
     <EditText
         android:id="@+id/vendorId"
         android:background="@drawable/login_edit_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:hint="@string/vendor_id"
         android:inputType="textPersonName"
+        android:padding="5dp"
         android:visibility="invisible" />
 
     <Button

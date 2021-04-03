@@ -2,6 +2,7 @@ package com.example.tabdab;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -97,6 +98,12 @@ public class BillViewFragment extends Fragment {
 
                 dailyTotalsDb.child("previousPayments").setValue(dailyTotals.getPreviousPayments());
                 dailyTotalsDb.child("totals").setValue(dailyTotals.getTotals());
+
+                // Go back the QR scanner
+                FragmentTransaction ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                        R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                ft.replace(R.id.fragment_container, QrScannerFragment.newInstance(user)).commit();
+                ft.addToBackStack(null);
               }
 
               @Override
