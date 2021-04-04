@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     this.user = user;
     if (user != null) {
       headerUser.setText(user.getFirstName() + " " + user.getLastName());
-      headerEmail.setText(userEmail.replace('*', '.'));
+      headerEmail.setText(user.getEmail().replace('*', '.'));
     }
   }
 }
