@@ -28,8 +28,6 @@ public class VendorMenuFragment extends Fragment {
   TextView vendorName, vendorId;
   Button butCreateBill, butEditMenu, butDailyTotals, butEditVendorInfo;
   User user;
-  FirebaseUser userRef;
-  DatabaseReference userDatabase;
 
   @Override
   public void onCreate (Bundle savedInstanceState) {
@@ -49,12 +47,6 @@ public class VendorMenuFragment extends Fragment {
     butEditMenu = view.findViewById(R.id.butEditMenu);
     butDailyTotals = view.findViewById(R.id.butDailyTotals);
     butEditVendorInfo = view.findViewById(R.id.butEditVendor);
-
-    // Hide the buttons until the user data is retrieved from firebase
-    butCreateBill.setVisibility(View.INVISIBLE);
-    butEditMenu.setVisibility(View.INVISIBLE);
-    butDailyTotals.setVisibility(View.INVISIBLE);
-    butEditVendorInfo.setVisibility(View.INVISIBLE);
 
     // Display the users vendor ID if they are registered to one
     if (user.getIsVendor()) {
@@ -123,12 +115,6 @@ public class VendorMenuFragment extends Fragment {
         }
       }
     });
-
-    // Set the buttons back to visible
-    butCreateBill.setVisibility(View.VISIBLE);
-    butEditMenu.setVisibility(View.VISIBLE);
-    butDailyTotals.setVisibility(View.VISIBLE);
-    butEditVendorInfo.setVisibility(View.VISIBLE);
 
     return view;
   }

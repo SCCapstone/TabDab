@@ -184,4 +184,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     fragmentTransaction.add(R.id.fragment_container, qrScanner).commit();
     isFragmentDisplayed = true;
   }
+
+  public User mainActGetUser () {
+    return this.user;
+  }
+  public void mainActSetUser (User user) {
+    this.user = user;
+    if (user != null) {
+      headerUser.setText(user.getFirstName() + " " + user.getLastName());
+      headerEmail.setText(userEmail.replace('*', '.'));
+    }
+  }
 }

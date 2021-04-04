@@ -75,9 +75,8 @@ public class BillViewFragment extends Fragment {
           // Update the users past payments
           @Override
           public void onClick (View view) {
-            List<Bill> pastPayments = user.getPastPayments();
-            pastPayments.add(bill);
-            userDb.child("pastPayments").setValue(pastPayments);
+            user.addPastPayment(bill);
+            userDb.child("pastPayments").setValue(user.getPastPayments());
 
             // Track the payment
             paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
