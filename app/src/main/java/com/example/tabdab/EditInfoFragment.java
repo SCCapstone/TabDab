@@ -124,7 +124,7 @@ public class EditInfoFragment extends Fragment {
         if (!firstName.isEmpty()) {
           user.setFirstName(firstName);
         } else if (!lastName.isEmpty()) {
-          user.setLastName(firstName);
+          user.setLastName(lastName);
         } else if (!newCard.isEmpty() && validCardNum(newCard)) {
           user.setCardNum(newCard);
         } else if (!newDate.isEmpty() && expDateChecker(newDate)) {
