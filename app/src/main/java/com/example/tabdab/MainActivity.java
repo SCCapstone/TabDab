@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LiveData;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -149,13 +150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
-      case R.id.navi_friends:
-        ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
-                R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-        ft.replace(R.id.fragment_container, FriendsMenuFragment.newInstance(user)).commit();
-        ft.addToBackStack(null);
-        drawer.closeDrawer(GravityCompat.START);
-        break;
       case R.id.navi_vendor:
         ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                 R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
@@ -189,5 +183,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // Add the MainFragment
     fragmentTransaction.add(R.id.fragment_container, qrScanner).commit();
     isFragmentDisplayed = true;
+  }
+
+  public User mainActGetUser () {
+    return this.user;
+  }
+  public void mainActSetUser (User user) {
+    this.user = user;
+    if (user != null) {
+      headerUser.setText(user.getFirstName() + " " + user.getLastName());
+      headerEmail.setText(userEmail.replace('*', '.'));
+    }
   }
 }

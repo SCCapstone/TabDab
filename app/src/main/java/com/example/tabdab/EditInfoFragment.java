@@ -46,6 +46,8 @@ public class EditInfoFragment extends Fragment {
   FirebaseUser userRef;
   User user;
 
+  MainActivity ma;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -62,6 +64,10 @@ public class EditInfoFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_edit_info, container, false);
+
+
+    // In case we need to change the header information
+    ma = (MainActivity)getActivity();
 
     saveInfoBut = view.findViewById(R.id.saveEditBut);
     newFirstName = view.findViewById(R.id.editFirstName);
@@ -123,18 +129,20 @@ public class EditInfoFragment extends Fragment {
         // Check which fields the user has updated and update them
         if (!firstName.isEmpty()) {
           user.setFirstName(firstName);
-        } else if (!lastName.isEmpty()) {
-          user.setLastName(firstName);
-        } else if (!newCard.isEmpty() && validCardNum(newCard)) {
+        }
+        if (!lastName.isEmpty()) {
+          user.setLastName(lastName);
+        }
+        if (!newCard.isEmpty() && validCardNum(newCard)) {
           user.setCardNum(newCard);
-        } else if (!newDate.isEmpty() && expDateChecker(newDate)) {
+        }
+        if (!newDate.isEmpty() && expDateChecker(newDate)) {
           user.setExpDate(newDate);
-        } else if (!newCV.isEmpty() && cvvChecker(newCV)) {
+        }
+        if (!newCV.isEmpty() && cvvChecker(newCV)) {
           user.setCVV(newCV);
         }
-
-        // Special case for when the user updates their email
-        if (!newEmail.isEmpty() && validEmail(newEmail) && user.getEmail() != newEmail) {
+        if (!newEmail.isEmpty() && validEmail(newEmail)) {
           final String oldEmail = user.getEmail();
 
           //Check for if the email is already registered.
@@ -145,17 +153,21 @@ public class EditInfoFragment extends Fragment {
                 Toast.makeText(getContext(), "Email already registered. Please use a different email.", Toast.LENGTH_LONG).show();
               } else {
                 user.setEmail(newEmail);
-                //refUser.child("email").setValue(newUserEmail.getText().toString().trim());
                 userRef.updateEmail(newUserEmail.getText().toString().trim());
 
                 database.child(user.getEmail().replace('.','*')).setValue(user);
                 database.child(oldEmail.replace('.','*')).removeValue();
+
+                ma.mainActSetUser(user);
               }
             }
           });
         } else {  // Update the user
           refUser.setValue(user);
+          ma.mainActSetUser(user);
         }
+
+
 
         FragmentTransaction ft;
         ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
