@@ -153,7 +153,7 @@ public class EditInfoFragment extends Fragment {
                 Toast.makeText(getContext(), "Email already registered. Please use a different email.", Toast.LENGTH_LONG).show();
               } else {
                 user.setEmail(newEmail);
-                userRef.updateEmail(newUserEmail.getText().toString().trim());
+                userRef.updateEmail(newEmail);
 
                 database.child(user.getEmail().replace('.','*')).setValue(user);
                 database.child(oldEmail.replace('.','*')).removeValue();
