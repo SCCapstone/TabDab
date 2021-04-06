@@ -9,9 +9,8 @@ public class BillItemTest {
     double price = 1;
     String name = "test";
     BillItem item = new BillItem(price, name);
-    assertEquals(1, item.getPrice(), .001);
+    assertEquals(1, item.getPrice(), 0.001);
     assertEquals("test", item.getName());
-
     name = "";
     item = new BillItem(price, name);
     assertEquals("", item.getName());
@@ -20,7 +19,7 @@ public class BillItemTest {
   @Test
   public void constructor_test2() {
     BillItem item = new BillItem();
-    assertEquals(0.0, item.getPrice(), 0);
+    assertEquals(0.0, item.getPrice(), 0.001);
     assertEquals("", item.getName());
   }
 
