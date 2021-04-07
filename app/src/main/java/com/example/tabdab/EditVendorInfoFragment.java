@@ -28,6 +28,7 @@ public class EditVendorInfoFragment extends Fragment {
   private EditText editName;
 
   private User user;
+  private Vendor vendor;
   private DatabaseReference vendorDb;
 
   @Override
@@ -51,6 +52,20 @@ public class EditVendorInfoFragment extends Fragment {
     editName = view.findViewById(R.id.editVendorName);
     butSave = view.findViewById(R.id.saveEditBut);
 
+    // Set the vendor name as the hint of the edit text
+    vendorDb.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(@NonNull DataSnapshot snapshot) {
+        vendor = snapshot.getValue(Vendor.class);
+        editName.setHint(vendor.getName());
+      }
+
+      @Override
+      public void onCancelled(@NonNull DatabaseError error) {
+        Log.d("EditVendorInfoFrag", error.getMessage());
+      }
+    });
+
     // When the save button is clicked save the information
     butSave.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -59,25 +74,15 @@ public class EditVendorInfoFragment extends Fragment {
         if (editName.getText().toString().trim().isEmpty()) {
           Toast.makeText(getContext(), "Vendor must have a name", Toast.LENGTH_SHORT).show();
         } else {  // Name is valid so change it
-          vendorDb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-              vendorDb.child("name").setValue(editName.getText().toString().trim());
-              Toast.makeText(getContext(), "Name changed", Toast.LENGTH_SHORT).show();
+          vendorDb.child("name").setValue(editName.getText().toString().trim());
+          Toast.makeText(getContext(), "Name changed", Toast.LENGTH_SHORT).show();
 
-              // Go back to the vendor menu
-              FragmentTransaction ft;
-              ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
-                      R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-              ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
-              ft.addToBackStack(null);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-              Log.d("EditVendorInfoFrag", error.getMessage());
-            }
-          });
+          // Go back to the vendor menu
+          FragmentTransaction ft;
+          ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                  R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+          ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
+          ft.addToBackStack(null);
         }
       }
     });
