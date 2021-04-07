@@ -115,8 +115,6 @@ public class EditInfoFragment extends Fragment {
               } else if (!vendorID.isEmpty()) {  // Vendor ID exists. Update the user info
                 user.setIsVendor(true);
                 user.setVendorID(vendorID);
-                //refUser.child("vendorID").setValue(vendorID);
-                //refUser.child("isVendor").setValue(true);
               }
             }
 

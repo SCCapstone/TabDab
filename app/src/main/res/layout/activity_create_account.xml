@@ -89,9 +89,19 @@
         android:layout_marginTop="10dp"
         android:baselineAligned="false"
         android:ems="10"
-        android:hint="Exp Date"
+        android:hint="Exp. Date"
         android:inputType="textPersonName"
         android:padding="5dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_gravity="center_horizontal"
+        android:text="hint: mm/yyy"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+
 
     <EditText
         android:id="@+id/uCVV"
