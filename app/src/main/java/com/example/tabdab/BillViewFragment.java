@@ -29,6 +29,7 @@ public class BillViewFragment extends Fragment {
   TextView itemizedView, grandTotalView, editTip;
   Button butAddTip, butPay;
   Bill bill;
+  String qrResult;
 
   DatabaseReference userDb, vendorDb, dailyTotalsDb, paymentsDb, billsDb;
   FirebaseUser userRef;
@@ -40,9 +41,8 @@ public class BillViewFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-
-    String qrResult = getArguments().getString("qrResult", "");
-    billsDb = FirebaseDatabase.getInstance().getReferenceFromUrl(qrResult);
+    // Get the QR code contents from the previous fragment
+    qrResult = getArguments().getString("qrResult", "");
 
     String userStr = getArguments().getString("user", "");
     user = User.fromJson(userStr);
@@ -59,66 +59,73 @@ public class BillViewFragment extends Fragment {
     butPay = view.findViewById(R.id.pay_button);
     butAddTip = view.findViewById(R.id.addTipButton);
 
-    // Get and display data from qr scanner fragment
-    billsDb.addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override
-      public void onDataChange(@NonNull DataSnapshot snapshot) {
-        bill = snapshot.getValue(Bill.class);
+    // Check that the qr code contained a reference to a tabdab bill
+    if (qrResult.contains("https://tabdab-a9e3a.firebaseio.com/")) {
+      billsDb = FirebaseDatabase.getInstance().getReferenceFromUrl(qrResult);
 
-        vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(bill.getVendorId());
+      // Get and display data from qr scanner fragment
+      billsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+          bill = snapshot.getValue(Bill.class);
 
-        // Set UI components
-        itemizedView.setText(bill.toString());
-        grandTotalView.setText(Double.toString(bill.getGrandTotal()));
+          vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(bill.getVendorId());
 
-        butPay.setOnClickListener(new View.OnClickListener() {
-          // Update the users past payments
-          @Override
-          public void onClick (View view) {
-            user.addPastPayment(bill);
-            userDb.child("pastPayments").setValue(user.getPastPayments());
+          // Set UI components
+          itemizedView.setText(bill.toString());
+          grandTotalView.setText(Double.toString(bill.getGrandTotal()));
 
-            // Track the payment
-            paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
-                    bill.getVendor(), bill.getGrandTotal(), bill.getTip());
-            paymentsDb = FirebaseDatabase.getInstance().getReference("payments").push();
-            paymentsDb.setValue(paymentTracker);
+          butPay.setOnClickListener(new View.OnClickListener() {
+            // Update the users past payments
+            @Override
+            public void onClick (View view) {
+              user.addPastPayment(bill);
+              userDb.child("pastPayments").setValue(user.getPastPayments());
 
-            Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
+              // Track the payment
+              paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
+                      bill.getVendor(), bill.getGrandTotal(), bill.getTip());
+              paymentsDb = FirebaseDatabase.getInstance().getReference("payments").push();
+              paymentsDb.setValue(paymentTracker);
 
-            // Update the daily totals for the vendor
-            dailyTotalsDb = FirebaseDatabase.getInstance().getReference("daily_totals").child(bill.getVendorId());
-            dailyTotalsDb.addListenerForSingleValueEvent(new ValueEventListener() {
-              @Override
-              public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dailyTotals = snapshot.getValue(DailyTotals.class);
-                dailyTotals.addPreviousPayment(bill);
-                dailyTotals.addDailyTotalItems(bill);
+              Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
 
-                dailyTotalsDb.child("previousPayments").setValue(dailyTotals.getPreviousPayments());
-                dailyTotalsDb.child("totals").setValue(dailyTotals.getTotals());
+              // Update the daily totals for the vendor
+              dailyTotalsDb = FirebaseDatabase.getInstance().getReference("daily_totals").child(bill.getVendorId());
+              dailyTotalsDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                  dailyTotals = snapshot.getValue(DailyTotals.class);
+                  dailyTotals.addPreviousPayment(bill);
+                  dailyTotals.addDailyTotalItems(bill);
 
-                // Go back the QR scanner
-                FragmentTransaction ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
-                        R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-                ft.replace(R.id.fragment_container, QrScannerFragment.newInstance(user)).commit();
-                ft.addToBackStack(null);
-              }
+                  dailyTotalsDb.child("previousPayments").setValue(dailyTotals.getPreviousPayments());
+                  dailyTotalsDb.child("totals").setValue(dailyTotals.getTotals());
 
-              @Override
-              public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("BillViewFragment", error.getMessage());
-              }
-            });
-          }
-        });
-      }
+                  // Go back the QR scanner
+                  FragmentTransaction ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                          R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                  ft.replace(R.id.fragment_container, QrScannerFragment.newInstance(user)).commit();
+                  ft.addToBackStack(null);
+                }
 
-      @Override
-      public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                  Log.d("BillViewFragment", error.getMessage());
+                }
+              });
+            }
+          });
+        }
 
-      }
-    });
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+      });
+    } else {
+      Toast.makeText(getContext(), "Bill not found", Toast.LENGTH_SHORT).show();
+    }
 
     // Add tip
     butAddTip.setOnClickListener(new View.OnClickListener() {
