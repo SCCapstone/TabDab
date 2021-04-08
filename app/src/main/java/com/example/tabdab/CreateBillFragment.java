@@ -29,21 +29,23 @@ import java.util.List;
 
 public class CreateBillFragment extends Fragment {
   // Set up ui elements
-  ScrollView scroller, itemizedBillScroller;
-  LinearLayout itemized_bill_layout;
-  Button generateBtn, clearBtn;
-  TextView itemizedBill;
-  LinearLayout menu;
+  private ScrollView scroller, itemizedBillScroller;
+  private LinearLayout itemized_bill_layout;
+  private Button generateBtn, clearBtn;
+  private TextView itemizedBill;
+  private LinearLayout menu;
 
   // User elements
-  String userId;
-  DatabaseReference vendorsDb, billsDb;
-  FirebaseUser userRef;
-  User user;
-  Vendor vendor;
+  private String userId;
+  private DatabaseReference vendorsDb, billsDb;
+  private FirebaseUser userRef;
+  private User user;
+  private Vendor vendor;
   Bill bill;
-  List<BillItem> menuItems;
-  String itemizedBillStr;
+  private List<BillItem> menuItems;
+  private String itemizedBillStr;
+
+  MainActivity ma;
 
   public CreateBillFragment() {
     // Required empty public constructor
@@ -53,9 +55,10 @@ public class CreateBillFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    ma = (MainActivity)getActivity();
+
     // Get the user from the previous fragment and then initialize the bill
-    String userStr = getArguments().getString("userStr", "");
-    user = User.fromJson(userStr);
+    user = ma.mainActGetUser();
     bill = new Bill();
     itemizedBillStr = "";
 

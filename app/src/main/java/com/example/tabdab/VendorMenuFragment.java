@@ -25,16 +25,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class VendorMenuFragment extends Fragment {
-  TextView vendorName, vendorId;
-  Button butCreateBill, butEditMenu, butDailyTotals, butEditVendorInfo;
+  private TextView vendorName, vendorId;
+  private Button butCreateBill, butEditMenu, butDailyTotals, butEditVendorInfo;
   User user;
+  MainActivity ma;
 
   @Override
   public void onCreate (Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    String userStr = getArguments().getString("user", "");
-    user = User.fromJson(userStr);
+    ma = (MainActivity)getActivity();
+    user = ma.mainActGetUser();
   }
 
   @Override
@@ -64,7 +65,7 @@ public class VendorMenuFragment extends Fragment {
           FragmentTransaction ft;
           ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                   R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-          ft.replace(R.id.fragment_container, CreateBillFragment.newInstance(user)).commit();
+          ft.replace(R.id.fragment_container, CreateBillFragment.newInstance()).commit();
           ft.addToBackStack(null);
         }
       }
@@ -94,7 +95,7 @@ public class VendorMenuFragment extends Fragment {
           FragmentTransaction ft;
           ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                   R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-          ft.replace(R.id.fragment_container, VendorDailyTotalsFragment.newInstance(user)).commit();
+          ft.replace(R.id.fragment_container, VendorDailyTotalsFragment.newInstance()).commit();
           ft.addToBackStack(null);
         }
       }

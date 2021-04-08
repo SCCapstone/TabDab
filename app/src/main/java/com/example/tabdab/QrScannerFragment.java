@@ -23,15 +23,15 @@ public class QrScannerFragment extends Fragment {
 
   // Define scanner and and scanner result string for use throughout the activity
   CodeScanner codeScanner;
-
   User user;
+  MainActivity ma;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    String userStr = getArguments().getString("user", "");
-    user = User.fromJson(userStr);
+    ma = (MainActivity)getActivity();
+    user = ma.mainActGetUser();
   }
 
   @Nullable
@@ -55,7 +55,7 @@ public class QrScannerFragment extends Fragment {
             // Launch the bill view activity when a QR code is decoded
             String message = result.getText();
             FragmentTransaction ft = getParentFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, BillViewFragment.newInstance(user, message)).commit();
+            ft.replace(R.id.fragment_container, BillViewFragment.newInstance(message)).commit();
             ft.addToBackStack(null);
           }
         });

@@ -139,21 +139,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
       case R.id.navi_scan:
         ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                 R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance(user)).commit();
+        ft.replace(R.id.fragment_container, QrScannerFragment.newInstance()).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_setting:
         ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                 R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-        ft.replace(R.id.fragment_container, SettingsFragment.newInstance(user)).commit();
+        ft.replace(R.id.fragment_container, SettingsFragment.newInstance()).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;
       case R.id.navi_vendor:
         ft = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                 R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-        ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
+        ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance()).commit();
         ft.addToBackStack(null);
         drawer.closeDrawer(GravityCompat.START);
         break;

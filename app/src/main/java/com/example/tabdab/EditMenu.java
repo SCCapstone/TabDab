@@ -29,17 +29,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EditMenu extends AppCompatActivity {
-  EditText editName, editPrice;
-  Button ButAddItem, ButRemoveItem, ButCancel, ButDone;
-  ScrollView scroller;
-  LinearLayout menu;
+  private EditText editName, editPrice;
+  private Button ButAddItem, ButRemoveItem, ButCancel, ButDone;
+  private ScrollView scroller;
+  private LinearLayout menu;
 
   // Database references
-  DatabaseReference dbVendor, dbUser;
-  FirebaseUser userRef;
-  User user;
-  Vendor vendor;
-  List<BillItem> menuItems;
+  private DatabaseReference dbVendor, dbUser;
+  private FirebaseUser userRef;
+  private User user;
+  private Vendor vendor;
+  private List<BillItem> menuItems;
+
+  MainActivity ma;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

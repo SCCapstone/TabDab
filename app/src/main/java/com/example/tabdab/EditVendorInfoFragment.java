@@ -31,17 +31,18 @@ public class EditVendorInfoFragment extends Fragment {
   private Vendor vendor;
   private DatabaseReference vendorDb;
 
+  MainActivity ma;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      // Get the user from the previous fragment and then initialize the bill
-      String userStr = getArguments().getString("userStr", "");
-      user = User.fromJson(userStr);
 
-      // Get the vendor information
-      vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(user.getVendorID());
-    }
+    ma = (MainActivity)getActivity();
+
+    user = ma.mainActGetUser();
+
+    // Get the vendor information
+    vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(user.getVendorID());
   }
 
   @Override
@@ -81,7 +82,7 @@ public class EditVendorInfoFragment extends Fragment {
           FragmentTransaction ft;
           ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                   R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-          ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
+          ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance()).commit();
           ft.addToBackStack(null);
         }
       }

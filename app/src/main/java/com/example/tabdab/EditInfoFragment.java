@@ -38,12 +38,12 @@ import java.util.regex.Pattern;
 
 public class EditInfoFragment extends Fragment {
 
-  Button saveInfoBut;
-  EditText newFirstName, newLastName, newUserEmail, vendorId, newCardNum, newExpDate, newCVV;
-  Switch switchIsVendor;
-  FirebaseAuth fireAuth;
-  DatabaseReference database;
-  FirebaseUser userRef;
+  private Button saveInfoBut;
+  private EditText newFirstName, newLastName, newUserEmail, vendorId, newCardNum, newExpDate, newCVV;
+  private Switch switchIsVendor;
+  private FirebaseAuth fireAuth;
+  private DatabaseReference database;
+  private FirebaseUser userRef;
   User user;
 
   MainActivity ma;
@@ -52,8 +52,9 @@ public class EditInfoFragment extends Fragment {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    String userStr = getArguments().getString("user", "");
-    user = User.fromJson(userStr);
+    // In case we need to change the header information
+    ma = (MainActivity)getActivity();
+    user = ma.mainActGetUser();
 
     fireAuth = FirebaseAuth.getInstance();
     database =  FirebaseDatabase.getInstance().getReference("users/");
@@ -64,10 +65,6 @@ public class EditInfoFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_edit_info, container, false);
-
-
-    // In case we need to change the header information
-    ma = (MainActivity)getActivity();
 
     saveInfoBut = view.findViewById(R.id.saveEditBut);
     newFirstName = view.findViewById(R.id.editFirstName);
@@ -110,9 +107,9 @@ public class EditInfoFragment extends Fragment {
         refVendors.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-              if (!snapshot.hasChild(vendorID) && vendorID.isEmpty()) {  // Vendor ID not found
+              if (!snapshot.hasChild(vendorID) || vendorID.isEmpty()) {  // Vendor ID not found
                 Toast.makeText(getContext(), "Vendor ID not found.", Toast.LENGTH_SHORT).show();
-              } else if (!vendorID.isEmpty()) {  // Vendor ID exists. Update the user info
+              } else {  // Vendor ID exists. Update the user info
                 user.setIsVendor(true);
                 user.setVendorID(vendorID);
               }
@@ -170,7 +167,7 @@ public class EditInfoFragment extends Fragment {
         FragmentTransaction ft;
         ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                 R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-        ft.replace(R.id.fragment_container, SettingsFragment.newInstance(user)).commit();
+        ft.replace(R.id.fragment_container, SettingsFragment.newInstance()).commit();
         ft.addToBackStack(null);
       }
     });

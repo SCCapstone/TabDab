@@ -23,18 +23,20 @@ import java.util.Map;
 
 
 public class RegisterVendorFragment extends Fragment {
-  TextView vendorName;
-  Button register;
-  DatabaseReference vendors;
+  private TextView vendorName;
+  private Button register;
+  private DatabaseReference vendors;
   User user;
+  MainActivity ma;
+
 
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    String userStr = getArguments().getString("user", "");
-    user = User.fromJson(userStr);
+    ma = (MainActivity)getActivity();
+    user = ma.mainActGetUser();
   }
 
   @Override
@@ -78,11 +80,13 @@ public class RegisterVendorFragment extends Fragment {
     FirebaseDatabase.getInstance().getReference("users/").child(user.getEmail().replace('.', '*')).child("isVendor").setValue(true);
     Toast.makeText(getContext(), "Vendor Registered", Toast.LENGTH_SHORT).show();
 
+    ma.mainActSetUser(user);
+
     // Launch the vendor menu fragment
     FragmentTransaction ft;
     ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
             R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-    ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance(user)).commit();
+    ft.replace(R.id.fragment_container, VendorMenuFragment.newInstance()).commit();
     ft.addToBackStack(null);
   }
 
