@@ -129,8 +129,11 @@ public class BillViewFragment extends Fragment {
           Log.d("BillViewFragment", error.getMessage());
         }
       });
-    } else {
-      Toast.makeText(getContext(), "Bill not found", Toast.LENGTH_SHORT).show();
+    } else {  // Bill isn't found in the database
+      itemizedView.setText("Bill not found. Make sure the QR code is generated from a TabDab vendor.");
+      butAddTip.setVisibility(View.INVISIBLE);
+      butPay.setVisibility(View.INVISIBLE);
+      editTip.setVisibility(View.INVISIBLE);
     }
 
     // Add tip
