@@ -18,9 +18,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ChangePasswordFragment extends Fragment {
-  EditText userEmail;
-  Button resetPassBut;
-  FirebaseAuth fireAuth;
+  private EditText userEmail;
+  private Button resetPassBut;
+  private FirebaseAuth fireAuth;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {

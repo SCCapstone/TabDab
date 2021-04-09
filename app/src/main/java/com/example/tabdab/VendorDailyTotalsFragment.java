@@ -26,23 +26,23 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class VendorDailyTotalsFragment extends Fragment {
-  ScrollView scroller;
-  LinearLayout totalsLinearLayout;
-  CalendarView calendar;
+  private ScrollView scroller;
+  private LinearLayout totalsLinearLayout;
+  private CalendarView calendar;
 
-  User user;
-  DailyTotals dailyTotals;
-  DatabaseReference dailyTotalsDb;
+  private User user;
+  private DailyTotals dailyTotals;
+  private DatabaseReference dailyTotalsDb;
 
+  MainActivity ma;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (getArguments() != null) {
-      // Get the user from the previous fragment and then initialize the bill
-      String userStr = getArguments().getString("userStr", "");
-      user = User.fromJson(userStr);
-    }
+
+    ma = (MainActivity)getActivity();
+
+    user = ma.mainActGetUser();
     dailyTotalsDb = FirebaseDatabase.getInstance().getReference("daily_totals").child(user.getVendorID());
   }
 
@@ -117,6 +117,10 @@ public class VendorDailyTotalsFragment extends Fragment {
     Bundle args = new Bundle();
     args.putString("userStr", userStr);
     fragment.setArguments(args);
+    return fragment;
+  }
+  public static VendorDailyTotalsFragment newInstance() {
+    VendorDailyTotalsFragment fragment = new VendorDailyTotalsFragment();
     return fragment;
   }
 

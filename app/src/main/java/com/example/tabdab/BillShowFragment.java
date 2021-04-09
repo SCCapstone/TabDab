@@ -21,8 +21,8 @@ import androidmads.library.qrgenearator.QRGEncoder;
 public class BillShowFragment extends Fragment {
   // fragment initialization parameters
   private static final String QR_RESULT = "qrResult";
-  ImageView qrImage;
-  Button butDone;
+  private ImageView qrImage;
+  private Button butDone;
   private String qrResult;
 
   public BillShowFragment() {
@@ -68,7 +68,6 @@ public class BillShowFragment extends Fragment {
   public static BillShowFragment newInstance () { return new BillShowFragment(); }
 
   /**
-   *
    * @param qrResult QR code recieved from the create bill fragment
    * @return A new instance of fragment BillShowFragment.
    */

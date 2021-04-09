@@ -38,15 +38,18 @@ public class BillViewFragment extends Fragment {
   DailyTotals dailyTotals;
   PaymentTracker paymentTracker;
 
+  MainActivity ma;
+
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    ma = (MainActivity)getActivity();
+    user = ma.mainActGetUser();
+
     // Get the QR code contents from the previous fragment
     qrResult = getArguments().getString("qrResult", "");
 
-    String userStr = getArguments().getString("user", "");
-    user = User.fromJson(userStr);
     userRef = FirebaseAuth.getInstance().getCurrentUser();
     userDb = FirebaseDatabase.getInstance().getReference().child("users").child(user.getEmail().replace('.', '*'));
   }
@@ -80,7 +83,9 @@ public class BillViewFragment extends Fragment {
             // Update the users past payments
             @Override
             public void onClick (View view) {
+              // Update the user locally and in the database
               user.addPastPayment(bill);
+              ma.mainActSetUser(user);
               userDb.child("pastPayments").setValue(user.getPastPayments());
 
               // Track the payment
@@ -106,7 +111,7 @@ public class BillViewFragment extends Fragment {
                   // Go back the QR scanner
                   FragmentTransaction ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                           R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-                  ft.replace(R.id.fragment_container, QrScannerFragment.newInstance(user)).commit();
+                  ft.replace(R.id.fragment_container, QrScannerFragment.newInstance()).commit();
                   ft.addToBackStack(null);
                 }
 
@@ -121,11 +126,14 @@ public class BillViewFragment extends Fragment {
 
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
-
+          Log.d("BillViewFragment", error.getMessage());
         }
       });
-    } else {
-      Toast.makeText(getContext(), "Bill not found", Toast.LENGTH_SHORT).show();
+    } else {  // Bill isn't found in the database
+      itemizedView.setText("Bill not found. Make sure the QR code is generated from a TabDab vendor.");
+      butAddTip.setVisibility(View.INVISIBLE);
+      butPay.setVisibility(View.INVISIBLE);
+      editTip.setVisibility(View.INVISIBLE);
     }
 
     // Add tip
@@ -145,10 +153,9 @@ public class BillViewFragment extends Fragment {
     return new BillViewFragment();
   }
 
-  public static BillViewFragment newInstance (User user, String qrResult) {
+  public static BillViewFragment newInstance (String qrResult) {
     BillViewFragment billView = new BillViewFragment();
     Bundle args = new Bundle();
-    args.putString("user", user.toJson());
     args.putString("qrResult", qrResult);
     billView.setArguments(args);
     return billView;
