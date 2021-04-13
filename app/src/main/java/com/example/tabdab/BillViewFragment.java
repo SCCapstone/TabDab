@@ -175,6 +175,10 @@ public class BillViewFragment extends Fragment {
     ma.mainActSetUser(user);
     userDb.child("pastPayments").setValue(user.getPastPayments());
 
+    // Mark the bill as payed in the database so that it cannot be payed twice
+    System.out.println(billsDb.getKey());
+    FirebaseDatabase.getInstance().getReference("payed_bills").child(billsDb.getKey()).setValue(true);
+
     // Track the payment
     paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
             bill.getVendor(), bill.getGrandTotal(), bill.getTip());
