@@ -1,0 +1,144 @@
+package com.example.tabdab;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.filters.LargeTest;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.rule.GrantPermissionRule;
+import androidx.test.runner.AndroidJUnit4;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.hasErrorText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+@LargeTest
+@RunWith(AndroidJUnit4.class)
+public class CreateAccountTest {
+
+    @Rule
+    public ActivityTestRule<CreateAccount> mActivityTestRule = new ActivityTestRule<>(CreateAccount.class);
+
+    @Rule
+    public GrantPermissionRule mGrantPermissionRule =
+            GrantPermissionRule.grant(
+                    "android.permission.CAMERA");
+
+    @Test
+    public void createAccountTestInvalidEmail() {
+        String bademail = "bademail";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String cardNum = "1234123412341234";
+        String  expDate = "12/3456";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(bademail));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uEmail)).check(matches(hasErrorText("Valid Email Address Required")));
+    }
+
+    @Test
+    public void createAccountTestEmptyEmail() {
+        String emptyEmail = "";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String cardNum = "1234123412341234";
+        String  expDate = "12/3456";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(emptyEmail));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uEmail)).check(matches(hasErrorText("Valid Email Address Required")));
+    }
+
+    @Test
+    public void createAccountTestInvalidPassword() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  badPassword = "123456";
+        String cardNum = "1234123412341234";
+        String  expDate = "12/3456";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(badPassword));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uPassword)).check(matches(hasErrorText("Password must be at least 8 characters")));
+    }
+
+    @Test
+    public void createAccountTestEmptyPassword() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  emptyPassword = "";
+        String cardNum = "1234123412341234";
+        String  expDate = "12/3456";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(emptyPassword));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uPassword)).check(matches(hasErrorText("Password is required")));
+    }
+
+    @Test
+    public void createAccountTestInvalidCard() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  emptyPassword = "";
+        String badCardNum = "123412341234";
+        String  expDate = "12/3456";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(emptyPassword));
+        onView(withId(R.id.uCardNum)).perform(typeText(badCardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uCardNum)).check(matches(hasErrorText("")));
+    }
+
+
+}
