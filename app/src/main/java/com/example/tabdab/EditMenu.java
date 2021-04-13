@@ -83,7 +83,7 @@ public class EditMenu extends AppCompatActivity {
               return;
             }
             if (editPrice.getText().toString().isEmpty()) {
-              editPrice.setError("Cannot have empty name.");
+              editPrice.setError("Cannot have empty price.");
               return;
             }
             if (!isNumeric(editPrice.getText().toString())) {
@@ -97,8 +97,13 @@ public class EditMenu extends AppCompatActivity {
               return;
             }
 
+            // Updated firebase
             vendor.menu.add(new BillItem(Double.parseDouble(editPrice.getText().toString()), editName.getText().toString()));
             FirebaseDatabase.getInstance().getReference().child("vendors").child(vendor.vendorId).setValue(vendor);
+
+            // Clear the edit text boxes
+            editName.setText("");
+            editPrice.setText("");
           }
         });
       }
@@ -136,10 +141,15 @@ public class EditMenu extends AppCompatActivity {
           // Set button params
           Button but = new Button(context);
           but.setId(i);
+          LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          params.setMargins( 0, 0, 0, 5);
+          but.setLayoutParams(params);
           but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
           but.setEnabled(false);
+          but.setAlpha(.5f);
           but.setBackground(getDrawable(R.drawable.register_button));
           but.setTextColor(Color.WHITE);
+          but.setAllCaps(false);
           but.setOnClickListener(listener);
           menu.addView(but);
         }
@@ -164,6 +174,7 @@ public class EditMenu extends AppCompatActivity {
             for (int i = 0; i < menu.getChildCount(); i++) {
               Button but = findViewById(i);
               but.setEnabled(false);
+              but.setAlpha(.5f);
             }
           }
 
@@ -185,6 +196,7 @@ public class EditMenu extends AppCompatActivity {
         for (int i = 0; i < menu.getChildCount(); i++) {
           Button but = findViewById(i);
           but.setEnabled(true);
+          but.setAlpha(1);
         }
       }
     });

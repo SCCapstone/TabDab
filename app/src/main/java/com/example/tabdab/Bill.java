@@ -14,12 +14,12 @@ import java.util.Locale;
 
 public class Bill {
     // Instance variables
-    String vendor;
-    String vendorId;
-    String date;
-    double grandTotal;
-    double tip;
-    List<BillItem> itemizedBill;
+    private String vendor;
+    private String vendorId;
+    private String date;
+    private double grandTotal;
+    private double tip;
+    private List<BillItem> itemizedBill;
 
     // Constructors
     public Bill() {
@@ -61,6 +61,7 @@ public class Bill {
         for (BillItem item : this.itemizedBill) {
             this.grandTotal += item.getPrice();
         }
+        this.grandTotal += this.tip;
     }
     public void setItemizedBill (List<BillItem> itemizedBill) {
         this.itemizedBill = itemizedBill;

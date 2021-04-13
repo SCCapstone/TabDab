@@ -10,15 +10,6 @@
   tools:context=".BillViewFragment">
 
   <TextView
-    android:id="@+id/itemized_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:textColor="@color/white"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/grand_total_view" />
-
-  <TextView
     android:id="@+id/grand_total_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -28,6 +19,19 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/grand_total_view">
+    <LinearLayout
+      android:id="@+id/itemized_view"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="5dp"/>
+  </ScrollView>
 
   <Button
     android:id="@+id/pay_button"
