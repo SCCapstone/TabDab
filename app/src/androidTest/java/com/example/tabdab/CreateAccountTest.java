@@ -119,12 +119,12 @@ public class CreateAccountTest {
     }
 
     @Test
-    public void createAccountTestInvalidCard() {
+    public void createAccountTestInvalidCardSmall() {
         String email = "johndoe@gmail.com";
         String firstName = "John";
         String  lastName = "Doe";
         String  emptyPassword = "";
-        String badCardNum = "123412341234";
+        String badCardNum = "12341234";
         String  expDate = "12/3456";
         String cvv = "123";
 
@@ -137,8 +137,181 @@ public class CreateAccountTest {
         onView(withId(R.id.uExpDate)).perform(typeText(expDate));
         onView(withId(R.id.uCVV)).perform(typeText(cvv));
 
-        onView(withId(R.id.uCardNum)).check(matches(hasErrorText("")));
+        onView(withId(R.id.uCardNum)).check(matches(hasErrorText("Please enter valid card number")));
     }
 
+    @Test
+    public void createAccountTestInvalidCardBig() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String badCardNum = "12341234123412341234123";
+        String  expDate = "12/3456";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(badCardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uCardNum)).check(matches(hasErrorText("Please enter valid card number")));
+    }
+    @Test
+    public void createAccountTestInvalidCard() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String badCardNum = "hellothere";
+        String  expDate = "12/3456";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(badCardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uCardNum)).check(matches(hasErrorText("Please enter valid card number")));
+    }
+
+    @Test
+    public void createAccountTestEmptyCard() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String emptyCardNum = "";
+        String  expDate = "12/3456";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(emptyCardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uCardNum)).check(matches(hasErrorText("Please enter valid card number")));
+    }
+
+    @Test
+    public void createAccountTestEmptyExpDate() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String cardNum = "1234123412341234";
+        String  emptyExpDate = "";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(emptyExpDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uExpDate)).check(matches(hasErrorText("Please enter valid expiration date")));
+    }
+    @Test
+    public void createAccountTestInvalidExpDate() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String cardNum = "1234123412341234";
+        String  badExpDate = "12/02/2022";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(badExpDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uExpDate)).check(matches(hasErrorText("Please enter valid expiration date")));
+    }
+
+    @Test
+    public void createAccountTestExpiredExpDate() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String cardNum = "1234123412341234";
+        String  expiredExpDate = "12/2020";
+        String cvv = "123";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expiredExpDate));
+        onView(withId(R.id.uCVV)).perform(typeText(cvv));
+
+        onView(withId(R.id.uExpDate)).check(matches(hasErrorText("Please enter valid expiration date")));
+    }
+
+    @Test
+    public void createAccountTestEmptyCVV() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String cardNum = "1234123412341234";
+        String  expDate = "12/2022";
+        String emptyCvv = "";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(emptyCvv));
+
+        onView(withId(R.id.uCVV)).check(matches(hasErrorText("Please enter valid CVV")));
+    }
+
+    @Test
+    public void createAccountTestInvalidCVV() {
+        String email = "johndoe@gmail.com";
+        String firstName = "John";
+        String  lastName = "Doe";
+        String  password = "12345678";
+        String cardNum = "1234123412341234";
+        String  expDate = "12/2022";
+        String badCvv = "12345";
+
+
+        onView(withId(R.id.uFirstName)).perform(typeText(firstName));
+        onView(withId(R.id.uLastName)).perform(typeText(lastName));
+        onView(withId(R.id.uEmail)).perform(typeText(email));
+        onView(withId(R.id.uPassword)).perform(typeText(password));
+        onView(withId(R.id.uCardNum)).perform(typeText(cardNum));
+        onView(withId(R.id.uExpDate)).perform(typeText(expDate));
+        onView(withId(R.id.uCVV)).perform(typeText(badCvv));
+
+        onView(withId(R.id.uCVV)).check(matches(hasErrorText("Please enter valid CVV")));
+    }
 
 }
