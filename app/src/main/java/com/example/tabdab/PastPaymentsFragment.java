@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -73,8 +75,6 @@ public class PastPaymentsFragment extends Fragment {
 
             TextView date = new TextView(getContext());
             TextView vendorName = new TextView(getContext());
-            TextView itemizedBill = new TextView(getContext());
-            TextView grandTotal = new TextView(getContext());
 
             // Set the past payment parameters
             bill.setId(i);
@@ -89,21 +89,82 @@ public class PastPaymentsFragment extends Fragment {
             date.setText(prevPayments.get(i).getDate());
             date.setTextColor(Color.WHITE);
             vendorName.setText(prevPayments.get(i).getVendor());
-            vendorName.setTextSize(25);
+            vendorName.setTextSize(35);
             vendorName.setTextColor(Color.WHITE);
             vendorName.setLayoutParams(params);
-            itemizedBill.setText(prevPayments.get(i).itemizedBillToString());
-            itemizedBill.setTextColor(Color.WHITE);
-            itemizedBill.setLayoutParams(params);
-            grandTotal.setText("Grand Total: " + prevPayments.get(i).getGrandTotal());
-            grandTotal.setTextColor(Color.WHITE);
-            grandTotal.setLayoutParams(params);
 
             // Add the text views to the previous payment
-            bill.addView(date);
             bill.addView(vendorName);
-            bill.addView(itemizedBill);
-            bill.addView(grandTotal);
+            bill.addView(date);
+
+            // Set the itemized bill portion of the payment
+            for (int j = 0; j < prevPayments.get(i).getItemizedBill().size(); j++) {
+              TextView itemName = new TextView(getContext());
+              TextView itemPrice = new TextView(getContext());
+              LinearLayout item = new LinearLayout(getContext());
+
+              // Set the linear layout parameters
+              LinearLayout.LayoutParams weight = new LinearLayout.LayoutParams(
+                      LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
+                      1.0f);
+              item.setLayoutParams(weight);
+              item.setGravity(Gravity.RIGHT);
+
+              // Set the name and price up
+              itemName.setText(prevPayments.get(i).getItemizedBill().get(j).getName());
+              itemName.setTextColor(Color.WHITE);
+              itemName.setLayoutParams(weight);
+              itemPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getItemizedBill().get(j).getPrice()));
+              itemPrice.setTextColor(Color.WHITE);
+
+              // Add the price and name
+              item.addView(itemName);
+              item.addView(itemPrice);
+              bill.addView(item);
+            }
+
+            // Set up the tip view
+            LinearLayout tipLayout = new LinearLayout(getContext());
+            TextView tipText = new TextView(getContext());
+            TextView tipPrice = new TextView(getContext());
+
+            LinearLayout.LayoutParams grandTotalWeight = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
+                    1.0f);
+            tipLayout.setLayoutParams(grandTotalWeight);
+            tipLayout.setGravity(Gravity.RIGHT);
+
+            // Set the name and price up
+            tipText.setText("Tip");
+            tipText.setTextColor(Color.WHITE);
+            tipText.setLayoutParams(grandTotalWeight);
+            tipPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getTip()));
+            tipPrice.setTextColor(Color.WHITE);
+
+            // Add the price and name
+            tipLayout.addView(tipText);
+            tipLayout.addView(tipPrice);
+            bill.addView(tipLayout);
+
+            // Set up the grand total view
+            LinearLayout grandTotalLayout = new LinearLayout(getContext());
+            TextView grandTotalText = new TextView(getContext());
+            TextView grandTotalPrice = new TextView(getContext());
+
+            grandTotalLayout.setLayoutParams(grandTotalWeight);
+            grandTotalLayout.setGravity(Gravity.RIGHT);
+
+            // Set the name and price up
+            grandTotalText.setText("Grand Total ");
+            grandTotalText.setTextColor(Color.WHITE);
+            grandTotalText.setLayoutParams(grandTotalWeight);
+            grandTotalPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getGrandTotal()));
+            grandTotalPrice.setTextColor(Color.WHITE);
+
+            // Add the price and name
+            grandTotalLayout.addView(grandTotalText);
+            grandTotalLayout.addView(grandTotalPrice);
+            bill.addView(grandTotalLayout);
 
             // Add the previous payment
             payments.addView(bill);
