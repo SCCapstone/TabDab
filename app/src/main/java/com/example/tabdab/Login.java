@@ -22,9 +22,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
-  TextView LoginEmail, LoginPassword;
-  Button ButRegister, ButLogin;
-  FirebaseAuth fireAuth;
+  private TextView LoginEmail, LoginPassword;
+  private Button ButRegister, ButLogin;
+  private FirebaseAuth fireAuth;
   SharedPreferences sharedPreferences;
 
   @Override
