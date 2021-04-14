@@ -33,16 +33,16 @@ public class EditMenuFragment extends Fragment {
   static final String USER_STR = "userStr";
 
   // UI components initialization
-  EditText editName, editPrice;
-  Button butAddItem, butRemoveItem, butCancel;
-  ScrollView scroller;
-  LinearLayout menu;
+  private EditText editName, editPrice;
+  private Button butAddItem, butRemoveItem, butCancel;
+  private ScrollView scroller;
+  private LinearLayout menu;
 
   // Database references
-  DatabaseReference dbVendor;
-  User user;
-  Vendor vendor;
-  List<BillItem> menuItems;
+  private DatabaseReference dbVendor;
+  private User user;
+  private Vendor vendor;
+  private List<BillItem> menuItems;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
