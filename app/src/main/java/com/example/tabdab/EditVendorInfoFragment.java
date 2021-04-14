@@ -103,4 +103,7 @@ public class EditVendorInfoFragment extends Fragment {
     fragment.setArguments(args);
     return fragment;
   }
+  public static EditVendorInfoFragment newInstance () {
+    return new EditVendorInfoFragment();
+  }
 }

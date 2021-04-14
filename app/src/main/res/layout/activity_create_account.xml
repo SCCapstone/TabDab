@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
         android:layout_gravity="center_horizontal"
-        android:text="hint: mm/yyy"
+        android:text="hint: mm/yyyy"
         android:textSize="12sp"
         android:textStyle="bold"
         android:textColor="@color/white"/>

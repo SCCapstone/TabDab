@@ -202,7 +202,11 @@ public class BillViewFragment extends Fragment {
     bill.setGrandTotal();
     user.addPastPayment(bill);
     ma.mainActSetUser(user);
-    userDb.child("pastPayments").setValue(user.getPastPayments());
+
+    Map<String, Object> updatedUser = new HashMap<>();
+    updatedUser.put("pastPayments", user.getPastPayments());
+    userDb.updateChildren(updatedUser);
+    //userDb.child("pastPayments").setValue(user.getPastPayments());
 
     // Track the payment in firebase for purposes of CSCE 490
     paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
