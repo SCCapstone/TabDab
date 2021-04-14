@@ -6,9 +6,14 @@ A QrReading app for paying your bill or generating a bill on your phone.
 Running this app may require a camera on your device. The app might may crash if ran on a device without a camera meaning running on a simulator may not work. There are no other requierments at this time.
 
 ## Setup
-All you need to do is clone the repository and install the app to a physical device in Android Studio.
+All that is need to be done is download and install the .apk file to your android device. You can also clone the repository and install the app to a physical device in Android Studio.
 
 ## Running
+APK:
+* Download the .apk file from the TabDab repostiory.
+* Open the file on your device. The app should automatically install. You should be given the option to open the app after installation is complete. If not open the app from the app drawer.
+
+Clone Repository:
 First clone the repo in your desired directory:
  * git clone https://github.com/SCCapstone/TabDab/
  
