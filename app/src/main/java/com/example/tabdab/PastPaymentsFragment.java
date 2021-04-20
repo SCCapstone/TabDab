@@ -29,157 +29,139 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class PastPaymentsFragment extends Fragment {
-  ScrollView scroller;
-  LinearLayout payments;
-  String prevPaymentsStr;
-
-  DatabaseReference database;
-  FirebaseUser userRef;
-  User user;
+  private LinearLayout payments;
+  private User user;
+  MainActivity ma;
 
   @Override
-  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_past_payments, container, false);
 
+    ma = (MainActivity) getActivity();
+    user = ma.mainActGetUser();
+
     // UI elements
-    scroller = view.findViewById(R.id.scroller);
     payments = view.findViewById(R.id.payments);
 
-    // Database elements
-    userRef = FirebaseAuth.getInstance().getCurrentUser();
-    database = FirebaseDatabase.getInstance().getReference().child("users").child(userRef.getEmail().replace('.','*'));
-    prevPaymentsStr = "";
+    // If the user doesn't have any past payments let them know, otherwise show them
+    if (user.getPastPayments().isEmpty() || user.getPastPayments() == null ||
+            user.getPastPayments().size() == 1) {  // There is always at least a dummy past payment
+      TextView noPastPayments = new TextView(getContext());
+      noPastPayments.setText("No previous payments.");
+      noPastPayments.setTextColor(Color.WHITE);
+      payments.addView(noPastPayments);
+    } else {
+      List<Bill> prevPayments = user.getPastPayments();
 
-    // Get the users past payments and add them to the scroll view
-    database.addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override
-      public void onDataChange(@NonNull DataSnapshot snapshot) {
-        user = snapshot.getValue(User.class);
+      // Set the text views parameters and add it
+      for (int i = prevPayments.size() - 1; i > 0; i--) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 10, 0, 10);
+        LinearLayout bill = new LinearLayout(getContext());
 
-        // If the user doesn't have any past payments let them know, otherwise show them
-        if (user.getPastPayments().isEmpty() || user.getPastPayments() == null ||
-        user.getPastPayments().size() == 1) {  // There is always at least a dummy past payment
-          TextView noPastPayments = new TextView(getContext());
-          noPastPayments.setText("No previous payments.");
-          noPastPayments.setTextColor(Color.WHITE);
-          payments.addView(noPastPayments);
-        } else {
-          List<Bill> prevPayments = user.getPastPayments();
+        TextView date = new TextView(getContext());
+        TextView vendorName = new TextView(getContext());
 
-          // Set the text views parameters and add it
-          for (int i = prevPayments.size() - 1; i > 0; i--) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 10, 0, 10);
-            LinearLayout bill = new LinearLayout(getContext());
+        // Set the past payment parameters
+        bill.setId(i);
+        bill.setOrientation(LinearLayout.VERTICAL);
+        bill.setBackground(ResourcesCompat.getDrawable(getResources(),
+                R.drawable.textview_pink, null));
+        bill.setPadding(10, 10, 10, 10);
+        bill.setLayoutParams(params);
 
-            TextView date = new TextView(getContext());
-            TextView vendorName = new TextView(getContext());
+        // Set the text parameters
+        date.setLayoutParams(params);
+        date.setText(prevPayments.get(i).getDate());
+        date.setTextColor(Color.WHITE);
+        vendorName.setText(prevPayments.get(i).getVendor());
+        vendorName.setTextSize(35);
+        vendorName.setTextColor(Color.WHITE);
+        vendorName.setLayoutParams(params);
 
-            // Set the past payment parameters
-            bill.setId(i);
-            bill.setOrientation(LinearLayout.VERTICAL);
-            bill.setBackground(ResourcesCompat.getDrawable(getResources(),
-                    R.drawable.textview_pink, null));
-            bill.setPadding(10, 10, 10, 10);
-            bill.setLayoutParams(params);
+        // Add the text views to the previous payment
+        bill.addView(vendorName);
+        bill.addView(date);
 
-            // Set the text parameters
-            date.setLayoutParams(params);
-            date.setText(prevPayments.get(i).getDate());
-            date.setTextColor(Color.WHITE);
-            vendorName.setText(prevPayments.get(i).getVendor());
-            vendorName.setTextSize(35);
-            vendorName.setTextColor(Color.WHITE);
-            vendorName.setLayoutParams(params);
+        // Set the itemized bill portion of the payment
+        for (int j = 0; j < prevPayments.get(i).getItemizedBill().size(); j++) {
+          TextView itemName = new TextView(getContext());
+          TextView itemPrice = new TextView(getContext());
+          LinearLayout item = new LinearLayout(getContext());
 
-            // Add the text views to the previous payment
-            bill.addView(vendorName);
-            bill.addView(date);
+          // Set the linear layout parameters
+          LinearLayout.LayoutParams weight = new LinearLayout.LayoutParams(
+                  LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
+                  1.0f);
+          item.setLayoutParams(weight);
+          item.setGravity(Gravity.RIGHT);
 
-            // Set the itemized bill portion of the payment
-            for (int j = 0; j < prevPayments.get(i).getItemizedBill().size(); j++) {
-              TextView itemName = new TextView(getContext());
-              TextView itemPrice = new TextView(getContext());
-              LinearLayout item = new LinearLayout(getContext());
+          // Set the name and price up
+          itemName.setText(prevPayments.get(i).getItemizedBill().get(j).getName());
+          itemName.setTextColor(Color.WHITE);
+          itemName.setLayoutParams(weight);
+          itemPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getItemizedBill().get(j).getPrice()));
+          itemPrice.setTextColor(Color.WHITE);
 
-              // Set the linear layout parameters
-              LinearLayout.LayoutParams weight = new LinearLayout.LayoutParams(
-                      LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
-                      1.0f);
-              item.setLayoutParams(weight);
-              item.setGravity(Gravity.RIGHT);
-
-              // Set the name and price up
-              itemName.setText(prevPayments.get(i).getItemizedBill().get(j).getName());
-              itemName.setTextColor(Color.WHITE);
-              itemName.setLayoutParams(weight);
-              itemPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getItemizedBill().get(j).getPrice()));
-              itemPrice.setTextColor(Color.WHITE);
-
-              // Add the price and name
-              item.addView(itemName);
-              item.addView(itemPrice);
-              bill.addView(item);
-            }
-
-            // Set up the tip view
-            LinearLayout tipLayout = new LinearLayout(getContext());
-            TextView tipText = new TextView(getContext());
-            TextView tipPrice = new TextView(getContext());
-
-            LinearLayout.LayoutParams grandTotalWeight = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1.0f);
-            tipLayout.setLayoutParams(grandTotalWeight);
-            tipLayout.setGravity(Gravity.RIGHT);
-
-            // Set the name and price up
-            tipText.setText("Tip");
-            tipText.setTextColor(Color.WHITE);
-            tipText.setLayoutParams(grandTotalWeight);
-            tipPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getTip()));
-            tipPrice.setTextColor(Color.WHITE);
-
-            // Add the price and name
-            tipLayout.addView(tipText);
-            tipLayout.addView(tipPrice);
-            bill.addView(tipLayout);
-
-            // Set up the grand total view
-            LinearLayout grandTotalLayout = new LinearLayout(getContext());
-            TextView grandTotalText = new TextView(getContext());
-            TextView grandTotalPrice = new TextView(getContext());
-
-            grandTotalLayout.setLayoutParams(grandTotalWeight);
-            grandTotalLayout.setGravity(Gravity.RIGHT);
-
-            // Set the name and price up
-            grandTotalText.setText("Grand Total ");
-            grandTotalText.setTextColor(Color.WHITE);
-            grandTotalText.setLayoutParams(grandTotalWeight);
-            grandTotalPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getGrandTotal()));
-            grandTotalPrice.setTextColor(Color.WHITE);
-
-            // Add the price and name
-            grandTotalLayout.addView(grandTotalText);
-            grandTotalLayout.addView(grandTotalPrice);
-            bill.addView(grandTotalLayout);
-
-            // Add the previous payment
-            payments.addView(bill);
-          }
+          // Add the price and name
+          item.addView(itemName);
+          item.addView(itemPrice);
+          bill.addView(item);
         }
-      }
 
-      @Override
-      public void onCancelled(@NonNull DatabaseError error) {
-        Log.d("PastPaymentsFragment", error.getMessage());
+        // Set up the tip view
+        LinearLayout tipLayout = new LinearLayout(getContext());
+        TextView tipText = new TextView(getContext());
+        TextView tipPrice = new TextView(getContext());
+
+        LinearLayout.LayoutParams grandTotalWeight = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
+                1.0f);
+        tipLayout.setLayoutParams(grandTotalWeight);
+        tipLayout.setGravity(Gravity.RIGHT);
+
+        // Set the name and price up
+        tipText.setText("Tip");
+        tipText.setTextColor(Color.WHITE);
+        tipText.setLayoutParams(grandTotalWeight);
+        tipPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getTip()));
+        tipPrice.setTextColor(Color.WHITE);
+
+        // Add the price and name
+        tipLayout.addView(tipText);
+        tipLayout.addView(tipPrice);
+        bill.addView(tipLayout);
+
+        // Set up the grand total view
+        LinearLayout grandTotalLayout = new LinearLayout(getContext());
+        TextView grandTotalText = new TextView(getContext());
+        TextView grandTotalPrice = new TextView(getContext());
+
+        grandTotalLayout.setLayoutParams(grandTotalWeight);
+        grandTotalLayout.setGravity(Gravity.RIGHT);
+
+        // Set the name and price up
+        grandTotalText.setText("Grand Total ");
+        grandTotalText.setTextColor(Color.WHITE);
+        grandTotalText.setLayoutParams(grandTotalWeight);
+        grandTotalPrice.setText("$" + String.format("%.2f", prevPayments.get(i).getGrandTotal()));
+        grandTotalPrice.setTextColor(Color.WHITE);
+
+        // Add the price and name
+        grandTotalLayout.addView(grandTotalText);
+        grandTotalLayout.addView(grandTotalPrice);
+        bill.addView(grandTotalLayout);
+
+        // Add the previous payment
+        payments.addView(bill);
       }
-    });
+    }
 
     return view;
   }
 
-  public static PastPaymentsFragment newInstance () {return new PastPaymentsFragment();}
+  public static PastPaymentsFragment newInstance() {
+    return new PastPaymentsFragment();
+  }
 }

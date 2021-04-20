@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class DailyTotals {
   // Instance variables
-  String vendorId;
-  List<Bill> previousPayments;
-  HashMap<String, List<BillItem>> totals;
+  private String vendorId;
+  private List<Bill> previousPayments;
+  private HashMap<String, List<BillItem>> totals;
 
   // Constructors
   public DailyTotals () {

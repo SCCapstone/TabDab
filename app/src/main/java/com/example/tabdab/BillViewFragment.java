@@ -26,24 +26,25 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.io.IOError;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class BillViewFragment extends Fragment {
-  LinearLayout itemizedView;
-  LinearLayout tipLayout;
-  TextView grandTotalView, editTip;
-  Button butAddTip, butPay;
-  Bill bill;
-  String qrResult;
+  private LinearLayout itemizedView;
+  private LinearLayout tipLayout;
+  private TextView grandTotalView, editTip;
+  private Button butAddTip, butPay;
+  private Bill bill;
+  private String qrResult;
 
-  DatabaseReference userDb, vendorDb, dailyTotalsDb, paymentsDb, billsDb;
-  FirebaseUser userRef;
-  User user;
-  DailyTotals dailyTotals;
-  PaymentTracker paymentTracker;
+  private DatabaseReference userDb, vendorDb, dailyTotalsDb, paymentsDb, billsDb, payedBillsDb;
+  private FirebaseUser userRef;
+  private User user;
+  private DailyTotals dailyTotals;
+  private PaymentTracker paymentTracker;
 
   MainActivity ma;
 
@@ -73,59 +74,83 @@ public class BillViewFragment extends Fragment {
 
     // Check that the qr code contained a reference to a tabdab bill
     if (qrResult.contains("https://tabdab-a9e3a.firebaseio.com/")) {
-      billsDb = FirebaseDatabase.getInstance().getReferenceFromUrl(qrResult);
-
       // Get and display data from qr scanner fragment
+      billsDb = FirebaseDatabase.getInstance().getReferenceFromUrl(qrResult);
       billsDb.addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
           bill = snapshot.getValue(Bill.class);
-
           vendorDb = FirebaseDatabase.getInstance().getReference("vendors").child(bill.getVendorId());
 
-          // Set UI components
-          grandTotalView.setText("$" + String.format("%.2f", bill.getGrandTotal()));
-
-          TextView vendorName = new TextView(getContext());
-          TextView date = new TextView(getContext());
-          vendorName.setText(bill.getVendor());
-          vendorName.setTextColor(Color.WHITE);
-          vendorName.setTextSize(35);
-          date.setText(bill.getDate());
-          date.setTextColor(Color.WHITE);
-          itemizedView.addView(vendorName);
-          itemizedView.addView(date);
-
-          for (int i = 0; i < bill.getItemizedBill().size(); i++) {
-            TextView itemName = new TextView(getContext());
-            TextView itemPrice = new TextView(getContext());
-            LinearLayout item = new LinearLayout(getContext());
-
-            // Set the linear layout parameters
-            LinearLayout.LayoutParams weight = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
-                    1.0f);
-            item.setLayoutParams(weight);
-            item.setGravity(Gravity.RIGHT);
-
-            // Set the name and price up
-            itemName.setText(bill.getItemizedBill().get(i).getName());
-            itemName.setTextColor(Color.WHITE);
-            itemName.setLayoutParams(weight);
-            itemPrice.setText("$" + String.format("%.2f", bill.getItemizedBill().get(i).getPrice()));
-            itemPrice.setTextColor(Color.WHITE);
-
-            // Add the price and name
-            item.addView(itemName);
-            item.addView(itemPrice);
-            itemizedView.addView(item);
-          }
-
-          butPay.setOnClickListener(new View.OnClickListener() {
-            // Update the users past payments
+          // Check to make sure the bill hasn't already been payed
+          payedBillsDb = FirebaseDatabase.getInstance().getReference("payed_bills").child(user.getEmail().replace('.', '*'));
+          payedBillsDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick (View view) {
-              pay();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+              // If the bill hasn't already been payed then set up the UI
+              if (!snapshot.hasChild(billsDb.getKey())) {
+                // Set UI components of the bill for the user
+                grandTotalView.setText("$" + String.format("%.2f", bill.getGrandTotal()));
+                TextView vendorName = new TextView(getContext());
+                TextView date = new TextView(getContext());
+                vendorName.setText(bill.getVendor());
+                vendorName.setTextColor(Color.WHITE);
+                vendorName.setTextSize(35);
+                date.setText(bill.getDate());
+                date.setTextColor(Color.WHITE);
+                itemizedView.addView(vendorName);
+                itemizedView.addView(date);
+
+                // Setup each item in the bill
+                for (int i = 0; i < bill.getItemizedBill().size(); i++) {
+                  TextView itemName = new TextView(getContext());
+                  TextView itemPrice = new TextView(getContext());
+                  LinearLayout item = new LinearLayout(getContext());
+
+                  // Set the linear layout parameters
+                  LinearLayout.LayoutParams weight = new LinearLayout.LayoutParams(
+                          LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
+                          1.0f);
+                  item.setLayoutParams(weight);
+                  item.setGravity(Gravity.RIGHT);
+
+                  // Set the name and price up
+                  itemName.setText(bill.getItemizedBill().get(i).getName());
+                  itemName.setTextColor(Color.WHITE);
+                  itemName.setLayoutParams(weight);
+                  itemPrice.setText("$" + String.format("%.2f", bill.getItemizedBill().get(i).getPrice()));
+                  itemPrice.setTextColor(Color.WHITE);
+
+                  // Add the price and name
+                  item.addView(itemName);
+                  item.addView(itemPrice);
+                  itemizedView.addView(item);
+                }
+
+                // Pay button on click listener
+                butPay.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick (View view) {
+                    pay();
+                  }
+                });
+              } else {
+                // Let the user know that the bill has already been payed
+                TextView billAlreadyPayed = new TextView(getContext());
+                billAlreadyPayed.setText("Bill has already been payed.");
+                billAlreadyPayed.setTextColor(Color.WHITE);
+                itemizedView.addView(billAlreadyPayed);
+
+                // Don't show the buttons since they wont do anything
+                butAddTip.setVisibility(View.INVISIBLE);
+                butPay.setVisibility(View.INVISIBLE);
+                editTip.setVisibility(View.INVISIBLE);
+              }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+              Log.d("BillViewFragment", error.getMessage());
             }
           });
         }
@@ -136,8 +161,12 @@ public class BillViewFragment extends Fragment {
         }
       });
     } else {  // Bill isn't found in the database
+      // Let the user know that the bill wasn't found
       TextView billNotFound = new TextView(getContext());
       billNotFound.setText("Bill not found.");
+      billNotFound.setTextColor(Color.WHITE);
+
+      // Don't show the buttons since they wont do anything
       itemizedView.addView(billNotFound);
       butAddTip.setVisibility(View.INVISIBLE);
       butPay.setVisibility(View.INVISIBLE);
@@ -167,24 +196,29 @@ public class BillViewFragment extends Fragment {
     return billView;
   }
 
-  // On click listeners
+  // On click listener functions
   private void pay () {
     // Update the user locally and in the database
     bill.setGrandTotal();
     user.addPastPayment(bill);
     ma.mainActSetUser(user);
-    userDb.child("pastPayments").setValue(user.getPastPayments());
 
-    // Mark the bill as payed in the database so that it cannot be payed twice
-    System.out.println(billsDb.getKey());
-    FirebaseDatabase.getInstance().getReference("payed_bills").child(billsDb.getKey()).setValue(true);
+    Map<String, Object> updatedUser = new HashMap<>();
+    updatedUser.put("pastPayments", user.getPastPayments());
+    userDb.updateChildren(updatedUser);
+    //userDb.child("pastPayments").setValue(user.getPastPayments());
 
-    // Track the payment
+    // Track the payment in firebase for purposes of CSCE 490
     paymentTracker = new PaymentTracker(user.getFirstName() + " " + user.getLastName(),
             bill.getVendor(), bill.getGrandTotal(), bill.getTip());
     paymentsDb = FirebaseDatabase.getInstance().getReference("payments").push();
     paymentsDb.setValue(paymentTracker);
 
+    // Mark the bill as payed in the database so that it cannot be payed twice
+    FirebaseDatabase.getInstance().getReference("payed_bills").child(user.getEmail()
+            .replace('.','*')).child(billsDb.getKey()).setValue(true);
+
+    // Let the user know that bill is payed
     Toast.makeText(getContext(), "Bill Payed!", Toast.LENGTH_SHORT).show();
 
     // Update the daily totals for the vendor

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-  String firstName, lastName, email, vendorID, cardNum, expDate, CVV;
-  boolean isVendor;
-  List<Bill> pastPayments;
-  List<Friend> friends;
+  private String firstName, lastName, email, vendorID, cardNum, expDate, CVV;
+  private boolean isVendor;
+  private List<Bill> pastPayments;
+  private List<Friend> friends;
 
   public User() {
     this.firstName = "";
