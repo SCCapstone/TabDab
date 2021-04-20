@@ -1,6 +1,7 @@
 package com.example.tabdab;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -134,17 +135,22 @@ public class BillViewFragment extends Fragment {
                     pay();
                   }
                 });
-              } else {
-                // Let the user know that the bill has already been payed
-                TextView billAlreadyPayed = new TextView(getContext());
-                billAlreadyPayed.setText("Bill has already been payed.");
-                billAlreadyPayed.setTextColor(Color.WHITE);
-                itemizedView.addView(billAlreadyPayed);
-
+              }
+              // The bill has already been paid
+              else {
                 // Don't show the buttons since they wont do anything
                 butAddTip.setVisibility(View.INVISIBLE);
                 butPay.setVisibility(View.INVISIBLE);
                 editTip.setVisibility(View.INVISIBLE);
+
+                // Let the user know that the bill has already been payed
+                TextView billAlreadyPayed = new TextView(getContext());
+                billAlreadyPayed.setText("Bill has already been payed.");
+                billAlreadyPayed.setTextColor(Color.WHITE);
+                billAlreadyPayed.setGravity(Gravity.CENTER_HORIZONTAL);
+                itemizedView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                itemizedView.setGravity(Gravity.CENTER_HORIZONTAL);
+                itemizedView.addView(billAlreadyPayed);
               }
             }
 
