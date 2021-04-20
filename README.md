@@ -6,14 +6,9 @@ A QrReading app for paying your bill or generating a bill on your phone.
 Running this app may require a camera on your device. The app might may crash if ran on a device without a camera meaning running on a simulator may not work. There are no other requierments at this time.
 
 ## Setup
-All that is need to be done is download and install the .apk file to your android device. You can also clone the repository and install the app to a physical device in Android Studio.
+All you need to do is clone the repository and install the app to a physical device in Android Studio.
 
 ## Running
-APK:
-* Download the .apk file from the TabDab repostiory.
-* Open the file on your device. The app should automatically install. You should be given the option to open the app after installation is complete. If not open the app from the app drawer.
-
-Clone Repository:
 First clone the repo in your desired directory:
  * git clone https://github.com/SCCapstone/TabDab/
  
@@ -36,14 +31,13 @@ In order to run tests on the TabDab app. Follow these instructions:
 3. Right click on the com.example.tabdab(test) option in the project window and click the Run option.
 4. All tests will complete after hitting run.
 
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909558108684318/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909595358167111/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909930448584734/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909973922676746/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910008353587250/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910208145195008/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910647783751771/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910713453838336/unknown.png" width="150" height="300">
+<img src="https://i.ibb.co/Rcggsjw/3e310b3b8be44b0aadc4764e5ef8f215.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/818895465662644314/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/216726287945957377/759472967989854318/changepw.PNG" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/824684585300000798/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/824684486033801306/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/824684640349454346/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/824684392454684672/unknown.png" width="150" height="300">
 
 # Authors
 
