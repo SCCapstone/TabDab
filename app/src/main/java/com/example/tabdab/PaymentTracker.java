@@ -2,10 +2,10 @@ package com.example.tabdab;
 
 public class PaymentTracker {
   // Instance Variables
-  private String vendorId;
-  private String userId;
-  private double grandTotal;
-  private double tip;
+  String vendorId;
+  String userId;
+  double grandTotal;
+  double tip;
 
   // Constructors
   public PaymentTracker () {

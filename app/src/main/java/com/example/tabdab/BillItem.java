@@ -6,8 +6,8 @@ import com.google.gson.Gson;
 
 public class BillItem {
     // Instance variables
-    private double price;
-    private String name;
+    double price;
+    String name;
 
     // Constructor
     public BillItem() {

@@ -82,11 +82,10 @@ public class CreateAccount extends AppCompatActivity {
         final String CVV = uCVV.getText().toString().trim();
 
         // Errors
+        duplicateEmail();
         if (validEmail(email) == false) {
           uEmail.setError("Valid Email Address Required");
           return;
-        } else {
-          duplicateEmail();
         }
         if (TextUtils.isEmpty(password)) {
           uPassword.setError("Password is required");
