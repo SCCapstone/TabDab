@@ -17,15 +17,17 @@ public class DeleteAccountFragment extends Fragment {
 
     private Button ButDelAcc;
     private TextView delAccPassword;
+    MainActivity ma;
+    User user;
     FirebaseAuth fAuth;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        ma = (MainActivity)getActivity();
+        user = ma.mainActGetUser();
         fAuth = FirebaseAuth.getInstance();
-
     }
         @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
