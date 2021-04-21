@@ -104,7 +104,7 @@ public class CreateBillFragment extends Fragment {
           LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
           params.setMargins( 0, 0, 0, 5);
           but.setLayoutParams(params);
-          but.setText(menuItems.get(i).getName() + ": $" + menuItems.get(i).getPrice());
+          but.setText(menuItems.get(i).getName() + ": $" + String.format("%.2f", menuItems.get(i).getPrice()));
           but.setAllCaps(false);
           but.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.button_pink_white_outline, null));
           but.setTextColor(Color.WHITE);
