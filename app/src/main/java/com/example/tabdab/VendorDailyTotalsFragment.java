@@ -69,8 +69,6 @@ public class VendorDailyTotalsFragment extends Fragment {
         else monthStr = Integer.toString(month);
         final String selectedDate = monthStr + " " + dayStr + " " + year;
 
-        System.out.println(selectedDate);
-
         dailyTotalsDb.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(@NonNull DataSnapshot snapshot) {
