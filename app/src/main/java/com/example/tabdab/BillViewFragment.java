@@ -253,35 +253,39 @@ public class BillViewFragment extends Fragment {
     });
   }
   private void addTip () {
-    // Update the bill and UI
-    bill.setTip(Double.parseDouble(editTip.getText().toString()));
-    grandTotalView.setText("$" + String.format("%.2f" , bill.getGrandTotal() + bill.getTip()));
+    if (editTip.getText().toString().isEmpty()) {
+      editTip.setError("Tip cannot be empty.");
+    } else {
+      // Update the bill and UI
+      bill.setTip(Double.parseDouble(editTip.getText().toString()));
+      grandTotalView.setText("$" + String.format("%.2f", bill.getGrandTotal() + bill.getTip()));
 
-    // Clear the edit tip edit text view
-    editTip.setText("");
+      // Clear the edit tip edit text view
+      editTip.setText("");
 
-    // Update the itemized bill
-    tipLayout = new LinearLayout(getContext());
-    TextView itemName = new TextView(getContext());
-    TextView itemPrice = new TextView(getContext());
+      // Update the itemized bill
+      tipLayout = new LinearLayout(getContext());
+      TextView itemName = new TextView(getContext());
+      TextView itemPrice = new TextView(getContext());
 
-    // Set the linear layout parameters
-    LinearLayout.LayoutParams weight = new LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
-            1.0f);
-    tipLayout.setLayoutParams(weight);
-    tipLayout.setGravity(Gravity.RIGHT);
+      // Set the linear layout parameters
+      LinearLayout.LayoutParams weight = new LinearLayout.LayoutParams(
+              LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT,
+              1.0f);
+      tipLayout.setLayoutParams(weight);
+      tipLayout.setGravity(Gravity.RIGHT);
 
-    // Set the name and price up
-    itemName.setText("Tip");
-    itemName.setTextColor(Color.WHITE);
-    itemName.setLayoutParams(weight);
-    itemPrice.setText("$" + String.format("%.2f", bill.getTip()));
-    itemPrice.setTextColor(Color.WHITE);
+      // Set the name and price up
+      itemName.setText("Tip");
+      itemName.setTextColor(Color.WHITE);
+      itemName.setLayoutParams(weight);
+      itemPrice.setText("$" + String.format("%.2f", bill.getTip()));
+      itemPrice.setTextColor(Color.WHITE);
 
-    // Add the price and name
-    tipLayout.addView(itemName);
-    tipLayout.addView(itemPrice);
-    itemizedView.addView(tipLayout);
+      // Add the price and name
+      tipLayout.addView(itemName);
+      tipLayout.addView(itemPrice);
+      itemizedView.addView(tipLayout);
+    }
   }
 }
