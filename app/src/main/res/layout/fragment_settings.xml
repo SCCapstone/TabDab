@@ -52,4 +52,16 @@
         android:textColor="@color/white"
         android:layout_centerHorizontal="true" />
 
+    <Button
+        android:id="@+id/deleteAccountBut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_pink_white_outline"
+        android:padding="5dp"
+        android:text="Delete Account"
+        android:textAllCaps="false"
+        android:textColor="@color/white" />
+
 </LinearLayout>

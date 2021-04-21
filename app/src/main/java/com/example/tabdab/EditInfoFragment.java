@@ -1,5 +1,6 @@
 package com.example.tabdab;
 
+import android.net.wifi.hotspot2.pps.Credential;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -98,7 +99,7 @@ public class EditInfoFragment extends Fragment {
         String newDate = newExpDate.getText().toString();
         String newCV = newCVV.getText().toString();
         final String vendorID = vendorId.getText().toString();
-
+        userRef = fireAuth.getCurrentUser();
         // Check if the vendor ID the user entered exists.
         DatabaseReference refVendors = FirebaseDatabase.getInstance().getReference().child("vendors");
         final DatabaseReference refUser = FirebaseDatabase.getInstance().getReference().child("users").child(user.getEmail().replace('.', '*'));
@@ -149,6 +150,7 @@ public class EditInfoFragment extends Fragment {
               } else {
                 user.setEmail(newEmail);
                 userRef.updateEmail(newEmail);
+
 
                 database.child(user.getEmail().replace('.','*')).setValue(user);
                 database.child(oldEmail.replace('.','*')).removeValue();
