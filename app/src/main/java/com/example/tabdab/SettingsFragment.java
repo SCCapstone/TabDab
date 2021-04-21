@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SettingsFragment extends Fragment {
-    private Button ButRegisterVendor, ButChangePass, ButEditInfo;
+    private Button ButRegisterVendor, ButChangePass, ButEditInfo, ButDeleteAccount;
     User user;
     MainActivity ma;
 
@@ -41,6 +41,7 @@ public class SettingsFragment extends Fragment {
         ButRegisterVendor = v.findViewById(R.id.registerVendorButton);
         ButChangePass = v.findViewById(R.id.chngPassBut);
         ButEditInfo = v.findViewById(R.id.editInfoBut);
+        ButDeleteAccount = v.findViewById(R.id.deleteAccountBut);
 
         ButRegisterVendor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +70,16 @@ public class SettingsFragment extends Fragment {
                 ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
                         R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
                 ft.replace(R.id.fragment_container, EditInfoFragment.newInstance()).commit();
+                ft.addToBackStack(null);
+            }
+        });
+        ButDeleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft;
+                ft = getParentFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_from_right,
+                        R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right);
+                ft.replace(R.id.fragment_container, DeleteAccountFragment.newInstance()).commit();
                 ft.addToBackStack(null);
             }
         });
