@@ -72,17 +72,20 @@ public class DailyTotals {
   public String totalsListToTotalsStr (String date) {
     HashMap<String, Integer> count = new HashMap<>();
     List<BillItem> day = this.totals.get(date);
+    Double grandTotal = 0.0;
 
     // If the date is empty return a string letting the user know that there are no entries
     if (day == null) return "No entries.";
 
-    // Get the count of each menu item in the days daily totals
+    // Get the count of each menu item in the days daily totals and add the prices up
     for (int i = 0; i < day.size(); i++) {
       if (!count.containsKey(day.get(i).getName())) {
         count.put(day.get(i).getName(), 1);
+        grandTotal += day.get(i).getPrice();
       } else {
         Integer temp = count.get(day.get(i).getName());
         count.put(day.get(i).getName(), temp + 1);
+        grandTotal += day.get(i).getPrice();
       }
     }
 
@@ -91,6 +94,7 @@ public class DailyTotals {
     for (Map.Entry<String, Integer> e : count.entrySet()) {
       ret += e.getKey() + "\tx" + e.getValue() + "\n";
     }
+    ret += "Total amount: $" + String.format("%.2f", grandTotal);
     return ret;
   }
 

@@ -72,6 +72,7 @@ public class BillViewFragment extends Fragment {
     editTip = view.findViewById(R.id.editTip);
     butPay = view.findViewById(R.id.pay_button);
     butAddTip = view.findViewById(R.id.addTipButton);
+    tipLayout = new LinearLayout(getContext());
 
     // Check that the qr code contained a reference to a tabdab bill
     if (qrResult.contains("https://tabdab-a9e3a.firebaseio.com/")) {
@@ -264,7 +265,8 @@ public class BillViewFragment extends Fragment {
       editTip.setText("");
 
       // Update the itemized bill
-      tipLayout = new LinearLayout(getContext());
+      itemizedView.removeView(tipLayout);
+      tipLayout.removeAllViews();
       TextView itemName = new TextView(getContext());
       TextView itemPrice = new TextView(getContext());
 
