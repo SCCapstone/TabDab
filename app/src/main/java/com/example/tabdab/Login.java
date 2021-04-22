@@ -43,7 +43,7 @@ public class Login extends AppCompatActivity {
 
     // Check for camera permission
     int requestCode = 0;
-    while (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_DENIED) {
       ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestCode);
     }
@@ -100,6 +100,14 @@ public class Login extends AppCompatActivity {
         });
       }
     });
+  }
+
+  // The app needs camera permission in order to function. So keep asking till its approved.
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String permissions[], int [] grantResults) {
+    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+      ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, requestCode);
+    }
   }
 
   @Override
