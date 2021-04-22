@@ -29,8 +29,9 @@ First clone the repo in your desired directory:
  * Build the app using the green hammer at the top of the screen
    and it will localy build the app on your device.
 
-# Testing
+## Testing
 Behavioral tests stored in the /app/src/androidTest/java/com/example/tabdab/ folder.
+
 Unit tests are stroed in the /app/src/test/java/com/example/tabdab/ folder.
 
 ## Testing Technology
@@ -54,10 +55,10 @@ In order to run tests on the TabDab app. Follow these instructions:
 <img src="https://cdn.discordapp.com/attachments/735542921029484675/831910647783751771/unknown.png" width="150" height="300">
 <img src="https://cdn.discordapp.com/attachments/735542921029484675/831910713453838336/unknown.png" width="150" height="300">
 
-# Authors
+## Authors
 
 * Cameron Knox cbk1@email.sc.edu | https://github.com/CameronKnox
 * Max Hensler mhensler@email.sc.edu | https://github.com/gufding
-* Fei Zhu fzhu@email.sc.edu  
+* Fei Zhu fzhu@email.sc.edu  | https://github.com/Fei55
 * Riley Conant rconant@email.sc.edu  | https://github.com/RileyConant
 * Tyler Shatley tshatley@email.sc.edu
