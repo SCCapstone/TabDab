@@ -58,6 +58,6 @@ In order to run tests on the TabDab app. Follow these instructions:
 
 * Cameron Knox cbk1@email.sc.edu | https://github.com/CameronKnox
 * Max Hensler mhensler@email.sc.edu | https://github.com/gufding
-* Fei Zhu fzhu@email.sc.edu
-* Riley Conant rconant@email.sc.edu
+* Fei Zhu fzhu@email.sc.edu  
+* Riley Conant rconant@email.sc.edu  | https://github.com/RileyConant
 * Tyler Shatley tshatley@email.sc.edu
