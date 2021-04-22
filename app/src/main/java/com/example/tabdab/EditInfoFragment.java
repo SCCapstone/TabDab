@@ -108,7 +108,9 @@ public class EditInfoFragment extends Fragment {
         refVendors.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-              if (!snapshot.hasChild(vendorID) || vendorID.isEmpty()) {  // Vendor ID not found
+              if (vendorID.isEmpty()) {
+                // Do nothing
+              } else if (!snapshot.hasChild(vendorID)) {  // Vendor ID not found
                 Toast.makeText(getContext(), "Vendor ID not found.", Toast.LENGTH_SHORT).show();
               } else {  // Vendor ID exists. Update the user info
                 user.setIsVendor(true);
