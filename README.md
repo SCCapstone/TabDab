@@ -5,6 +5,17 @@ A touchless payment app for use at food trucks and other small vendors.
 ## Purpose
 The purpose of TabDab is to create a way for customers to touchlessly pay their bills at small food vendors for a more elegant payment experience as well as to ensure hygiene during the coronavius pandemic. TabDab also makes it easy for vendors to create bills, update menues, and view their daily totals.
 
+## Screenshots
+
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909558108684318/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909595358167111/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909930448584734/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909973922676746/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910008353587250/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910208145195008/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910647783751771/unknown.png" width="150" height="300">
+<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910713453838336/unknown.png" width="150" height="300">
+
 ## Demo Video
 
 --Placeholder--
@@ -43,17 +54,6 @@ In order to run tests on the TabDab app. Follow these instructions:
 2. Right click on the com.example.tabdab(androidTest) option in the project window and click the Run option.
 3. Right click on the com.example.tabdab(test) option in the project window and click the Run option.
 4. All tests will complete after hitting run.
-
-## Screenshots
-
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909558108684318/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909595358167111/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909930448584734/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831909973922676746/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910008353587250/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910208145195008/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910647783751771/unknown.png" width="150" height="300">
-<img src="https://cdn.discordapp.com/attachments/735542921029484675/831910713453838336/unknown.png" width="150" height="300">
 
 ## Authors
 
