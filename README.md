@@ -61,4 +61,4 @@ In order to run tests on the TabDab app. Follow these instructions:
 * Max Hensler mhensler@email.sc.edu | https://github.com/gufding
 * Fei Zhu fzhu@email.sc.edu  | https://github.com/Fei55
 * Riley Conant rconant@email.sc.edu  | https://github.com/RileyConant
-* Tyler Shatley tshatley@email.sc.edu
+* Tyler Shatley tshatley@email.sc.edu | https://github.com/tylershatley
