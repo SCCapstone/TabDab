@@ -20,7 +20,6 @@ The purpose of TabDab is to create a way for customers to touchlessly pay their 
 
 [![demo](https://cdn.discordapp.com/attachments/735542921029484675/836056701668425838/unknown.png)](https://youtu.be/fj_Y0Vmb0hI)
 
-https://youtu.be/fj_Y0Vmb0hI
 
 ## External Requirements
 Running this app requires a camera on your device. The app may crash if run on a device without a camera meaning running on a simulator may not work. There are no other requierments at this time.
