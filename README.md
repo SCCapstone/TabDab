@@ -18,12 +18,8 @@ The purpose of TabDab is to create a way for customers to touchlessly pay their 
 
 ## Demo Video
 
-<iframe src="https://youtu.be/fj_Y0Vmb0hI/{{ include.id }}" 
-    width="560" 
-    height="315"
-    frameborder="0" 
-    allowfullscreen>
-</iframe>
+[![demo](https://cdn.discordapp.com/attachments/735542921029484675/836056701668425838/unknown.png)](https://youtu.be/fj_Y0Vmb0hI)
+
 https://youtu.be/fj_Y0Vmb0hI
 
 ## External Requirements
