@@ -18,7 +18,7 @@ The purpose of TabDab is to create a way for customers to touchlessly pay their 
 
 ## Demo Video
 
---Placeholder--
+https://youtu.be/fj_Y0Vmb0hI
 
 ## External Requirements
 Running this app requires a camera on your device. The app may crash if run on a device without a camera meaning running on a simulator may not work. There are no other requierments at this time.
