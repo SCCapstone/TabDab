@@ -51,7 +51,7 @@ Testing is done using Junit and Espresso APIs.
 
 ## Running Tests
 In order to run tests on the TabDab app. Follow these instructions:
-1. Open the project in android studio.
+1. Clone the project then open the project in android studio.
 2. Right click on the com.example.tabdab(androidTest) option in the project window and click the Run option.
 3. Right click on the com.example.tabdab(test) option in the project window and click the Run option.
 4. All tests will complete after hitting run.
